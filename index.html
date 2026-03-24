@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NFL Draft Hit/Miss Simulator</title>
+  <meta name="description" content="Simulate whether NFL draft picks will be hits or misses based on historical hit rates by position and draft slot." />
+  <meta property="og:title" content="NFL Draft Hit/Miss Simulator" />
+  <meta property="og:description" content="Enter your mock draft picks and flip the coin — see who hits and who busts based on real historical draft data." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-light: #EAF3DE;
+      --green-mid: #639922;
+      --green-dark: #3B6D11;
+      --red-light: #FCEBEB;
+      --red-mid: #E24B4A;
+      --red-dark: #A32D2D;
+      --gray-100: #f5f4f0;
+      --gray-200: #e8e6e0;
+      --gray-400: #9a9890;
+      --gray-600: #5a5854;
+      --gray-900: #1a1917;
+      --accent: #c8a850;
+      --radius: 10px;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-900);
+      min-height: 100vh;
+      padding: 0 0 4rem;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--gray-900);
+      color: #fff;
+      padding: 2.5rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -55deg,
+        transparent,
+        transparent 18px,
+        rgba(255,255,255,0.025) 18px,
+        rgba(255,255,255,0.025) 19px
+      );
+      pointer-events: none;
+    }
+
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .header-logo {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .header-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 14px;
+    }
+
+    header p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.55);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    /* ── Main container ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 0;
+    }
+
+    /* ── Section labels ── */
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 10px;
+    }
+
+    /* ── Input table ── */
+    .input-panel {
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      padding: 1.25rem 1.5rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .col-header {
+      display: grid;
+      grid-template-columns: 1fr 88px 148px 100px 32px;
+      gap: 8px;
+      margin-bottom: 8px;
+      padding: 0 2px;
+    }
+
+    .col-head {
+      font-size: 11px;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 500;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 88px 148px 100px 32px;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    select {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      color: var(--gray-900);
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      padding: 7px 10px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      border-color: var(--gray-600);
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239a9890'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+      cursor: pointer;
+    }
+
+    .remove-btn {
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      color: var(--gray-400);
+      background: none;
+      border: none;
+      padding: 0;
+      transition: color 0.15s;
+    }
+
+    .remove-btn:hover { color: var(--red-mid); }
+
+    /* ── Actions ── */
+    .actions-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 6px;
+      padding: 8px 18px;
+      cursor: pointer;
+      border: 1px solid var(--gray-200);
+      background: #fff;
+      color: var(--gray-900);
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .btn:hover { background: var(--gray-100); border-color: var(--gray-400); }
+
+    .btn-primary {
+      background: var(--gray-900);
+      color: #fff;
+      border-color: var(--gray-900);
+      font-size: 15px;
+      padding: 9px 24px;
+    }
+
+    .btn-primary:hover { background: var(--gray-600); border-color: var(--gray-600); }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--gray-200);
+      margin: 2rem 0 1.5rem;
+    }
+
+    /* ── Cards ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .pick-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      position: relative;
+      animation: popIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .pick-card.hit { border-left: 4px solid var(--green-mid); }
+    .pick-card.miss { border-left: 4px solid var(--red-mid); }
+
+    .card-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: 0.01em;
+    }
+
+    .card-team {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .card-meta {
+      font-size: 13px;
+      color: var(--gray-400);
+      margin-bottom: 14px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 12px;
+      border-radius: 20px;
+    }
+
+    .badge-hit { background: var(--green-light); color: var(--green-dark); }
+    .badge-miss { background: var(--red-light); color: var(--red-dark); }
+
+    .hit-rate {
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+
+    /* ── Footer note ── */
+    .footnote {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 2rem;
+      line-height: 1.6;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.88) translateY(6px); opacity: 0; }
+      to   { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 620px) {
+      .col-header { display: none; }
+      .input-row {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      .input-row input { grid-column: 1 / -1; }
+      .remove-btn { grid-column: 2; justify-self: end; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <img src="https://github.com/0fortheseason/hitsandmisses/blob/main/0FTS-round.png?raw=true" alt="0 for the Season" class="header-logo" />
+    <div class="header-eyebrow">NFL Draft Tool</div>
+    <h1>Hit or Miss<br>Simulator</h1>
+    <p>Enter picks from your mock draft. The simulator flips a weighted coin for each player based on historical NFL draft hit rates by position and draft slot.</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="input-panel">
+    <div class="col-header">
+      <div class="col-head">Player name</div>
+      <div class="col-head">Position</div>
+      <div class="col-head">Draft slot</div>
+      <div class="col-head">Team</div>
+      <div></div>
+    </div>
+    <div id="picks-list"></div>
+    <div class="actions-row" style="margin-top: 1rem;">
+      <button class="btn btn-primary" onclick="simulate()">Flip coins ↻</button>
+      <button class="btn" onclick="addPick()">+ Add pick</button>
+      <button class="btn" onclick="resetAll()">Reset</button>
+    </div>
+  </div>
+
+  <div id="results-divider" class="divider" style="display:none"></div>
+  <div id="results-label" class="section-label" style="display:none; margin-bottom: 14px;">Results</div>
+  <div class="cards-grid" id="cards-grid"></div>
+
+  <p class="footnote">Hit rates derived from historical NFL draft data (2000–2020). A "hit" is defined as a player who became at least a quality starter. Round 1 is split into three tiers (picks 1–2, 3–10, 11–32) to reflect the meaningful variation within the first round. Team context is shown for storytelling purposes only and does not affect the simulation.</p>
+
+</div>
+
+<script>
+  const TEAMS = ["ARI","ATL","BAL","BUF","CAR","CHI","CIN","CLE","DAL","DEN","DET","GB","HOU","IND","JAX","KC","LAC","LAR","LV","MIA","MIN","NE","NO","NYG","NYJ","PHI","PIT","SEA","SF","TB","TEN","WSH"];
+
+  const SLOTS = [
+    { key:'r1_top2',  label:'Pick 1–2' },
+    { key:'r1_top10',label:'Pick 3–10' },
+    { key:'r1_rest', label:'Pick 11–32' },
+    { key:'r2',      label:'Round 2' },
+    { key:'r3',      label:'Round 3' },
+    { key:'r4',      label:'Round 4' },
+    { key:'r5',      label:'Round 5' },
+    { key:'r6',      label:'Round 6' },
+    { key:'r7',      label:'Round 7' },
+  ];
+
+  const SLOT_GROUPS = [
+    { heading:'Round 1', keys:['r1_top2','r1_top10','r1_rest'] },
+    { heading:'Later rounds', keys:['r2','r3','r4','r5','r6','r7'] },
+  ];
+
+  const HIT_RATES = {
+    QB:   {r1_top2:0.72,r1_top10:0.55,r1_rest:0.38,r2:0.30,r3:0.18,r4:0.10,r5:0.06,r6:0.04,r7:0.03},
+    RB:   {r1_top2:0.72,r1_top10:0.62,r1_rest:0.50,r2:0.40,r3:0.28,r4:0.18,r5:0.10,r6:0.06,r7:0.04},
+    WR:   {r1_top2:0.68,r1_top10:0.58,r1_rest:0.44,r2:0.35,r3:0.24,r4:0.16,r5:0.09,r6:0.05,r7:0.03},
+    TE:   {r1_top2:0.62,r1_top10:0.50,r1_rest:0.38,r2:0.28,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
+    OL:   {r1_top2:0.75,r1_top10:0.65,r1_rest:0.52,r2:0.42,r3:0.30,r4:0.20,r5:0.12,r6:0.07,r7:0.05},
+    EDGE: {r1_top2:0.70,r1_top10:0.58,r1_rest:0.44,r2:0.34,r3:0.22,r4:0.14,r5:0.08,r6:0.05,r7:0.03},
+    LB:   {r1_top2:0.65,r1_top10:0.54,r1_rest:0.40,r2:0.30,r3:0.20,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
+    DB:   {r1_top2:0.66,r1_top10:0.55,r1_rest:0.42,r2:0.32,r3:0.21,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
+  };
+
+  const POSITIONS = ['QB','RB','WR','TE','OL','EDGE','LB','DB'];
+
+  let picks = [
+    {id:1,name:'Cam Ward',pos:'QB',slot:'r1_top2',team:'TEN',result:null},
+    {id:2,name:'Travis Hunter',pos:'WR',slot:'r1_top2',team:'CLE',result:null},
+    {id:3,name:'Abdul Carter',pos:'EDGE',slot:'r1_top10',team:'NYG',result:null},
+    {id:4,name:'Will Johnson',pos:'DB',slot:'r1_top10',team:'NE',result:null},
+    {id:5,name:'Mason Graham',pos:'OL',slot:'r1_top10',team:'JAX',result:null},
+  ];
+  let nextId = 6;
+
+  function slotSelectHTML(selected) {
+    return SLOT_GROUPS.map(g =>
+      `<optgroup label="${g.heading}">` +
+      g.keys.map(k => {
+        const s = SLOTS.find(s => s.key === k);
+        return `<option value="${k}"${k===selected?' selected':''}>${s.label}</option>`;
+      }).join('') + `</optgroup>`
+    ).join('');
+  }
+
+  function teamSelectHTML(selected) {
+    return `<option value="">Team</option>` +
+      TEAMS.map(t => `<option value="${t}"${t===selected?' selected':''}>${t}</option>`).join('');
+  }
+
+  function renderInputs() {
+    document.getElementById('picks-list').innerHTML = picks.map((p, i) => `
+      <div class="input-row">
+        <input type="text" value="${p.name}" placeholder="Player name"
+          oninput="picks[${i}].name=this.value" />
+        <select onchange="picks[${i}].pos=this.value">
+          ${POSITIONS.map(pos=>`<option value="${pos}"${pos===p.pos?' selected':''}>${pos}</option>`).join('')}
+        </select>
+        <select onchange="picks[${i}].slot=this.value">
+          ${slotSelectHTML(p.slot)}
+        </select>
+        <select onchange="picks[${i}].team=this.value">
+          ${teamSelectHTML(p.team)}
+        </select>
+        <button class="remove-btn" onclick="removePick(${p.id})" title="Remove">×</button>
+      </div>`).join('');
+  }
+
+  function addPick() {
+    picks.push({id:nextId++,name:'',pos:'WR',slot:'r1_top10',team:'',result:null});
+    renderInputs();
+  }
+
+  function removePick(id) {
+    picks = picks.filter(p => p.id !== id);
+    renderInputs();
+    renderCards();
+  }
+
+  function simulate() {
+    picks = picks.map(p => ({...p, result: Math.random() < HIT_RATES[p.pos][p.slot]}));
+    renderInputs();
+    renderCards();
+  }
+
+  function resetAll() {
+    picks = picks.map(p => ({...p, result:null}));
+    renderInputs();
+    renderCards();
+  }
+
+  function slotLabel(key) {
+    return (SLOTS.find(s => s.key === key) || {}).label || key;
+  }
+
+  function renderCards() {
+    const grid = document.getElementById('cards-grid');
+    const divider = document.getElementById('results-divider');
+    const label = document.getElementById('results-label');
+    const withResults = picks.filter(p => p.result !== null);
+    if (withResults.length === 0) {
+      grid.innerHTML = '';
+      divider.style.display = 'none';
+      label.style.display = 'none';
+      return;
+    }
+    divider.style.display = '';
+    label.style.display = '';
+    grid.innerHTML = withResults.map(p => {
+      const hr = (HIT_RATES[p.pos][p.slot] * 100).toFixed(0);
+      const cls = p.result ? 'hit' : 'miss';
+      return `
+        <div class="pick-card ${cls}">
+          <div class="card-name">${p.name || '—'}</div>
+          ${p.team ? `<div class="card-team">${p.team}</div>` : ''}
+          <div class="card-meta">${p.pos} · ${slotLabel(p.slot)}</div>
+          <div class="card-footer">
+            <span class="badge badge-${cls}">${cls === 'hit' ? 'Hit' : 'Miss'}</span>
+            <span class="hit-rate">${hr}% historical rate</span>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  renderInputs();
+</script>
+
+</body>
+</html>
