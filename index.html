@@ -110,6 +110,38 @@
       padding: 2rem 1.5rem 0;
     }
 
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .tab-btn {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 10px 20px 10px 0;
+      margin-bottom: -1px;
+      cursor: pointer;
+      color: var(--gray-400);
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .tab-btn:hover { color: var(--gray-900); }
+
+    .tab-btn.active {
+      color: var(--gray-900);
+      border-bottom-color: var(--gray-900);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
     /* ── Section labels ── */
     .section-label {
       font-family: 'Barlow Condensed', sans-serif;
@@ -121,7 +153,7 @@
       margin-bottom: 10px;
     }
 
-    /* ── Input table ── */
+    /* ── Input panel ── */
     .input-panel {
       background: #fff;
       border-radius: var(--radius);
@@ -130,6 +162,85 @@
       margin-bottom: 1rem;
     }
 
+    /* ── First Round Mock table ── */
+    .mock-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .mock-table th {
+      font-size: 11px;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 500;
+      text-align: left;
+      padding: 0 8px 8px 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .mock-table th:last-child { padding-right: 0; }
+
+    .mock-table td {
+      padding: 5px 8px 5px 0;
+      vertical-align: middle;
+      border-bottom: 0.5px solid var(--gray-200);
+    }
+
+    .mock-table tr:last-child td { border-bottom: none; }
+
+    .pick-num-cell {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gray-400);
+      width: 32px;
+      text-align: center;
+    }
+
+    .team-cell {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      width: 46px;
+    }
+
+    .mock-table input[type="text"],
+    .mock-table select {
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      color: var(--gray-900);
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      padding: 5px 8px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .mock-table input[type="text"]:focus,
+    .mock-table select:focus { border-color: var(--gray-600); }
+
+    .mock-table select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239a9890'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      padding-right: 24px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .mock-table .result-cell {
+      width: 64px;
+      text-align: center;
+    }
+
+    /* ── DIY input table ── */
     .col-header {
       display: grid;
       grid-template-columns: 1fr 88px 148px 100px 32px;
@@ -171,9 +282,7 @@
     }
 
     input[type="text"]:focus,
-    select:focus {
-      border-color: var(--gray-600);
-    }
+    select:focus { border-color: var(--gray-600); }
 
     select {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239a9890'/%3E%3C/svg%3E");
@@ -196,7 +305,7 @@
 
     .remove-btn:hover { color: var(--red-mid); }
 
-    /* ── Actions ── */
+    /* ── Buttons ── */
     .actions-row {
       display: flex;
       gap: 10px;
@@ -236,6 +345,22 @@
       margin: 2rem 0 1.5rem;
     }
 
+    /* ── Result badge (inline in table) ── */
+    .badge {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .badge-hit  { background: var(--green-light); color: var(--green-dark); }
+    .badge-miss { background: var(--red-light);   color: var(--red-dark);   }
+    .badge-tbd  { background: var(--gray-200);    color: var(--gray-400);   font-style: italic; letter-spacing: 0; font-size: 11px; }
+
     /* ── Cards ── */
     .cards-grid {
       display: grid;
@@ -248,12 +373,11 @@
       border: 1px solid var(--gray-200);
       border-radius: var(--radius);
       padding: 16px 18px;
-      position: relative;
       animation: popIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .pick-card.hit { border-left: 4px solid var(--green-mid); }
-    .pick-card.miss { border-left: 4px solid var(--red-mid); }
+    .pick-card.hit  { border-left: 4px solid var(--green-mid); }
+    .pick-card.miss { border-left: 4px solid var(--red-mid);   }
 
     .card-name {
       font-family: 'Barlow Condensed', sans-serif;
@@ -288,24 +412,7 @@
       gap: 8px;
     }
 
-    .badge {
-      display: inline-block;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 3px 12px;
-      border-radius: 20px;
-    }
-
-    .badge-hit { background: var(--green-light); color: var(--green-dark); }
-    .badge-miss { background: var(--red-light); color: var(--red-dark); }
-
-    .hit-rate {
-      font-size: 12px;
-      color: var(--gray-400);
-    }
+    .hit-rate { font-size: 12px; color: var(--gray-400); }
 
     /* ── Footer note ── */
     .footnote {
@@ -329,6 +436,46 @@
       }
       .input-row input { grid-column: 1 / -1; }
       .remove-btn { grid-column: 2; justify-self: end; }
+      .mock-table th.hide-sm,
+      .mock-table td.hide-sm { display: none; }
+    }
+
+    /* ── Autocomplete ── */
+    .ac-wrap { position: relative; width: 100%; }
+    .ac-dropdown {
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      z-index: 100;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .ac-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--gray-900);
+      border-bottom: 0.5px solid var(--gray-200);
+    }
+    .ac-item:last-child { border-bottom: none; }
+    .ac-item:hover, .ac-item.active { background: var(--gray-100); }
+    .ac-item-name { font-weight: 500; }
+    .ac-item-pos {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      color: var(--gray-400);
+      background: var(--gray-200);
+      padding: 2px 7px;
+      border-radius: 20px;
     }
   </style>
 </head>
@@ -345,43 +492,206 @@
 
 <div class="container">
 
-  <div class="input-panel">
-    <div class="col-header">
-      <div class="col-head">Player name</div>
-      <div class="col-head">Position</div>
-      <div class="col-head">Draft slot</div>
-      <div class="col-head">Team</div>
-      <div></div>
-    </div>
-    <div id="picks-list"></div>
-    <div class="actions-row" style="margin-top: 1rem;">
-      <button class="btn btn-primary" onclick="simulate()">Flip coins ↻</button>
-      <button class="btn" onclick="addPick()">+ Add pick</button>
-      <button class="btn" onclick="resetAll()">Reset</button>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('mock')">2026 First Round Mock</button>
+    <button class="tab-btn" onclick="switchTab('diy')">Build Your Own</button>
+  </div>
+
+  <!-- ── TAB 1: First Round Mock ── -->
+  <div id="tab-mock" class="tab-panel active">
+    <div class="input-panel">
+      <table class="mock-table">
+        <thead>
+          <tr>
+            <th style="width:32px">#</th>
+            <th style="width:46px">Team</th>
+            <th>Player name</th>
+            <th style="width:96px">Position</th>
+            <th style="width:72px" class="hide-sm">Hit rate</th>
+            <th style="width:64px">Result</th>
+          </tr>
+        </thead>
+        <tbody id="mock-tbody"></tbody>
+      </table>
+      <div class="actions-row" style="margin-top:1.25rem">
+        <button class="btn btn-primary" onclick="simulateMock()">Flip coins ↻</button>
+        <button class="btn" onclick="resetMock()">Reset</button>
+      </div>
     </div>
   </div>
 
+  <!-- ── TAB 2: DIY ── -->
+  <div id="tab-diy" class="tab-panel">
+    <div class="input-panel">
+      <div class="col-header">
+        <div class="col-head">Player name</div>
+        <div class="col-head">Position</div>
+        <div class="col-head">Draft slot</div>
+        <div class="col-head">Team</div>
+        <div></div>
+      </div>
+      <div id="diy-picks-list"></div>
+      <div class="actions-row" style="margin-top:1rem">
+        <button class="btn btn-primary" onclick="simulateDIY()">Flip coins ↻</button>
+        <button class="btn" onclick="addDIYPick()">+ Add pick</button>
+        <button class="btn" onclick="resetDIY()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Shared results area ── -->
   <div id="results-divider" class="divider" style="display:none"></div>
-  <div id="results-label" class="section-label" style="display:none; margin-bottom: 14px;">Results</div>
+  <div id="results-label" class="section-label" style="display:none; margin-bottom:14px">Results</div>
   <div class="cards-grid" id="cards-grid"></div>
 
-  <p class="footnote">Hit rates derived from historical NFL draft data (2000–2020). A "hit" is defined as a player who became at least a quality starter. Round 1 is split into three tiers (picks 1–2, 3–10, 11–32) to reflect the meaningful variation within the first round. Team context is shown for storytelling purposes only and does not affect the simulation.</p>
+  <p class="footnote">Hit rates derived from historical NFL draft data (2000–2020). A "hit" is defined as a player who became at least a quality starter. Round 1 is split into three tiers (picks 1–2, 3–10, 11–32) to reflect meaningful variation within the first round. CB and SAF share the same historical hit rate. Team context is shown for storytelling purposes only and does not affect simulation weighting. 2026 first round order is based on the confirmed pre-draft slot order.</p>
 
 </div>
 
 <script>
-  const TEAMS = ["ARI","ATL","BAL","BUF","CAR","CHI","CIN","CLE","DAL","DEN","DET","GB","HOU","IND","JAX","KC","LAC","LAR","LV","MIA","MIN","NE","NO","NYG","NYJ","PHI","PIT","SEA","SF","TB","TEN","WSH"];
+
+  // ── Prospects ─────────────────────────────────────────────────────
+
+  let PROSPECTS = [];
+
+  async function loadProspects() {
+    try {
+      const res = await fetch('prospects.json');
+      PROSPECTS = await res.json();
+    } catch(e) {
+      console.warn('Could not load prospects.json — typeahead disabled.');
+    }
+  }
+
+  function makeInput(initialValue, onNameChange, onPosChange, inputId) {
+    const wrap = document.createElement('div');
+    wrap.className = 'ac-wrap';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = initialValue;
+    input.placeholder = 'Player name';
+    input.id = inputId;
+    input.autocomplete = 'off';
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'ac-dropdown';
+    dropdown.style.display = 'none';
+
+    let activeIdx = -1;
+
+    function showDropdown(query) {
+      if (!query || query.length < 2) { dropdown.style.display = 'none'; return; }
+      const q = query.toLowerCase();
+      const matches = PROSPECTS.filter(p => p.name.toLowerCase().includes(q)).slice(0, 8);
+      if (!matches.length) { dropdown.style.display = 'none'; return; }
+      activeIdx = -1;
+      dropdown.innerHTML = matches.map((p, i) =>
+        `<div class="ac-item" data-name="${p.name}" data-pos="${p.pos}" data-idx="${i}">
+          <span class="ac-item-name">${p.name}</span>
+          <span class="ac-item-pos">${p.pos}</span>
+        </div>`
+      ).join('');
+      dropdown.style.display = 'block';
+
+      dropdown.querySelectorAll('.ac-item').forEach(el => {
+        el.addEventListener('mousedown', e => {
+          e.preventDefault();
+          selectItem(el.dataset.name, el.dataset.pos);
+        });
+      });
+    }
+
+    function selectItem(name, pos) {
+      input.value = name;
+      onNameChange(name);
+      onPosChange(pos);
+      dropdown.style.display = 'none';
+    }
+
+    function updateActive() {
+      const items = dropdown.querySelectorAll('.ac-item');
+      items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+      if (activeIdx >= 0 && items[activeIdx]) items[activeIdx].scrollIntoView({ block: 'nearest' });
+    }
+
+    input.addEventListener('input', () => {
+      onNameChange(input.value);
+      showDropdown(input.value);
+    });
+
+    input.addEventListener('keydown', e => {
+      const items = dropdown.querySelectorAll('.ac-item');
+      if (e.key === 'ArrowDown') {
+        activeIdx = Math.min(activeIdx + 1, items.length - 1);
+        updateActive(); e.preventDefault();
+      } else if (e.key === 'ArrowUp') {
+        activeIdx = Math.max(activeIdx - 1, -1);
+        updateActive(); e.preventDefault();
+      } else if (e.key === 'Enter' && activeIdx >= 0 && items[activeIdx]) {
+        selectItem(items[activeIdx].dataset.name, items[activeIdx].dataset.pos);
+        e.preventDefault();
+      } else if (e.key === 'Escape') {
+        dropdown.style.display = 'none';
+      }
+    });
+
+    input.addEventListener('blur', () => {
+      setTimeout(() => { dropdown.style.display = 'none'; }, 150);
+    });
+
+    wrap.appendChild(input);
+    wrap.appendChild(dropdown);
+    return { wrap, syncPos: (pos) => {} };
+  }
+
+  // ── Data ──────────────────────────────────────────────────────────
+
+  const ROUND1_ORDER = [
+    { pick:1,  team:'LV'  },
+    { pick:2,  team:'NYJ' },
+    { pick:3,  team:'ARI' },
+    { pick:4,  team:'TEN' },
+    { pick:5,  team:'NYG' },
+    { pick:6,  team:'CLE' },
+    { pick:7,  team:'WSH' },
+    { pick:8,  team:'NO'  },
+    { pick:9,  team:'KC'  },
+    { pick:10, team:'CIN' },
+    { pick:11, team:'MIA' },
+    { pick:12, team:'DAL' },
+    { pick:13, team:'LAR' },
+    { pick:14, team:'BAL' },
+    { pick:15, team:'TB'  },
+    { pick:16, team:'NYJ' },
+    { pick:17, team:'DET' },
+    { pick:18, team:'MIN' },
+    { pick:19, team:'CAR' },
+    { pick:20, team:'DAL' },
+    { pick:21, team:'PIT' },
+    { pick:22, team:'LAC' },
+    { pick:23, team:'PHI' },
+    { pick:24, team:'CLE' },
+    { pick:25, team:'CHI' },
+    { pick:26, team:'BUF' },
+    { pick:27, team:'SF'  },
+    { pick:28, team:'HOU' },
+    { pick:29, team:'KC'  },
+    { pick:30, team:'MIA' },
+    { pick:31, team:'NE'  },
+    { pick:32, team:'SEA' },
+  ];
 
   const SLOTS = [
-    { key:'r1_top2',  label:'Pick 1–2' },
-    { key:'r1_top10',label:'Pick 3–10' },
-    { key:'r1_rest', label:'Pick 11–32' },
-    { key:'r2',      label:'Round 2' },
-    { key:'r3',      label:'Round 3' },
-    { key:'r4',      label:'Round 4' },
-    { key:'r5',      label:'Round 5' },
-    { key:'r6',      label:'Round 6' },
-    { key:'r7',      label:'Round 7' },
+    { key:'r1_top2',  label:'Pick 1–2',    hitKey:'r1_top2'  },
+    { key:'r1_top10', label:'Pick 3–10',   hitKey:'r1_top10' },
+    { key:'r1_rest',  label:'Pick 11–32',  hitKey:'r1_rest'  },
+    { key:'r2',       label:'Round 2'  },
+    { key:'r3',       label:'Round 3'  },
+    { key:'r4',       label:'Round 4'  },
+    { key:'r5',       label:'Round 5'  },
+    { key:'r6',       label:'Round 6'  },
+    { key:'r7',       label:'Round 7'  },
   ];
 
   const SLOT_GROUPS = [
@@ -390,28 +700,187 @@
   ];
 
   const HIT_RATES = {
-    QB:   {r1_top2:0.72,r1_top10:0.55,r1_rest:0.38,r2:0.30,r3:0.18,r4:0.10,r5:0.06,r6:0.04,r7:0.03},
-    RB:   {r1_top2:0.72,r1_top10:0.62,r1_rest:0.50,r2:0.40,r3:0.28,r4:0.18,r5:0.10,r6:0.06,r7:0.04},
-    WR:   {r1_top2:0.68,r1_top10:0.58,r1_rest:0.44,r2:0.35,r3:0.24,r4:0.16,r5:0.09,r6:0.05,r7:0.03},
-    TE:   {r1_top2:0.62,r1_top10:0.50,r1_rest:0.38,r2:0.28,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
-    OT:   {r1_top2:0.78,r1_top10:0.68,r1_rest:0.54,r2:0.44,r3:0.32,r4:0.21,r5:0.13,r6:0.07,r7:0.05},
-    iOL:  {r1_top2:0.70,r1_top10:0.60,r1_rest:0.46,r2:0.38,r3:0.26,r4:0.17,r5:0.10,r6:0.06,r7:0.04},
-    EDGE: {r1_top2:0.70,r1_top10:0.58,r1_rest:0.44,r2:0.34,r3:0.22,r4:0.14,r5:0.08,r6:0.05,r7:0.03},
-    DL:   {r1_top2:0.65,r1_top10:0.52,r1_rest:0.38,r2:0.28,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
-    LB:   {r1_top2:0.65,r1_top10:0.54,r1_rest:0.40,r2:0.30,r3:0.20,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
-    DB:   {r1_top2:0.66,r1_top10:0.55,r1_rest:0.42,r2:0.32,r3:0.21,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
+    QB:  {r1_top2:0.72,r1_top10:0.55,r1_rest:0.38,r2:0.30,r3:0.18,r4:0.10,r5:0.06,r6:0.04,r7:0.03},
+    RB:  {r1_top2:0.72,r1_top10:0.62,r1_rest:0.50,r2:0.40,r3:0.28,r4:0.18,r5:0.10,r6:0.06,r7:0.04},
+    WR:  {r1_top2:0.68,r1_top10:0.58,r1_rest:0.44,r2:0.35,r3:0.24,r4:0.16,r5:0.09,r6:0.05,r7:0.03},
+    TE:  {r1_top2:0.62,r1_top10:0.50,r1_rest:0.38,r2:0.28,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
+    OT:  {r1_top2:0.78,r1_top10:0.68,r1_rest:0.54,r2:0.44,r3:0.32,r4:0.21,r5:0.13,r6:0.07,r7:0.05},
+    iOL: {r1_top2:0.70,r1_top10:0.60,r1_rest:0.46,r2:0.38,r3:0.26,r4:0.17,r5:0.10,r6:0.06,r7:0.04},
+    EDGE:{r1_top2:0.70,r1_top10:0.58,r1_rest:0.44,r2:0.34,r3:0.22,r4:0.14,r5:0.08,r6:0.05,r7:0.03},
+    DL:  {r1_top2:0.65,r1_top10:0.52,r1_rest:0.38,r2:0.28,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
+    LB:  {r1_top2:0.65,r1_top10:0.54,r1_rest:0.40,r2:0.30,r3:0.20,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
+    CB:  {r1_top2:0.66,r1_top10:0.55,r1_rest:0.42,r2:0.32,r3:0.21,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
+    SAF: {r1_top2:0.66,r1_top10:0.55,r1_rest:0.42,r2:0.32,r3:0.21,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
   };
 
-  const POSITIONS = ['QB','RB','WR','TE','OT','iOL','EDGE','DL','LB','DB'];
+  const POSITIONS = ['QB','RB','WR','TE','OT','iOL','EDGE','DL','LB','CB','SAF'];
 
-  let picks = [
-    {id:1,name:'Cam Ward',pos:'QB',slot:'r1_top2',team:'TEN',result:null},
-    {id:2,name:'Travis Hunter',pos:'WR',slot:'r1_top2',team:'CLE',result:null},
-    {id:3,name:'Abdul Carter',pos:'EDGE',slot:'r1_top10',team:'NYG',result:null},
-    {id:4,name:'Will Johnson',pos:'DB',slot:'r1_top10',team:'NE',result:null},
-    {id:5,name:'Mason Graham',pos:'OT',slot:'r1_top10',team:'JAX',result:null},
+  const TEAMS = ["ARI","ATL","BAL","BUF","CAR","CHI","CIN","CLE","DAL","DEN","DET","GB",
+                 "HOU","IND","JAX","KC","LAC","LAR","LV","MIA","MIN","NE","NO","NYG",
+                 "NYJ","PHI","PIT","SEA","SF","TB","TEN","WSH"];
+
+  function pickToSlotKey(pickNum) {
+    if (pickNum <= 2)  return 'r1_top2';
+    if (pickNum <= 10) return 'r1_top10';
+    return 'r1_rest';
+  }
+
+  function getHitRate(pos, slotKey) {
+    return (HIT_RATES[pos] || HIT_RATES['WR'])[slotKey] || 0.10;
+  }
+
+  function slotLabel(key) {
+    return (SLOTS.find(s => s.key === key) || {}).label || key;
+  }
+
+  // ── Tab switching ─────────────────────────────────────────────────
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((b,i) => {
+      b.classList.toggle('active', (i===0 && tab==='mock') || (i===1 && tab==='diy'));
+    });
+    document.getElementById('tab-mock').classList.toggle('active', tab==='mock');
+    document.getElementById('tab-diy').classList.toggle('active', tab==='diy');
+    clearResults();
+  }
+
+  // ── Shared results ────────────────────────────────────────────────
+
+  function clearResults() {
+    document.getElementById('cards-grid').innerHTML = '';
+    document.getElementById('results-divider').style.display = 'none';
+    document.getElementById('results-label').style.display = 'none';
+  }
+
+  function renderCards(results) {
+    const grid = document.getElementById('cards-grid');
+    const divider = document.getElementById('results-divider');
+    const label = document.getElementById('results-label');
+    if (!results.length) { clearResults(); return; }
+    divider.style.display = '';
+    label.style.display = '';
+    grid.innerHTML = results.map(p => {
+      const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
+      const cls = p.result ? 'hit' : 'miss';
+      const slotStr = p.pickNum ? `Pick ${p.pickNum}` : slotLabel(p.slotKey);
+      return `
+        <div class="pick-card ${cls}">
+          <div class="card-name">${p.name || '—'}</div>
+          ${p.team ? `<div class="card-team">${p.team}</div>` : ''}
+          <div class="card-meta">${p.pos} · ${slotStr}</div>
+          <div class="card-footer">
+            <span class="badge badge-${cls}">${cls==='hit'?'Hit':'Miss'}</span>
+            <span class="hit-rate">${hr}% historical rate</span>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── TAB 1: First Round Mock ───────────────────────────────────────
+
+  let mockPicks = ROUND1_ORDER.map(r => ({
+    pick: r.pick,
+    team: r.team,
+    name: '',
+    pos: 'WR',
+    result: null,
+  }));
+
+  function posSelectHTML(selected, name) {
+    return `<select name="${name}" onchange="updateMockPos(${name.split('_')[1]}, this.value)">` +
+      POSITIONS.map(p => `<option value="${p}"${p===selected?' selected':''}>${p}</option>`).join('') +
+      `</select>`;
+  }
+
+  function updateMockPos(pickNum, val) {
+    const p = mockPicks.find(p => p.pick === pickNum);
+    if (p) { p.pos = val; renderMockTable(); }
+  }
+
+  function updateMockName(pickNum, val) {
+    const p = mockPicks.find(p => p.pick === pickNum);
+    if (p) p.name = val;
+  }
+
+  function renderMockTable() {
+    const tbody = document.getElementById('mock-tbody');
+    tbody.innerHTML = '';
+    mockPicks.forEach(p => {
+      const slotKey = pickToSlotKey(p.pick);
+      const hr = (getHitRate(p.pos, slotKey) * 100).toFixed(0);
+      let badge = `<span class="badge badge-tbd">—</span>`;
+      if (p.result === true)  badge = `<span class="badge badge-hit">Hit</span>`;
+      if (p.result === false) badge = `<span class="badge badge-miss">Miss</span>`;
+
+      const tr = document.createElement('tr');
+
+      const tdPick = document.createElement('td');
+      tdPick.className = 'pick-num-cell';
+      tdPick.textContent = p.pick;
+
+      const tdTeam = document.createElement('td');
+      tdTeam.className = 'team-cell';
+      tdTeam.textContent = p.team;
+
+      const tdName = document.createElement('td');
+      const { wrap } = makeInput(p.name,
+        val => { const mp = mockPicks.find(m => m.pick === p.pick); if(mp) mp.name = val; },
+        pos => { const mp = mockPicks.find(m => m.pick === p.pick); if(mp) { mp.pos = pos; renderMockTable(); } }
+      );
+      tdName.appendChild(wrap);
+
+      const tdPos = document.createElement('td');
+      tdPos.innerHTML = posSelectHTML(p.pos, `pos_${p.pick}`);
+
+      const tdHr = document.createElement('td');
+      tdHr.className = 'hide-sm';
+      tdHr.style.cssText = 'font-size:12px;color:var(--gray-400);text-align:right;padding-right:12px';
+      tdHr.textContent = hr + '%';
+
+      const tdBadge = document.createElement('td');
+      tdBadge.className = 'result-cell';
+      tdBadge.innerHTML = badge;
+
+      tr.appendChild(tdPick);
+      tr.appendChild(tdTeam);
+      tr.appendChild(tdName);
+      tr.appendChild(tdPos);
+      tr.appendChild(tdHr);
+      tr.appendChild(tdBadge);
+      tbody.appendChild(tr);
+    });
+  }
+
+  function simulateMock() {
+    mockPicks = mockPicks.map(p => ({
+      ...p,
+      result: Math.random() < getHitRate(p.pos, pickToSlotKey(p.pick))
+    }));
+    renderMockTable();
+    renderCards(mockPicks.map(p => ({
+      name: p.name,
+      team: p.team,
+      pos: p.pos,
+      slotKey: pickToSlotKey(p.pick),
+      pickNum: p.pick,
+      result: p.result,
+    })));
+  }
+
+  function resetMock() {
+    mockPicks = mockPicks.map(p => ({ ...p, result: null }));
+    renderMockTable();
+    clearResults();
+  }
+
+  // ── TAB 2: DIY ────────────────────────────────────────────────────
+
+  let diyPicks = [
+    {id:1,name:'',pos:'QB',slot:'r1_top2',team:'LV',result:null},
+    {id:2,name:'',pos:'WR',slot:'r1_top2',team:'NYJ',result:null},
+    {id:3,name:'',pos:'EDGE',slot:'r1_top10',team:'ARI',result:null},
   ];
-  let nextId = 6;
+  let nextDIYId = 4;
 
   function slotSelectHTML(selected) {
     return SLOT_GROUPS.map(g =>
@@ -428,81 +897,83 @@
       TEAMS.map(t => `<option value="${t}"${t===selected?' selected':''}>${t}</option>`).join('');
   }
 
-  function renderInputs() {
-    document.getElementById('picks-list').innerHTML = picks.map((p, i) => `
-      <div class="input-row">
-        <input type="text" value="${p.name}" placeholder="Player name"
-          oninput="picks[${i}].name=this.value" />
-        <select onchange="picks[${i}].pos=this.value">
-          ${POSITIONS.map(pos=>`<option value="${pos}"${pos===p.pos?' selected':''}>${pos}</option>`).join('')}
-        </select>
-        <select onchange="picks[${i}].slot=this.value">
-          ${slotSelectHTML(p.slot)}
-        </select>
-        <select onchange="picks[${i}].team=this.value">
-          ${teamSelectHTML(p.team)}
-        </select>
-        <button class="remove-btn" onclick="removePick(${p.id})" title="Remove">×</button>
-      </div>`).join('');
+  function renderDIYInputs() {
+    const container = document.getElementById('diy-picks-list');
+    container.innerHTML = '';
+    diyPicks.forEach((p, i) => {
+      const row = document.createElement('div');
+      row.className = 'input-row';
+
+      const { wrap } = makeInput(p.name,
+        val => diyPicks[i].name = val,
+        pos => { diyPicks[i].pos = pos; renderDIYInputs(); }
+      );
+
+      const posSelect = document.createElement('select');
+      posSelect.innerHTML = POSITIONS.map(pos => `<option value="${pos}"${pos===p.pos?' selected':''}>${pos}</option>`).join('');
+      posSelect.onchange = () => diyPicks[i].pos = posSelect.value;
+
+      const slotSelect = document.createElement('select');
+      slotSelect.innerHTML = slotSelectHTML(p.slot);
+      slotSelect.onchange = () => diyPicks[i].slot = slotSelect.value;
+
+      const teamSelect = document.createElement('select');
+      teamSelect.innerHTML = teamSelectHTML(p.team);
+      teamSelect.onchange = () => diyPicks[i].team = teamSelect.value;
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove-btn';
+      removeBtn.title = 'Remove';
+      removeBtn.textContent = '×';
+      removeBtn.onclick = () => removeDIYPick(p.id);
+
+      row.appendChild(wrap);
+      row.appendChild(posSelect);
+      row.appendChild(slotSelect);
+      row.appendChild(teamSelect);
+      row.appendChild(removeBtn);
+      container.appendChild(row);
+    });
   }
 
-  function addPick() {
-    picks.push({id:nextId++,name:'',pos:'WR',slot:'r1_top10',team:'',result:null});
-    renderInputs();
+  function addDIYPick() {
+    diyPicks.push({id:nextDIYId++,name:'',pos:'WR',slot:'r1_top10',team:'',result:null});
+    renderDIYInputs();
   }
 
-  function removePick(id) {
-    picks = picks.filter(p => p.id !== id);
-    renderInputs();
-    renderCards();
+  function removeDIYPick(id) {
+    diyPicks = diyPicks.filter(p => p.id !== id);
+    renderDIYInputs();
+    if (!diyPicks.some(p => p.result !== null)) clearResults();
   }
 
-  function simulate() {
-    picks = picks.map(p => ({...p, result: Math.random() < HIT_RATES[p.pos][p.slot]}));
-    renderInputs();
-    renderCards();
+  function simulateDIY() {
+    diyPicks = diyPicks.map(p => ({
+      ...p,
+      result: Math.random() < getHitRate(p.pos, p.slot)
+    }));
+    renderDIYInputs();
+    renderCards(diyPicks.map(p => ({
+      name: p.name,
+      team: p.team,
+      pos: p.pos,
+      slotKey: p.slot,
+      pickNum: null,
+      result: p.result,
+    })));
   }
 
-  function resetAll() {
-    picks = picks.map(p => ({...p, result:null}));
-    renderInputs();
-    renderCards();
+  function resetDIY() {
+    diyPicks = diyPicks.map(p => ({ ...p, result: null }));
+    renderDIYInputs();
+    clearResults();
   }
 
-  function slotLabel(key) {
-    return (SLOTS.find(s => s.key === key) || {}).label || key;
-  }
-
-  function renderCards() {
-    const grid = document.getElementById('cards-grid');
-    const divider = document.getElementById('results-divider');
-    const label = document.getElementById('results-label');
-    const withResults = picks.filter(p => p.result !== null);
-    if (withResults.length === 0) {
-      grid.innerHTML = '';
-      divider.style.display = 'none';
-      label.style.display = 'none';
-      return;
-    }
-    divider.style.display = '';
-    label.style.display = '';
-    grid.innerHTML = withResults.map(p => {
-      const hr = (HIT_RATES[p.pos][p.slot] * 100).toFixed(0);
-      const cls = p.result ? 'hit' : 'miss';
-      return `
-        <div class="pick-card ${cls}">
-          <div class="card-name">${p.name || '—'}</div>
-          ${p.team ? `<div class="card-team">${p.team}</div>` : ''}
-          <div class="card-meta">${p.pos} · ${slotLabel(p.slot)}</div>
-          <div class="card-footer">
-            <span class="badge badge-${cls}">${cls === 'hit' ? 'Hit' : 'Miss'}</span>
-            <span class="hit-rate">${hr}% historical rate</span>
-          </div>
-        </div>`;
-    }).join('');
-  }
-
-  renderInputs();
+  // ── Init ──────────────────────────────────────────────────────────
+  loadProspects().then(() => {
+    renderMockTable();
+    renderDIYInputs();
+  });
 </script>
 
 </body>
