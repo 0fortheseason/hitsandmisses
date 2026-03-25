@@ -1,52 +1,1002 @@
 [
-  { "name": "Arvell Reese",         "pos": "LB"   },
-  { "name": "Caleb Downs",          "pos": "SAF"  },
-  { "name": "Fernando Mendoza",     "pos": "QB"   },
-  { "name": "David Bailey",         "pos": "EDGE" },
-  { "name": "Rueben Bain Jr.",      "pos": "EDGE" },
-  { "name": "Jeremiyah Love",       "pos": "RB"   },
-  { "name": "Sonny Styles",         "pos": "LB"   },
-  { "name": "Francis Mauigoa",      "pos": "OT"   },
-  { "name": "Carnell Tate",         "pos": "WR"   },
-  { "name": "Spencer Fano",         "pos": "OT"   },
-  { "name": "Mansoor Delane",       "pos": "CB"   },
-  { "name": "Makai Lemon",          "pos": "WR"   },
-  { "name": "Monroe Freeling",      "pos": "OT"   },
-  { "name": "Vega Ioane",           "pos": "iOL"  },
-  { "name": "Jordyn Tyson",         "pos": "WR"   },
-  { "name": "Dillon Thieneman",     "pos": "SAF"  },
-  { "name": "Jermod McCoy",         "pos": "CB"   },
-  { "name": "Kenyon Sadiq",         "pos": "TE"   },
-  { "name": "Keldric Faulk",        "pos": "EDGE" },
-  { "name": "Akheem Mesidor",       "pos": "EDGE" },
-  { "name": "Kadyn Proctor",        "pos": "OT"   },
-  { "name": "Avieon Terrell",       "pos": "CB"   },
-  { "name": "Peter Woods",          "pos": "DL"   },
-  { "name": "Omar Cooper Jr.",      "pos": "WR"   },
-  { "name": "Caleb Lomu",           "pos": "OT"   },
-  { "name": "Emmanuel McNeil-Warren","pos": "SAF" },
-  { "name": "T.J. Parker",          "pos": "EDGE" },
-  { "name": "KC Concepcion",        "pos": "WR"   },
-  { "name": "Blake Miller",         "pos": "OT"   },
-  { "name": "CJ Allen",             "pos": "LB"   },
-  { "name": "Kayden McDonald",      "pos": "DL"   },
-  { "name": "Denzel Boston",        "pos": "WR"   },
-  { "name": "Ty Simpson",           "pos": "QB"   },
-  { "name": "Caleb Banks",          "pos": "DL"   },
-  { "name": "Dante Moore",          "pos": "QB"   },
-  { "name": "Eli Stowers",          "pos": "TE"   },
-  { "name": "Max Klare",            "pos": "TE"   },
-  { "name": "Justin Joly",          "pos": "TE"   },
-  { "name": "Jack Endries",         "pos": "TE"   },
-  { "name": "Eli Raridon",          "pos": "TE"   },
-  { "name": "Marlin Klein",         "pos": "TE"   },
-  { "name": "Joe Royer",            "pos": "TE"   },
-  { "name": "Kyle Louis",           "pos": "LB"  },
-  { "name": "Jalon Kilgore",        "pos": "SAF"  },
-  { "name": "A.J. Haulcy",          "pos": "SAF"   },
-  { "name": "Treydan Stukes",       "pos": "CB"   },
-  { "name": "Bud Clark",            "pos": "SAF"  },
-  { "name": "Zakee Wheatley",       "pos": "SAF"  },
-  { "name": "Genesis Smith",        "pos": "CB"   },
-  { "name": "Max Iheanachor",       "pos": "OT"   },
+  {
+    "name": "Kayden McDonald",
+    "pos": "DL",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Peter Woods",
+    "pos": "DL",
+    "college": "Clemson"
+  },
+  {
+    "name": "Caleb Banks",
+    "pos": "DL",
+    "college": "Florida"
+  },
+  {
+    "name": "Lee Hunter",
+    "pos": "DL",
+    "college": "Texas Tech"
+  },
+  {
+    "name": "Christen Miller",
+    "pos": "DL",
+    "college": "Georgia"
+  },
+  {
+    "name": "Darrell Jackson",
+    "pos": "DL",
+    "college": "Florida State"
+  },
+  {
+    "name": "Tim Keenan",
+    "pos": "DL",
+    "college": "Alabama"
+  },
+  {
+    "name": "Dominique Orange",
+    "pos": "DL",
+    "college": "Iowa State"
+  },
+  {
+    "name": "Dontay Corelone",
+    "pos": "DL",
+    "college": "Cincinnati"
+  },
+  {
+    "name": "Demont Capehart",
+    "pos": "DL",
+    "college": "Clemson"
+  },
+  {
+    "name": "Zane Durant",
+    "pos": "DL",
+    "college": "Penn State"
+  },
+  {
+    "name": "Gracen Halton",
+    "pos": "DL",
+    "college": "Oklahoma"
+  },
+  {
+    "name": "Landon Robinson",
+    "pos": "DL",
+    "college": "Navy"
+  },
+  {
+    "name": "Zxavian Harris",
+    "pos": "DL",
+    "college": "Ole Miss"
+  },
+  {
+    "name": "Chris McClellan",
+    "pos": "DL",
+    "college": "Missouri"
+  },
+  {
+    "name": "Deven Eastern",
+    "pos": "DL",
+    "college": "Minnesota"
+  },
+  {
+    "name": "Kaleb Proctor",
+    "pos": "DL",
+    "college": "SE Louisiana"
+  },
+  {
+    "name": "Albert Regis",
+    "pos": "DL",
+    "college": "Texas A&M"
+  },
+  {
+    "name": "Keldrick Faulk",
+    "pos": "EDGE",
+    "college": "Auburn"
+  },
+  {
+    "name": "Keyron Crawford",
+    "pos": "EDGE",
+    "college": "Auburn"
+  },
+  {
+    "name": "Rueben Bain",
+    "pos": "EDGE",
+    "college": "Miami"
+  },
+  {
+    "name": "Romello Height",
+    "pos": "EDGE",
+    "college": "Texas Tech"
+  },
+  {
+    "name": "David Bailey",
+    "pos": "EDGE",
+    "college": "Texas Tech"
+  },
+  {
+    "name": "Zion Young",
+    "pos": "EDGE",
+    "college": "Missouri"
+  },
+  {
+    "name": "Akheem Mesidor",
+    "pos": "EDGE",
+    "college": "Miami"
+  },
+  {
+    "name": "Dani Dennis-Sutton",
+    "pos": "EDGE",
+    "college": "Penn State"
+  },
+  {
+    "name": "Caden Curry",
+    "pos": "EDGE",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Kenyatta Jackson",
+    "pos": "EDGE",
+    "college": "Ohio State"
+  },
+  {
+    "name": "LT Overton",
+    "pos": "EDGE",
+    "college": "Alabama"
+  },
+  {
+    "name": "Anthony Smith",
+    "pos": "EDGE",
+    "college": "Minnesota"
+  },
+  {
+    "name": "TJ Parker",
+    "pos": "EDGE",
+    "college": "Clemson"
+  },
+  {
+    "name": "Cashius Howell",
+    "pos": "EDGE",
+    "college": "Texas A&M"
+  },
+  {
+    "name": "R Mason Thomas",
+    "pos": "EDGE",
+    "college": "Oklahoma"
+  },
+  {
+    "name": "Joshua Josephs",
+    "pos": "EDGE",
+    "college": "Tennessee"
+  },
+  {
+    "name": "Nadame Tucker",
+    "pos": "EDGE",
+    "college": "Western Michigan"
+  },
+  {
+    "name": "Teitum Tuioti",
+    "pos": "EDGE",
+    "college": "Oregon"
+  },
+  {
+    "name": "Boubacar Traore",
+    "pos": "EDGE",
+    "college": "Notre Dame"
+  },
+  {
+    "name": "Gabe Jacas",
+    "pos": "EDGE",
+    "college": "Illinois"
+  },
+  {
+    "name": "Malachi Lawrence",
+    "pos": "EDGE",
+    "college": "UCF"
+  },
+  {
+    "name": "Keyshawn James-Newby",
+    "pos": "EDGE",
+    "college": "New Mexico"
+  },
+  {
+    "name": "Derrick Moore",
+    "pos": "EDGE",
+    "college": "Michigan"
+  },
+  {
+    "name": "Aidan Hubbard",
+    "pos": "EDGE",
+    "college": "Northwestern"
+  },
+  {
+    "name": "Keylan Rutledge",
+    "pos": "iOL",
+    "college": "Georgia Tech"
+  },
+  {
+    "name": "Emmanuel Pregnon",
+    "pos": "iOL",
+    "college": "Oregon"
+  },
+  {
+    "name": "Jake Slaughter",
+    "pos": "iOL",
+    "college": "Florida"
+  },
+  {
+    "name": "Connor Lew",
+    "pos": "iOL",
+    "college": "Auburn"
+  },
+  {
+    "name": "Matt Gulbin",
+    "pos": "iOL",
+    "college": "Michigan State"
+  },
+  {
+    "name": "Logan Jones",
+    "pos": "iOL",
+    "college": "Iowa"
+  },
+  {
+    "name": "Alex Harkey",
+    "pos": "iOL",
+    "college": "Oregon"
+  },
+  {
+    "name": "Olaivavega Ioane",
+    "pos": "iOL",
+    "college": "Penn State"
+  },
+  {
+    "name": "Cayden Green",
+    "pos": "iOL",
+    "college": "Missouri"
+  },
+  {
+    "name": "Trey Zuhn",
+    "pos": "iOL",
+    "college": "Texas A&M"
+  },
+  {
+    "name": "Chase Bisontis",
+    "pos": "iOL",
+    "college": "Texas A&M"
+  },
+  {
+    "name": "Parker Brailsford",
+    "pos": "iOL",
+    "college": "Alabama"
+  },
+  {
+    "name": "Jalen Farmer",
+    "pos": "iOL",
+    "college": "Kentucky"
+  },
+  {
+    "name": "Pete Nygra",
+    "pos": "iOL",
+    "college": "Louisville"
+  },
+  {
+    "name": "Lander Barton",
+    "pos": "LB",
+    "college": "Utah"
+  },
+  {
+    "name": "Sonny Styles",
+    "pos": "LB",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Arvell Reese",
+    "pos": "LB",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Jacob Rodriguez",
+    "pos": "LB",
+    "college": "Texas Tech"
+  },
+  {
+    "name": "CJ Allen",
+    "pos": "LB",
+    "college": "Georgia"
+  },
+  {
+    "name": "Anthony Hill",
+    "pos": "LB",
+    "college": "Texas"
+  },
+  {
+    "name": "Jake Golday",
+    "pos": "LB",
+    "college": "Cincinnati"
+  },
+  {
+    "name": "Deontae Lawson",
+    "pos": "LB",
+    "college": "Alabama"
+  },
+  {
+    "name": "Kadyn Proctor",
+    "pos": "OT",
+    "college": "Alabama"
+  },
+  {
+    "name": "Isaiah World",
+    "pos": "OT",
+    "college": "Oregon"
+  },
+  {
+    "name": "Earnest Greene",
+    "pos": "OT",
+    "college": "Georgia"
+  },
+  {
+    "name": "Gennings Dunker",
+    "pos": "OT",
+    "college": "Iowa"
+  },
+  {
+    "name": "Francis Mauigoa",
+    "pos": "OT",
+    "college": "Miami"
+  },
+  {
+    "name": "Spencer Fano",
+    "pos": "OT",
+    "college": "Utah"
+  },
+  {
+    "name": "Caleb Lomu",
+    "pos": "OT",
+    "college": "Utah"
+  },
+  {
+    "name": "Caleb Tiernan",
+    "pos": "OT",
+    "college": "Northwestern"
+  },
+  {
+    "name": "Blake Miller",
+    "pos": "OT",
+    "college": "Clemson"
+  },
+  {
+    "name": "Kage Casey",
+    "pos": "OT",
+    "college": "Boise State"
+  },
+  {
+    "name": "Jude Bowry",
+    "pos": "OT",
+    "college": "Boston College"
+  },
+  {
+    "name": "Max Iheanachor",
+    "pos": "OT",
+    "college": "Arizona State"
+  },
+  {
+    "name": "Monroe Freeling",
+    "pos": "OT",
+    "college": "Georgia"
+  },
+  {
+    "name": "Markel Bell",
+    "pos": "OT",
+    "college": "Miami"
+  },
+  {
+    "name": "JC Davis",
+    "pos": "OT",
+    "college": "Illinois"
+  },
+  {
+    "name": "Dametrius Crownover",
+    "pos": "OT",
+    "college": "Texas A&M"
+  },
+  {
+    "name": "Carver Willis",
+    "pos": "OT",
+    "college": "Washington"
+  },
+  {
+    "name": "Travis Burke",
+    "pos": "OT",
+    "college": "Memphis"
+  },
+  {
+    "name": "Diego Pounds",
+    "pos": "OT",
+    "college": "Ole Miss"
+  },
+  {
+    "name": "Fa'alili Fa'amoe",
+    "pos": "OT",
+    "college": "Wake Forest"
+  },
+  {
+    "name": "Cade Klubnik",
+    "pos": "QB",
+    "college": "Clemson"
+  },
+  {
+    "name": "Garrett Nussmeier",
+    "pos": "QB",
+    "college": "LSU"
+  },
+  {
+    "name": "Fernando Mendoza",
+    "pos": "QB",
+    "college": "Indiana"
+  },
+  {
+    "name": "Drew Allar",
+    "pos": "QB",
+    "college": "Penn State"
+  },
+  {
+    "name": "Sawyer Robertson",
+    "pos": "QB",
+    "college": "Baylor"
+  },
+  {
+    "name": "Luke Altmyer",
+    "pos": "QB",
+    "college": "Illinois"
+  },
+  {
+    "name": "Taylen Green",
+    "pos": "QB",
+    "college": "Arkansas"
+  },
+  {
+    "name": "Jalon Daniels",
+    "pos": "QB",
+    "college": "Kansas"
+  },
+  {
+    "name": "Haynes King",
+    "pos": "QB",
+    "college": "Georgia Tech"
+  },
+  {
+    "name": "Diego Pavia",
+    "pos": "QB",
+    "college": "Vanderbilt"
+  },
+  {
+    "name": "Mark Gronowski",
+    "pos": "QB",
+    "college": "Iowa"
+  },
+  {
+    "name": "Joey Aguilar",
+    "pos": "QB",
+    "college": "Tennessee"
+  },
+  {
+    "name": "Carson Beck",
+    "pos": "QB",
+    "college": "Miami"
+  },
+  {
+    "name": "Ty Simpson",
+    "pos": "QB",
+    "college": "Alabama"
+  },
+  {
+    "name": "Joe Fagnano",
+    "pos": "QB",
+    "college": "UConn"
+  },
+  {
+    "name": "Cole Payton",
+    "pos": "QB",
+    "college": "North Dakota Stat"
+  },
+  {
+    "name": "Jeremiyah Love",
+    "pos": "RB",
+    "college": "Notre Dame"
+  },
+  {
+    "name": "Nicholas Singleton",
+    "pos": "RB",
+    "college": "Penn State"
+  },
+  {
+    "name": "Jonah Coleman",
+    "pos": "RB",
+    "college": "Washington"
+  },
+  {
+    "name": "Desmond Reid",
+    "pos": "RB",
+    "college": "Pitt"
+  },
+  {
+    "name": "Roman Hemby",
+    "pos": "RB",
+    "college": "Indiana"
+  },
+  {
+    "name": "Jaydn Ott",
+    "pos": "RB",
+    "college": "Oklahoma"
+  },
+  {
+    "name": "Kaytron Allen",
+    "pos": "RB",
+    "college": "Penn State"
+  },
+  {
+    "name": "Demond Claiborne",
+    "pos": "RB",
+    "college": "Wake Forest"
+  },
+  {
+    "name": "Terion Stewart",
+    "pos": "RB",
+    "college": "Virginia Tech"
+  },
+  {
+    "name": "Jamal Haynes",
+    "pos": "RB",
+    "college": "Georgia Tech"
+  },
+  {
+    "name": "Star Thomas",
+    "pos": "RB",
+    "college": "Tennessee"
+  },
+  {
+    "name": "Jadarian Price",
+    "pos": "RB",
+    "college": "Notre Dame"
+  },
+  {
+    "name": "Robert Henry",
+    "pos": "RB",
+    "college": "UTSA"
+  },
+  {
+    "name": "J'Mari Taylor",
+    "pos": "RB",
+    "college": "Virginia"
+  },
+  {
+    "name": "Ismail Mahdi",
+    "pos": "RB",
+    "college": "Arizona"
+  },
+  {
+    "name": "Seth McGowan",
+    "pos": "RB",
+    "college": "Kentucky"
+  },
+  {
+    "name": "TJ Harden",
+    "pos": "RB",
+    "college": "SMU"
+  },
+  {
+    "name": "Chris Mosley",
+    "pos": "RB",
+    "college": "NC Central"
+  },
+  {
+    "name": "Adam Randall",
+    "pos": "RB",
+    "college": "Clemson"
+  },
+  {
+    "name": "Mike Washington",
+    "pos": "RB",
+    "college": "Arkansas"
+  },
+  {
+    "name": "Emmett Johnson",
+    "pos": "RB",
+    "college": "Nebraska"
+  },
+  {
+    "name": "Dean Connors",
+    "pos": "RB",
+    "college": "Houston"
+  },
+  {
+    "name": "Leveon Moss",
+    "pos": "RB",
+    "college": "Texas A&M"
+  },
+  {
+    "name": "CJ Donaldson",
+    "pos": "RB",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Eli Heidenreich",
+    "pos": "RB",
+    "college": "Navy"
+  },
+  {
+    "name": "Caleb Downs",
+    "pos": "SAF",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Emmanuel McNeil-Warren",
+    "pos": "SAF",
+    "college": "Toledo"
+  },
+  {
+    "name": "AJ Haulcy",
+    "pos": "SAF",
+    "college": "LSU"
+  },
+  {
+    "name": "Bud Clark",
+    "pos": "SAF",
+    "college": "TCU"
+  },
+  {
+    "name": "Dillon Thieneman",
+    "pos": "SAF",
+    "college": "Oregon"
+  },
+  {
+    "name": "Genesis Smith",
+    "pos": "SAF",
+    "college": "Arizona"
+  },
+  {
+    "name": "Kamari Ramsey",
+    "pos": "SAF",
+    "college": "USC"
+  },
+  {
+    "name": "Zakee Wheatley",
+    "pos": "SAF",
+    "college": "Penn State"
+  },
+  {
+    "name": "Jalen Kilgore",
+    "pos": "SAF",
+    "college": "South Carolina"
+  },
+  {
+    "name": "VJ Payne",
+    "pos": "SAF",
+    "college": "Kansas State"
+  },
+  {
+    "name": "Jakobe Thomas",
+    "pos": "SAF",
+    "college": "Miami"
+  },
+  {
+    "name": "Cole Wisnewski",
+    "pos": "SAF",
+    "college": "Texas Tech"
+  },
+  {
+    "name": "Treydan Stukes",
+    "pos": "SAF",
+    "college": "Arizona"
+  },
+  {
+    "name": "RJ Maryland",
+    "pos": "TE",
+    "college": "SMU"
+  },
+  {
+    "name": "Tanner Koziol",
+    "pos": "TE",
+    "college": "Houston"
+  },
+  {
+    "name": "Max Klare",
+    "pos": "TE",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Joe Royer",
+    "pos": "TE",
+    "college": "Cincinnati"
+  },
+  {
+    "name": "Jack Endries",
+    "pos": "TE",
+    "college": "Texas"
+  },
+  {
+    "name": "Jack Velling",
+    "pos": "TE",
+    "college": "Michigan State"
+  },
+  {
+    "name": "John Michael Gyllenborg",
+    "pos": "TE",
+    "college": "Wyoming"
+  },
+  {
+    "name": "Eli Stowers",
+    "pos": "TE",
+    "college": "Vanderbilt"
+  },
+  {
+    "name": "Justin Joly",
+    "pos": "TE",
+    "college": "NC State"
+  },
+  {
+    "name": "Seydou Traore",
+    "pos": "TE",
+    "college": "Mississippi State"
+  },
+  {
+    "name": "DaeQuan Wright",
+    "pos": "TE",
+    "college": "Ole Miss"
+  },
+  {
+    "name": "Michael Trigg",
+    "pos": "TE",
+    "college": "Baylor"
+  },
+  {
+    "name": "Kenyon Sadiq",
+    "pos": "TE",
+    "college": "Oregon"
+  },
+  {
+    "name": "Jaren Kanak",
+    "pos": "TE",
+    "college": "Oklahoma"
+  },
+  {
+    "name": "Eli Raridon",
+    "pos": "TE",
+    "college": "Notre Dame"
+  },
+  {
+    "name": "Jeremiah Franklin",
+    "pos": "TE",
+    "college": "Boston College"
+  },
+  {
+    "name": "Sam Roush",
+    "pos": "TE",
+    "college": "Stanford"
+  },
+  {
+    "name": "Miles Kitselman",
+    "pos": "TE",
+    "college": "Tennessee"
+  },
+  {
+    "name": "Oscar Delp",
+    "pos": "TE",
+    "college": "Georgia"
+  },
+  {
+    "name": "Will Kacmarek",
+    "pos": "TE",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Carsen Ryan",
+    "pos": "TE",
+    "college": "BYU"
+  },
+  {
+    "name": "Marlin Klein",
+    "pos": "TE",
+    "college": "Michigan"
+  },
+  {
+    "name": "Denzel Boston",
+    "pos": "WR",
+    "college": "Washingotn"
+  },
+  {
+    "name": "Jordyn Tyson",
+    "pos": "WR",
+    "college": "Arizona State"
+  },
+  {
+    "name": "Antonio Williams",
+    "pos": "WR",
+    "college": "Clemson"
+  },
+  {
+    "name": "Aaron Anderson",
+    "pos": "WR",
+    "college": "LSU"
+  },
+  {
+    "name": "Carnell Tate",
+    "pos": "WR",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Dane Key",
+    "pos": "WR",
+    "college": "Nebraska"
+  },
+  {
+    "name": "Makai Lemon",
+    "pos": "WR",
+    "college": "USC"
+  },
+  {
+    "name": "Elijah Sarratt",
+    "pos": "WR",
+    "college": "Indiana"
+  },
+  {
+    "name": "Kevin Concepcion",
+    "pos": "WR",
+    "college": "Texas A&M"
+  },
+  {
+    "name": "Zachariah Branch",
+    "pos": "WR",
+    "college": "Georgia"
+  },
+  {
+    "name": "Barion Brown",
+    "pos": "WR",
+    "college": "LSU"
+  },
+  {
+    "name": "Germie Bernard",
+    "pos": "WR",
+    "college": "Alabama"
+  },
+  {
+    "name": "Bryce Lance",
+    "pos": "WR",
+    "college": "North Dakota State"
+  },
+  {
+    "name": "Ted Hurst",
+    "pos": "WR",
+    "college": "Georgia State"
+  },
+  {
+    "name": "Caullin Lacy",
+    "pos": "WR",
+    "college": "Louisville"
+  },
+  {
+    "name": "Omari Kelly",
+    "pos": "WR",
+    "college": "Michigan State"
+  },
+  {
+    "name": "Skyler Bell",
+    "pos": "WR",
+    "college": "UConn"
+  },
+  {
+    "name": "Kevin Coleman Jr",
+    "pos": "WR",
+    "college": "Missouri"
+  },
+  {
+    "name": "Devonte Ross",
+    "pos": "WR",
+    "college": "Penn State"
+  },
+  {
+    "name": "Ja'Kobi Lane",
+    "pos": "WR",
+    "college": "USC"
+  },
+  {
+    "name": "Nic Anderson",
+    "pos": "WR",
+    "college": "LSU"
+  },
+  {
+    "name": "Trebor Pena",
+    "pos": "WR",
+    "college": "Penn State"
+  },
+  {
+    "name": "Eric Rivers",
+    "pos": "WR",
+    "college": "Georgia Tech"
+  },
+  {
+    "name": "Josh Cameron",
+    "pos": "WR",
+    "college": "Baylor"
+  },
+  {
+    "name": "Lewis Bond",
+    "pos": "WR",
+    "college": "Boston College"
+  },
+  {
+    "name": "Chris Brazzell",
+    "pos": "WR",
+    "college": "Tennessee"
+  },
+  {
+    "name": "Treyvhon Saunders",
+    "pos": "WR",
+    "college": "Colgate"
+  },
+  {
+    "name": "Hank Beatty",
+    "pos": "WR",
+    "college": "Illinois"
+  },
+  {
+    "name": "CJ Williams",
+    "pos": "WR",
+    "college": "Stanford"
+  },
+  {
+    "name": "Deion Burks",
+    "pos": "WR",
+    "college": "Oklahoma"
+  },
+  {
+    "name": "Chris Bell",
+    "pos": "WR",
+    "college": "Louisville"
+  },
+  {
+    "name": "Omar Cooper",
+    "pos": "WR",
+    "college": "Indiana"
+  },
+  {
+    "name": "Eric McAlister",
+    "pos": "WR",
+    "college": "TCU"
+  },
+  {
+    "name": "Romello Brinson",
+    "pos": "WR",
+    "college": "SMU"
+  },
+  {
+    "name": "Kaden Wetjen",
+    "pos": "WR",
+    "college": "Iowa"
+  },
+  {
+    "name": "Gabriel Benyard",
+    "pos": "WR",
+    "college": "Kennesaw State"
+  },
+  {
+    "name": "Jordan Hudson",
+    "pos": "WR",
+    "college": "SMU"
+  },
+  {
+    "name": "Caleb Douglas",
+    "pos": "WR",
+    "college": "Texas Tech"
+  },
+  {
+    "name": "Malachi Fields",
+    "pos": "WR",
+    "college": "Notre Dame"
+  },
+  {
+    "name": "Brenen Thompson",
+    "pos": "WR",
+    "college": "Mississippi State"
+  }
 ]

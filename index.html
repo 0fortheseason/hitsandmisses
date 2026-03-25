@@ -587,7 +587,7 @@
     }
   }
 
-  function makeInput(initialValue, onNameChange, onPosChange, inputId) {
+  function makeInput(initialValue, onNameChange, onPosChange, onSelect) {
     const wrap = document.createElement('div');
     wrap.className = 'ac-wrap';
 
@@ -611,9 +611,12 @@
       if (!matches.length) { dropdown.style.display = 'none'; return; }
       activeIdx = -1;
       dropdown.innerHTML = matches.map((p, i) =>
-        `<div class="ac-item" data-name="${p.name}" data-pos="${p.pos}" data-idx="${i}">
+        `<div class="ac-item" data-name="${p.name}" data-pos="${p.pos}" data-college="${p.college||''}" data-idx="${i}">
           <span class="ac-item-name">${p.name}</span>
-          <span class="ac-item-pos">${p.pos}</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            ${p.college ? `<span style="font-size:11px;color:var(--gray-400)">${p.college}</span>` : ''}
+            <span class="ac-item-pos">${p.pos}</span>
+          </div>
         </div>`
       ).join('');
       dropdown.style.display = 'block';
@@ -621,15 +624,16 @@
       dropdown.querySelectorAll('.ac-item').forEach(el => {
         el.addEventListener('mousedown', e => {
           e.preventDefault();
-          selectItem(el.dataset.name, el.dataset.pos);
+          selectItem(el.dataset.name, el.dataset.pos, el.dataset.college);
         });
       });
     }
 
-    function selectItem(name, pos) {
+    function selectItem(name, pos, college) {
       input.value = name;
       onNameChange(name);
       onPosChange(pos);
+      if (onSelect) onSelect(name, pos, college || '');
       dropdown.style.display = 'none';
     }
 
@@ -653,7 +657,7 @@
         activeIdx = Math.max(activeIdx - 1, -1);
         updateActive(); e.preventDefault();
       } else if (e.key === 'Enter' && activeIdx >= 0 && items[activeIdx]) {
-        selectItem(items[activeIdx].dataset.name, items[activeIdx].dataset.pos);
+        selectItem(items[activeIdx].dataset.name, items[activeIdx].dataset.pos, items[activeIdx].dataset.college);
         e.preventDefault();
       } else if (e.key === 'Escape') {
         dropdown.style.display = 'none';
@@ -836,7 +840,7 @@
               ${p.team ? `<div class="card-team">${p.team}</div>` : ''}
             </div>
           </div>
-          <div class="card-meta">${p.pos} · ${slotStr}</div>
+          <div class="card-meta">${p.pos} · ${slotStr}${p.college ? ` · ${p.college}` : ''}</div>
           <div class="card-footer">
             <span class="badge badge-${cls}">${cls==='hit'?'Hit':'Miss'}</span>
             <span class="hit-rate">${hr}% historical rate</span>
@@ -903,7 +907,8 @@
       const tdName = document.createElement('td');
       const { wrap } = makeInput(p.name,
         val => { const mp = mockPicks.find(m => m.pick === p.pick); if(mp) mp.name = val; },
-        pos => { const mp = mockPicks.find(m => m.pick === p.pick); if(mp) { mp.pos = pos; renderMockTable(); } }
+        pos => { const mp = mockPicks.find(m => m.pick === p.pick); if(mp) { mp.pos = pos; renderMockTable(); } },
+        (name, pos, college) => { const mp = mockPicks.find(m => m.pick === p.pick); if(mp) mp.college = college; }
       );
       tdName.appendChild(wrap);
 
@@ -939,6 +944,7 @@
       name: p.name,
       team: p.team,
       pos: p.pos,
+      college: p.college || '',
       slotKey: pickToSlotKey(p.pick),
       pickNum: p.pick,
       result: p.result,
@@ -984,7 +990,8 @@
 
       const { wrap } = makeInput(p.name,
         val => diyPicks[i].name = val,
-        pos => { diyPicks[i].pos = pos; renderDIYInputs(); }
+        pos => { diyPicks[i].pos = pos; renderDIYInputs(); },
+        (name, pos, college) => { diyPicks[i].college = college; }
       );
 
       const posSelect = document.createElement('select');
@@ -1035,6 +1042,7 @@
       name: p.name,
       team: p.team,
       pos: p.pos,
+      college: p.college || '',
       slotKey: p.slot,
       pickNum: null,
       result: p.result,
