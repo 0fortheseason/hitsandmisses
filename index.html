@@ -451,6 +451,56 @@
       to   { transform: scale(1) translateY(0); opacity: 1; }
     }
 
+    /* ── Mock selector ── */
+    .mock-selector-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .mock-selector-bar label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+    .mock-selector-bar select {
+      font-size: 14px;
+      flex: 1;
+      min-width: 200px;
+    }
+    .mock-selector-bar .btn {
+      white-space: nowrap;
+      font-size: 13px;
+      padding: 7px 14px;
+    }
+    .mock-import-panel {
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .mock-import-panel textarea {
+      font-family: var(--font-mono, monospace);
+      font-size: 12px;
+      width: 100%;
+      height: 140px;
+      resize: vertical;
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      padding: 8px 10px;
+      background: #fff;
+      color: var(--gray-900);
+      outline: none;
+      margin: 8px 0;
+    }
+    .mock-import-panel textarea:focus { border-color: var(--gray-600); }
+    .import-hint { font-size: 12px; color: var(--gray-400); line-height: 1.5; margin-bottom: 6px; }
+
     /* ── Responsive ── */
     @media (max-width: 620px) {
       .col-header { display: none; }
@@ -523,6 +573,24 @@
 
   <!-- ── TAB 1: First Round Mock ── -->
   <div id="tab-mock" class="tab-panel active">
+    <div class="mock-selector-bar">
+      <label>Load mock</label>
+      <select id="mock-select">
+        <option value="">— Select an analyst mock —</option>
+      </select>
+      <button class="btn" onclick="loadSelectedMock()">Load ↓</button>
+      <button class="btn" onclick="toggleImportPanel()">Paste mock…</button>
+    </div>
+    <div id="mock-import-panel" class="mock-import-panel" style="display:none">
+      <p class="import-hint">Paste any mock draft text below — one pick per line or unstructured prose. Claude will parse it into picks automatically.</p>
+      <textarea id="mock-paste-input" placeholder="Paste mock draft text here…"></textarea>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input type="text" id="mock-analyst-name" placeholder="Analyst name (e.g. Daniel Jeremiah)" style="flex:1;min-width:180px;font-size:13px" />
+        <button class="btn btn-primary" onclick="parsePastedMock()">Parse & load ↓</button>
+        <button class="btn" onclick="toggleImportPanel()">Cancel</button>
+      </div>
+      <p id="parse-status" style="font-size:12px;color:var(--gray-400);margin-top:8px"></p>
+    </div>
     <div class="input-panel">
       <table class="mock-table">
         <thead>
@@ -538,7 +606,7 @@
         <tbody id="mock-tbody"></tbody>
       </table>
       <div class="actions-row" style="margin-top:1.25rem">
-        <button class="btn btn-primary" onclick="simulateMock()">Flip coins ↻</button>
+        <button class="btn btn-primary" onclick="simulateMock()">Run simulation ↻</button>
         <button class="btn" onclick="resetMock()">Reset</button>
       </div>
     </div>
@@ -556,7 +624,7 @@
       </div>
       <div id="diy-picks-list"></div>
       <div class="actions-row" style="margin-top:1rem">
-        <button class="btn btn-primary" onclick="simulateDIY()">Flip coins ↻</button>
+        <button class="btn btn-primary" onclick="simulateDIY()">Run simulation ↻</button>
         <button class="btn" onclick="addDIYPick()">+ Add pick</button>
         <button class="btn" onclick="resetDIY()">Reset</button>
       </div>
@@ -573,6 +641,107 @@
 </div>
 
 <script>
+
+  // ── Mocks ────────────────────────────────────────────────────────
+
+  let MOCKS = [];
+
+  async function loadMocks() {
+    try {
+      const res = await fetch('mocks.json');
+      MOCKS = await res.json();
+      const sel = document.getElementById('mock-select');
+      MOCKS.forEach((m, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = m.label;
+        sel.appendChild(opt);
+      });
+    } catch(e) {
+      console.warn('Could not load mocks.json');
+    }
+  }
+
+  function loadSelectedMock() {
+    const sel = document.getElementById('mock-select');
+    const idx = sel.value;
+    if (idx === '') return;
+    const mock = MOCKS[parseInt(idx)];
+    if (!mock) return;
+    applyMockToPicks(mock.picks);
+    renderMockTable();
+    clearResults();
+  }
+
+  function applyMockToPicks(picks) {
+    mockPicks = ROUND1_ORDER.map(r => {
+      const p = picks.find(p => p.pick === r.pick);
+      return {
+        pick: r.pick,
+        team: p ? p.team : r.team,
+        name: p ? p.name : '',
+        pos: p ? p.pos : 'WR',
+        college: p ? (p.college || '') : '',
+        result: null,
+      };
+    });
+  }
+
+  function toggleImportPanel() {
+    const panel = document.getElementById('mock-import-panel');
+    const visible = panel.style.display !== 'none';
+    panel.style.display = visible ? 'none' : 'block';
+    if (!visible) document.getElementById('mock-paste-input').focus();
+  }
+
+  async function parsePastedMock() {
+    const text = document.getElementById('mock-paste-input').value.trim();
+    const analystName = document.getElementById('mock-analyst-name').value.trim() || 'Custom mock';
+    const statusEl = document.getElementById('parse-status');
+    if (!text) { statusEl.textContent = 'Please paste some mock draft text first.'; return; }
+
+    statusEl.textContent = 'Parsing…';
+
+    const systemPrompt = `You are a parser that extracts NFL mock draft picks from text. Return ONLY a valid JSON array with no markdown, no explanation, no code fences. Each object must have: pick (integer 1-32), team (NFL abbreviation, use: ARI ATL BAL BUF CAR CHI CIN CLE DAL DEN DET GB HOU IND JAX KC LAC LAR LV MIA MIN NE NO NYG NYJ PHI PIT SEA SF TB TEN WSH), name (player full name string), pos (one of: QB RB WR TE OT iOL EDGE DL LB CB SAF). If pick order or team is unclear infer from context. Always return all 32 picks if possible. Return only the JSON array.`;
+
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 2000,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: text }]
+        })
+      });
+      const data = await resp.json();
+      const raw = data.content.map(c => c.text || '').join('');
+      const clean = raw.replace(/```json|```/g, '').trim();
+      const picks = JSON.parse(clean);
+
+      if (!Array.isArray(picks) || picks.length === 0) throw new Error('No picks parsed');
+
+      applyMockToPicks(picks);
+      renderMockTable();
+      clearResults();
+
+      const today = new Date().toISOString().slice(0,10);
+      const newMock = { analyst: analystName, source: 'imported', published: today, label: `${analystName} — Imported`, picks };
+      MOCKS.push(newMock);
+      const sel = document.getElementById('mock-select');
+      const opt = document.createElement('option');
+      opt.value = MOCKS.length - 1;
+      opt.textContent = newMock.label;
+      sel.appendChild(opt);
+      sel.value = MOCKS.length - 1;
+
+      statusEl.textContent = `Parsed ${picks.length} picks successfully.`;
+      document.getElementById('mock-import-panel').style.display = 'none';
+    } catch(e) {
+      statusEl.textContent = 'Parse failed — try again or check the pasted text. ' + e.message;
+    }
+  }
 
   // ── Prospects ─────────────────────────────────────────────────────
 
@@ -1055,7 +1224,7 @@
   }
 
   // ── Init ──────────────────────────────────────────────────────────
-  loadProspects().then(() => {
+  Promise.all([loadMocks(), loadProspects()]).then(() => {
     renderMockTable();
     renderDIYInputs();
   });
