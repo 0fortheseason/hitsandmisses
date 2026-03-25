@@ -568,7 +568,7 @@
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('mock')">2026 First Round Mock</button>
-    <button class="tab-btn" onclick="switchTab('diy')">Build Your Own</button>
+    <button class="tab-btn" onclick="switchTab('diy')">Simulate Specific Players</button>
   </div>
 
   <!-- ── TAB 1: First Round Mock ── -->
@@ -1120,7 +1120,15 @@
   }
 
   function resetMock() {
-    mockPicks = mockPicks.map(p => ({ ...p, result: null }));
+    mockPicks = ROUND1_ORDER.map(r => ({
+      pick: r.pick,
+      team: r.team,
+      name: '',
+      pos: 'WR',
+      college: '',
+      result: null,
+    }));
+    document.getElementById('mock-select').value = '';
     renderMockTable();
     clearResults();
   }
