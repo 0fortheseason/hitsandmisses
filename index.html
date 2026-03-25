@@ -439,6 +439,19 @@
     .hit-rate { font-size: 12px; color: var(--gray-400); }
 
     /* ── Footer note ── */
+    /* ── Duplicate warning ── */
+    .dupe-warning {
+      background: #FAEEDA;
+      border: 1px solid #BA7517;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 13px;
+      color: #633806;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .dupe-warning strong { font-weight: 500; }
+
     .footnote {
       font-size: 12px;
       color: var(--gray-400);
@@ -592,6 +605,7 @@
       <p id="parse-status" style="font-size:12px;color:var(--gray-400);margin-top:8px"></p>
     </div>
     <div class="input-panel">
+      <div id="mock-dupe-warning" class="dupe-warning"></div>
       <table class="mock-table">
         <thead>
           <tr>
@@ -615,6 +629,7 @@
   <!-- ── TAB 2: DIY ── -->
   <div id="tab-diy" class="tab-panel">
     <div class="input-panel">
+      <div id="diy-dupe-warning" class="dupe-warning"></div>
       <div class="col-header">
         <div class="col-head">Player name</div>
         <div class="col-head">Position</div>
@@ -1102,7 +1117,34 @@
     });
   }
 
+  function getDuplicates(picks) {
+    const named = picks.filter(p => p.name && p.name.trim() !== '');
+    const counts = {};
+    named.forEach(p => {
+      const key = p.name.trim().toLowerCase();
+      counts[key] = (counts[key] || []);
+      counts[key].push(p.name.trim());
+    });
+    return Object.values(counts).filter(arr => arr.length > 1).map(arr => arr[0]);
+  }
+
+  function showDupeWarning(warningId, dupes) {
+    const el = document.getElementById(warningId);
+    if (!el) return;
+    if (dupes.length === 0) {
+      el.style.display = 'none';
+      el.innerHTML = '';
+    } else {
+      const names = dupes.map(n => `<strong>${n}</strong>`).join(', ');
+      el.innerHTML = `Duplicate player${dupes.length > 1 ? 's' : ''} detected: ${names}. Each player should appear only once.`;
+      el.style.display = 'block';
+    }
+  }
+
   function simulateMock() {
+    const mockDupes = getDuplicates(mockPicks);
+    showDupeWarning('mock-dupe-warning', mockDupes);
+    if (mockDupes.length > 0) return;
     mockPicks = mockPicks.map(p => ({
       ...p,
       result: Math.random() < getHitRate(p.pos, pickToSlotKey(p.pick))
@@ -1120,6 +1162,7 @@
   }
 
   function resetMock() {
+    showDupeWarning('mock-dupe-warning', []);
     mockPicks = ROUND1_ORDER.map(r => ({
       pick: r.pick,
       team: r.team,
@@ -1209,6 +1252,9 @@
   }
 
   function simulateDIY() {
+    const diyDupes = getDuplicates(diyPicks);
+    showDupeWarning('diy-dupe-warning', diyDupes);
+    if (diyDupes.length > 0) return;
     diyPicks = diyPicks.map(p => ({
       ...p,
       result: Math.random() < getHitRate(p.pos, p.slot)
