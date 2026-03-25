@@ -241,6 +241,18 @@
     }
 
     /* ── DIY input table ── */
+    .input-row-numbered {
+      grid-template-columns: 28px 1fr 88px 148px 100px 32px !important;
+    }
+    .pick-row-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gray-400);
+      text-align: center;
+      line-height: 36px;
+    }
+
     .col-header {
       display: grid;
       grid-template-columns: 1fr 88px 148px 100px 32px;
@@ -519,9 +531,48 @@
     .mock-import-panel textarea:focus { border-color: var(--gray-600); }
     .import-hint { font-size: 12px; color: var(--gray-400); line-height: 1.5; margin-bottom: 6px; }
 
+    /* ── Class selector ── */
+    .class-selector-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .class-selector-bar label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+    .class-selector-bar select {
+      font-size: 14px;
+      flex: 1;
+      min-width: 180px;
+    }
+    .class-selector-bar .btn {
+      font-size: 13px;
+      padding: 7px 14px;
+      white-space: nowrap;
+    }
+
     /* ── Responsive ── */
     @media (max-width: 620px) {
-      .col-header { display: none; }
+      .input-row-numbered {
+      grid-template-columns: 28px 1fr 88px 148px 100px 32px !important;
+    }
+    .pick-row-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gray-400);
+      text-align: center;
+      line-height: 36px;
+    }
+
+    .col-header { display: none; }
       .input-row {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto;
@@ -633,6 +684,13 @@
 
   <!-- ── TAB 2: DIY ── -->
   <div id="tab-diy" class="tab-panel">
+    <div class="class-selector-bar">
+      <label>Load team</label>
+      <select id="class-select">
+        <option value="">— All picks (no team filter) —</option>
+      </select>
+      <button class="btn" onclick="clearTeamClass()">Clear</button>
+    </div>
     <div class="input-panel">
       <div id="diy-dupe-warning" class="dupe-warning"></div>
       <div class="col-header">
@@ -661,6 +719,67 @@
 </div>
 
 <script>
+
+  // ── Classes ──────────────────────────────────────────────────────
+
+  let CLASSES = [];
+  let selectedTeam = '';
+
+  async function loadClasses() {
+    try {
+      const res = await fetch('classes.json');
+      CLASSES = await res.json();
+      const sel = document.getElementById('class-select');
+      CLASSES.forEach((c, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = `${c.label} (${c.picks.length} picks)`;
+        sel.appendChild(opt);
+      });
+      sel.onchange = () => {
+        const idx = sel.value;
+        if (idx === '') { clearTeamClass(); return; }
+        loadTeamClass(parseInt(idx));
+      };
+    } catch(e) {
+      console.warn('Could not load classes.json');
+    }
+  }
+
+  function loadTeamClass(idx) {
+    const cls = CLASSES[idx];
+    if (!cls) return;
+    selectedTeam = cls.team;
+    diyPicks = cls.picks.map((p, i) => ({
+      id: i + 1,
+      name: '',
+      pos: 'WR',
+      slot: p.slot,
+      team: p.team,
+      college: '',
+      result: null,
+      _pickNum: p.pick,
+      _round: p.round,
+    }));
+    nextDIYId = diyPicks.length + 1;
+    showDupeWarning('diy-dupe-warning', []);
+    renderDIYInputs();
+    clearResults();
+  }
+
+  function clearTeamClass() {
+    selectedTeam = '';
+    document.getElementById('class-select').value = '';
+    diyPicks = [
+      {id:1,name:'',pos:'QB',slot:'r1_top2',team:'LV',college:'',result:null},
+      {id:2,name:'',pos:'WR',slot:'r1_top2',team:'NYJ',college:'',result:null},
+      {id:3,name:'',pos:'EDGE',slot:'r1_top10',team:'ARI',college:'',result:null},
+    ];
+    nextDIYId = 4;
+    showDupeWarning('diy-dupe-warning', []);
+    renderDIYInputs();
+    clearResults();
+  }
 
   // ── Mocks ────────────────────────────────────────────────────────
 
@@ -1222,7 +1341,13 @@
     container.innerHTML = '';
     diyPicks.forEach((p, i) => {
       const row = document.createElement('div');
-      row.className = 'input-row';
+      row.className = p._pickNum ? 'input-row input-row-numbered' : 'input-row';
+      if (p._pickNum) {
+        const numLabel = document.createElement('div');
+        numLabel.className = 'pick-row-num';
+        numLabel.textContent = p._pickNum;
+        row.appendChild(numLabel);
+      }
 
       const { wrap } = makeInput(p.name,
         val => diyPicks[i].name = val,
@@ -1258,7 +1383,15 @@
   }
 
   function addDIYPick() {
-    diyPicks.push({id:nextDIYId++,name:'',pos:'WR',slot:'r1_top10',team:'',result:null});
+    diyPicks.push({
+      id: nextDIYId++,
+      name: '',
+      pos: 'WR',
+      slot: 'r2',
+      team: selectedTeam || '',
+      college: '',
+      result: null,
+    });
     renderDIYInputs();
   }
 
@@ -1283,7 +1416,7 @@
       pos: p.pos,
       college: p.college || '',
       slotKey: p.slot,
-      pickNum: null,
+      pickNum: p._pickNum || null,
       result: p.result,
     })));
   }
@@ -1295,7 +1428,7 @@
   }
 
   // ── Init ──────────────────────────────────────────────────────────
-  Promise.all([loadMocks(), loadProspects()]).then(() => {
+  Promise.all([loadMocks(), loadClasses(), loadProspects()]).then(() => {
     renderMockTable();
     renderDIYInputs();
   });
