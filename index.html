@@ -372,19 +372,44 @@
       background: #fff;
       border: 1px solid var(--gray-200);
       border-radius: var(--radius);
-      padding: 16px 18px;
+      padding: 0;
+      overflow: hidden;
       animation: popIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .pick-card.hit  { border-left: 4px solid var(--green-mid); }
-    .pick-card.miss { border-left: 4px solid var(--red-mid);   }
+    .pick-card.hit  {
+      border-color: var(--green-mid);
+      border-top: 5px solid var(--green-mid);
+    }
+    .pick-card.miss {
+      border-color: var(--red-mid);
+      border-top: 5px solid var(--red-mid);
+    }
+
+    .card-inner { padding: 14px 16px 16px; }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .card-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .card-header-text { flex: 1; min-width: 0; }
 
     .card-name {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 18px;
       font-weight: 700;
       color: var(--gray-900);
-      margin-bottom: 2px;
+      margin-bottom: 1px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -397,13 +422,12 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 4px;
     }
 
     .card-meta {
       font-size: 13px;
       color: var(--gray-400);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .card-footer {
@@ -647,6 +671,42 @@
 
   // ── Data ──────────────────────────────────────────────────────────
 
+  const TEAM_LOGOS = {
+    ARI: 'https://a.espncdn.com/i/teamlogos/nfl/500/ari.png',
+    ATL: 'https://a.espncdn.com/i/teamlogos/nfl/500/atl.png',
+    BAL: 'https://a.espncdn.com/i/teamlogos/nfl/500/bal.png',
+    BUF: 'https://a.espncdn.com/i/teamlogos/nfl/500/buf.png',
+    CAR: 'https://a.espncdn.com/i/teamlogos/nfl/500/car.png',
+    CHI: 'https://a.espncdn.com/i/teamlogos/nfl/500/chi.png',
+    CIN: 'https://a.espncdn.com/i/teamlogos/nfl/500/cin.png',
+    CLE: 'https://a.espncdn.com/i/teamlogos/nfl/500/cle.png',
+    DAL: 'https://a.espncdn.com/i/teamlogos/nfl/500/dal.png',
+    DEN: 'https://a.espncdn.com/i/teamlogos/nfl/500/den.png',
+    DET: 'https://a.espncdn.com/i/teamlogos/nfl/500/det.png',
+    GB:  'https://a.espncdn.com/i/teamlogos/nfl/500/gb.png',
+    HOU: 'https://a.espncdn.com/i/teamlogos/nfl/500/hou.png',
+    IND: 'https://a.espncdn.com/i/teamlogos/nfl/500/ind.png',
+    JAX: 'https://a.espncdn.com/i/teamlogos/nfl/500/jax.png',
+    KC:  'https://a.espncdn.com/i/teamlogos/nfl/500/kc.png',
+    LAC: 'https://a.espncdn.com/i/teamlogos/nfl/500/lac.png',
+    LAR: 'https://a.espncdn.com/i/teamlogos/nfl/500/lar.png',
+    LV:  'https://a.espncdn.com/i/teamlogos/nfl/500/lv.png',
+    MIA: 'https://a.espncdn.com/i/teamlogos/nfl/500/mia.png',
+    MIN: 'https://a.espncdn.com/i/teamlogos/nfl/500/min.png',
+    NE:  'https://a.espncdn.com/i/teamlogos/nfl/500/ne.png',
+    NO:  'https://a.espncdn.com/i/teamlogos/nfl/500/no.png',
+    NYG: 'https://a.espncdn.com/i/teamlogos/nfl/500/nyg.png',
+    NYJ: 'https://a.espncdn.com/i/teamlogos/nfl/500/nyj.png',
+    PHI: 'https://a.espncdn.com/i/teamlogos/nfl/500/phi.png',
+    PIT: 'https://a.espncdn.com/i/teamlogos/nfl/500/pit.png',
+    SEA: 'https://a.espncdn.com/i/teamlogos/nfl/500/sea.png',
+    SF:  'https://a.espncdn.com/i/teamlogos/nfl/500/sf.png',
+    TB:  'https://a.espncdn.com/i/teamlogos/nfl/500/tb.png',
+    TEN: 'https://a.espncdn.com/i/teamlogos/nfl/500/ten.png',
+    WSH: 'https://a.espncdn.com/i/teamlogos/nfl/500/wsh.png',
+  };
+  // ── Data ──────────────────────────────────────────────────────────
+
   const ROUND1_ORDER = [
     { pick:1,  team:'LV'  },
     { pick:2,  team:'NYJ' },
@@ -763,15 +823,24 @@
       const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
       const cls = p.result ? 'hit' : 'miss';
       const slotStr = p.pickNum ? `Pick ${p.pickNum}` : slotLabel(p.slotKey);
+      const logoUrl = p.team && TEAM_LOGOS[p.team] ? TEAM_LOGOS[p.team] : null;
+      const logoHTML = logoUrl
+        ? `<img src="${logoUrl}" alt="${p.team}" class="card-logo" onerror="this.style.display='none'" />`
+        : '';
       return `
         <div class="pick-card ${cls}">
-          <div class="card-name">${p.name || '—'}</div>
-          ${p.team ? `<div class="card-team">${p.team}</div>` : ''}
+          <div class="card-inner"><div class="card-header-row">
+            ${logoHTML}
+            <div class="card-header-text">
+              <div class="card-name">${p.name || '—'}</div>
+              ${p.team ? `<div class="card-team">${p.team}</div>` : ''}
+            </div>
+          </div>
           <div class="card-meta">${p.pos} · ${slotStr}</div>
           <div class="card-footer">
             <span class="badge badge-${cls}">${cls==='hit'?'Hit':'Miss'}</span>
             <span class="hit-rate">${hr}% historical rate</span>
-          </div>
+          </div></div>
         </div>`;
     }).join('');
   }
@@ -819,8 +888,17 @@
       tdPick.textContent = p.pick;
 
       const tdTeam = document.createElement('td');
-      tdTeam.className = 'team-cell';
-      tdTeam.textContent = p.team;
+      tdTeam.style.cssText = 'width:60px;padding-right:4px;';
+      const teamSel = document.createElement('select');
+      teamSel.style.cssText = 'font-size:12px;padding:4px 22px 4px 6px;background-color:var(--gray-100);';
+      teamSel.innerHTML = TEAMS.map(t =>
+        `<option value="${t}"${t===p.team?' selected':''}>${t}</option>`
+      ).join('');
+      teamSel.onchange = () => {
+        const mp = mockPicks.find(m => m.pick === p.pick);
+        if (mp) mp.team = teamSel.value;
+      };
+      tdTeam.appendChild(teamSel);
 
       const tdName = document.createElement('td');
       const { wrap } = makeInput(p.name,
