@@ -686,7 +686,7 @@
   },
   {
     "name": "Treydan Stukes",
-    "pos": "SAF",
+    "pos": "CB",
     "college": "Arizona"
   },
   {
@@ -998,5 +998,125 @@
     "name": "Brenen Thompson",
     "pos": "WR",
     "college": "Mississippi State"
+  },
+  {
+    "name": "Mansoor Delane",
+    "pos": "CB",
+    "college": "LSU"
+  },
+  {
+    "name": "Jermod McCoy",
+    "pos": "CB",
+    "college": "Tennessee"
+  },
+  {
+    "name": "Colton Hood",
+    "pos": "CB",
+    "college": "Tennessee"
+  },
+  {
+    "name": "Avieon Terrell",
+    "pos": "CB",
+    "college": "Clemson"
+  },
+  {
+    "name": "Chris Johnson",
+    "pos": "CB",
+    "college": "San Diego State"
+  },
+  {
+    "name": "Keith Abney",
+    "pos": "CB",
+    "college": "Arizona State"
+  },
+  {
+    "name": "Keionte Scott",
+    "pos": "CB",
+    "college": "Miami"
+  },
+  {
+    "name": "Julian Neal",
+    "pos": "CB",
+    "college": "Arkansas"
+  },
+  {
+    "name": "Brandon Cisse",
+    "pos": "CB",
+    "college": "South Carolina"
+  },
+  {
+    "name": "D'Angelo Ponds",
+    "pos": "CB",
+    "college": "Indiana"
+  },
+  {
+    "name": "Chandler Rivers",
+    "pos": "CB",
+    "college": "Duke"
+  },
+  {
+    "name": "Will Lee",
+    "pos": "CB",
+    "college": "Texas A&M"
+  },
+  {
+    "name": "Malik Muhammad",
+    "pos": "CB",
+    "college": "Texas"
+  },
+  {
+    "name": "Davison Igbinosun",
+    "pos": "CB",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Brent Austin",
+    "pos": "CB",
+    "college": "Cal"
+  },
+  {
+    "name": "Daylen Everette",
+    "pos": "CB",
+    "college": "Georgia"
+  },
+  {
+    "name": "Devon Marshall",
+    "pos": "CB",
+    "college": "NC State"
+  },
+  {
+    "name": "Ephesians Prysock",
+    "pos": "CB",
+    "college": "Washington"
+  },
+  {
+    "name": "Tacario Davis",
+    "pos": "CB",
+    "college": "Washington"
+  },
+  {
+    "name": "DeVonta Smith",
+    "pos": "CB",
+    "college": "Notre Dame"
+  },
+  {
+    "name": "Lorenzo Styles",
+    "pos": "CB",
+    "college": "Ohio State"
+  },
+  {
+    "name": "Toriano Pride",
+    "pos": "CB",
+    "college": "Missouri"
+  },
+  {
+    "name": "Charles Demmings",
+    "pos": "CB",
+    "college": "Stephen F Austin"
+  },
+  {
+    "name": "Andre Fuller",
+    "pos": "CB",
+    "college": "Toledo"
   }
 ]
