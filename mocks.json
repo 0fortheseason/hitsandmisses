@@ -598,5 +598,205 @@
         "pos": "RB"
       }
     ]
+  },
+  {
+    "analyst": "Nate Tice",
+    "source": "Yahoo Sports",
+    "published": "2026-03-18",
+    "label": "Nate Tice & Charles McDonald \u2014 Mock Draft 7.0 (Mar 18)",
+    "picks": [
+      {
+        "pick": 1,
+        "team": "LV",
+        "name": "Fernando Mendoza",
+        "pos": "QB"
+      },
+      {
+        "pick": 2,
+        "team": "NYJ",
+        "name": "Arvell Reese",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 3,
+        "team": "ARI",
+        "name": "Sonny Styles",
+        "pos": "LB"
+      },
+      {
+        "pick": 4,
+        "team": "TEN",
+        "name": "David Bailey",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 5,
+        "team": "NYG",
+        "name": "Jeremiyah Love",
+        "pos": "RB"
+      },
+      {
+        "pick": 6,
+        "team": "CLE",
+        "name": "Monroe Freeling",
+        "pos": "OT"
+      },
+      {
+        "pick": 7,
+        "team": "WSH",
+        "name": "Caleb Downs",
+        "pos": "SAF"
+      },
+      {
+        "pick": 8,
+        "team": "NO",
+        "name": "Mansoor Delane",
+        "pos": "CB"
+      },
+      {
+        "pick": 9,
+        "team": "KC",
+        "name": "Rueben Bain Jr.",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 10,
+        "team": "CIN",
+        "name": "Jermod McCoy",
+        "pos": "CB"
+      },
+      {
+        "pick": 11,
+        "team": "MIA",
+        "name": "Francis Mauigoa",
+        "pos": "OL"
+      },
+      {
+        "pick": 12,
+        "team": "DAL",
+        "name": "Keldric Faulk",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 13,
+        "team": "LAR",
+        "name": "Caleb Lomu",
+        "pos": "OT"
+      },
+      {
+        "pick": 14,
+        "team": "BAL",
+        "name": "Carnell Tate",
+        "pos": "WR"
+      },
+      {
+        "pick": 15,
+        "team": "TB",
+        "name": "Avieon Terrell",
+        "pos": "CB"
+      },
+      {
+        "pick": 16,
+        "team": "NYJ",
+        "name": "Vega Ioane",
+        "pos": "iOL"
+      },
+      {
+        "pick": 17,
+        "team": "DET",
+        "name": "Akheem Mesidor",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 18,
+        "team": "MIN",
+        "name": "Kayden McDonald",
+        "pos": "DT"
+      },
+      {
+        "pick": 19,
+        "team": "CAR",
+        "name": "Caleb Banks",
+        "pos": "DT"
+      },
+      {
+        "pick": 20,
+        "team": "DAL",
+        "name": "Anthony Hill Jr.",
+        "pos": "LB"
+      },
+      {
+        "pick": 21,
+        "team": "PIT",
+        "name": "Jordyn Tyson",
+        "pos": "WR"
+      },
+      {
+        "pick": 22,
+        "team": "LAC",
+        "name": "Spencer Fano",
+        "pos": "iOL"
+      },
+      {
+        "pick": 23,
+        "team": "PHI",
+        "name": "Kenyon Sadiq",
+        "pos": "TE"
+      },
+      {
+        "pick": 24,
+        "team": "CLE",
+        "name": "Denzel Boston",
+        "pos": "WR"
+      },
+      {
+        "pick": 25,
+        "team": "CHI",
+        "name": "Peter Woods",
+        "pos": "DT"
+      },
+      {
+        "pick": 26,
+        "team": "BUF",
+        "name": "Emmanuel McNeil-Warren",
+        "pos": "SAF"
+      },
+      {
+        "pick": 27,
+        "team": "SF",
+        "name": "Max Iheanachor",
+        "pos": "OT"
+      },
+      {
+        "pick": 28,
+        "team": "HOU",
+        "name": "Kadyn Proctor",
+        "pos": "OT"
+      },
+      {
+        "pick": 29,
+        "team": "KC",
+        "name": "Colton Hood",
+        "pos": "CB"
+      },
+      {
+        "pick": 30,
+        "team": "MIA",
+        "name": "KC Concepcion",
+        "pos": "WR"
+      },
+      {
+        "pick": 31,
+        "team": "NE",
+        "name": "Blake Miller",
+        "pos": "OT"
+      },
+      {
+        "pick": 32,
+        "team": "SEA",
+        "name": "Dillon Thieneman",
+        "pos": "SAF"
+      }
+    ]
   }
 ]
