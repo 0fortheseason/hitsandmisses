@@ -427,6 +427,11 @@
     .card-meta {
       font-size: 13px;
       color: var(--gray-400);
+      margin-bottom: 2px;
+    }
+    .card-slot {
+      font-size: 13px;
+      color: var(--gray-400);
       margin-bottom: 12px;
     }
 
@@ -691,12 +696,14 @@
   function applyMockToPicks(picks) {
     mockPicks = ROUND1_ORDER.map(r => {
       const p = picks.find(p => p.pick === r.pick);
+      if (!p) return { pick: r.pick, team: r.team, name: '', pos: 'WR', college: '', result: null };
+      const prospect = PROSPECTS.find(pr => pr.name.toLowerCase() === p.name.toLowerCase());
       return {
         pick: r.pick,
-        team: p ? p.team : r.team,
-        name: p ? p.name : '',
-        pos: p ? p.pos : 'WR',
-        college: p ? (p.college || '') : '',
+        team: p.team,
+        name: p.name,
+        pos: p.pos,
+        college: prospect ? prospect.college : (p.college || ''),
         result: null,
       };
     });
@@ -790,7 +797,11 @@
     function showDropdown(query) {
       if (!query || query.length < 2) { dropdown.style.display = 'none'; return; }
       const q = query.toLowerCase();
-      const matches = PROSPECTS.filter(p => p.name.toLowerCase().includes(q)).slice(0, 8);
+      const usedNames = getUsedNames ? getUsedNames() : new Set();
+      const matches = PROSPECTS.filter(p =>
+        p.name.toLowerCase().includes(q) &&
+        !usedNames.has(p.name.toLowerCase())
+      ).slice(0, 8);
       if (!matches.length) { dropdown.style.display = 'none'; return; }
       activeIdx = -1;
       dropdown.innerHTML = matches.map((p, i) =>
@@ -1020,10 +1031,10 @@
             ${logoHTML}
             <div class="card-header-text">
               <div class="card-name">${p.name || '—'}</div>
-              ${p.team ? `<div class="card-team">${p.team}</div>` : ''}
             </div>
           </div>
-          <div class="card-meta">${p.pos} · ${slotStr}${p.college ? ` · ${p.college}` : ''}</div>
+          <div class="card-meta">${p.pos}${p.college ? ` · ${p.college}` : ''}</div>
+          <div class="card-slot">${p.team ? `${p.team} · ` : ''}${slotStr}</div>
           <div class="card-footer">
             <span class="badge badge-${cls}">${cls==='hit'?'Hit':'Miss'}</span>
             <span class="hit-rate">${hr}% historical rate</span>
@@ -1115,6 +1126,12 @@
       tr.appendChild(tdBadge);
       tbody.appendChild(tr);
     });
+  }
+
+  function getUsedNames() {
+    const activeTab = document.getElementById('tab-mock').classList.contains('active') ? 'mock' : 'diy';
+    const picks = activeTab === 'mock' ? mockPicks : diyPicks;
+    return new Set(picks.map(p => p.name.trim().toLowerCase()).filter(n => n !== ''));
   }
 
   function getDuplicates(picks) {
