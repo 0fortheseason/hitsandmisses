@@ -394,20 +394,22 @@
     RB:   {r1_top2:0.72,r1_top10:0.62,r1_rest:0.50,r2:0.40,r3:0.28,r4:0.18,r5:0.10,r6:0.06,r7:0.04},
     WR:   {r1_top2:0.68,r1_top10:0.58,r1_rest:0.44,r2:0.35,r3:0.24,r4:0.16,r5:0.09,r6:0.05,r7:0.03},
     TE:   {r1_top2:0.62,r1_top10:0.50,r1_rest:0.38,r2:0.28,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
-    OL:   {r1_top2:0.75,r1_top10:0.65,r1_rest:0.52,r2:0.42,r3:0.30,r4:0.20,r5:0.12,r6:0.07,r7:0.05},
+    OT:   {r1_top2:0.78,r1_top10:0.68,r1_rest:0.54,r2:0.44,r3:0.32,r4:0.21,r5:0.13,r6:0.07,r7:0.05},
+    iOL:  {r1_top2:0.70,r1_top10:0.60,r1_rest:0.46,r2:0.38,r3:0.26,r4:0.17,r5:0.10,r6:0.06,r7:0.04},
     EDGE: {r1_top2:0.70,r1_top10:0.58,r1_rest:0.44,r2:0.34,r3:0.22,r4:0.14,r5:0.08,r6:0.05,r7:0.03},
+    DL:   {r1_top2:0.65,r1_top10:0.52,r1_rest:0.38,r2:0.28,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
     LB:   {r1_top2:0.65,r1_top10:0.54,r1_rest:0.40,r2:0.30,r3:0.20,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
     DB:   {r1_top2:0.66,r1_top10:0.55,r1_rest:0.42,r2:0.32,r3:0.21,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
   };
 
-  const POSITIONS = ['QB','RB','WR','TE','OL','EDGE','LB','DB'];
+  const POSITIONS = ['QB','RB','WR','TE','OT','iOL','EDGE','DL','LB','DB'];
 
   let picks = [
     {id:1,name:'Cam Ward',pos:'QB',slot:'r1_top2',team:'TEN',result:null},
     {id:2,name:'Travis Hunter',pos:'WR',slot:'r1_top2',team:'CLE',result:null},
     {id:3,name:'Abdul Carter',pos:'EDGE',slot:'r1_top10',team:'NYG',result:null},
     {id:4,name:'Will Johnson',pos:'DB',slot:'r1_top10',team:'NE',result:null},
-    {id:5,name:'Mason Graham',pos:'OL',slot:'r1_top10',team:'JAX',result:null},
+    {id:5,name:'Mason Graham',pos:'OT',slot:'r1_top10',team:'JAX',result:null},
   ];
   let nextId = 6;
 
