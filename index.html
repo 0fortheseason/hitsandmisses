@@ -460,6 +460,58 @@
     .hit-rate { font-size: 12px; color: var(--gray-400); }
 
     /* ── Footer note ── */
+    /* ── About toggle ── */
+    .about-toggle {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .about-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      padding: 7px 14px;
+      margin-top: 1.25rem;
+      margin-bottom: 1.75rem;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .about-btn:hover {
+      color: rgba(255,255,255,0.95);
+      border-color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.05);
+    }
+    .about-btn .chevron {
+      display: inline-block;
+      font-size: 10px;
+      transition: transform 0.2s ease;
+    }
+    .about-btn.open .chevron { transform: rotate(180deg); }
+    .about-panel {
+      display: none;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 1.25rem 0 1.75rem;
+      color: rgba(255,255,255,0.55);
+      font-size: 14px;
+      line-height: 1.75;
+      max-width: 640px;
+    }
+    .about-panel p { margin-bottom: 0.9rem; }
+    .about-panel p:last-child { margin-bottom: 0; }
+    .about-panel a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .about-panel a:hover { text-decoration: underline; }
+    .about-panel strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+
     /* ── Duplicate warning ── */
     .dupe-warning {
       background: #FAEEDA;
@@ -690,6 +742,18 @@
     <div class="header-eyebrow">NFL Draft Tool</div>
     <h1>Hit or Miss<br>Simulator</h1>
     <p>Enter picks from your mock draft. The simulator flips a weighted coin for each player based on historical NFL draft hit rates by position and draft slot.</p>
+  </div>
+  <div class="about-toggle">
+    <button class="about-btn" id="about-btn" onclick="toggleAbout()">
+      About this tool <span class="chevron">▼</span>
+    </button>
+    <div class="about-panel" id="about-panel">
+      <p>Mock drafts are an exercise in optimism. Every analyst slots each player into their ideal situation and imagines the best-case outcome — a perfect fit for every hole on every roster. <strong>Reality is more sobering.</strong> Most prospects, even highly-touted ones, turn into a whole bunch of nothing.</p>
+      <p>This simulator is a cold-water antidote to mock draft mania. Rather than assuming every pick works out, it runs a weighted probability simulation for each player based on <strong>historical NFL draft hit rates by position and draft slot</strong> — derived from draft classes between 2000 and 2020, giving each player enough career time to fairly assess. A "hit" means the player became at least a reliable NFL starter.</p>
+      <p>The simulator doesn't decide outcomes — the historical rates do. The point isn't to predict the future; it's to reframe the conversation. Instead of asking "where does this player fit best?", ask: "given what we know about how often players at this position and slot actually pan out, what's a realistic set of outcomes for this class?"</p>
+      <p>The concept originated in a <a href="https://0fortheseason.wordpress.com/2025/03/08/mock-draft-hits-and-misses/" target="_blank">March 2025 post on 0 for the Season</a>, where coin flips were used to assign hits and misses to a community mock draft — then each outcome was examined through the lens of coaching, opportunity, and player traits. This tool automates and scales that process.</p>
+      <p style="font-size:12px;color:rgba(255,255,255,0.3)">This is speculative fiction about a projection of the NFL Draft. Don't get too worked up about it.</p>
+    </div>
   </div>
 </header>
 
@@ -1489,6 +1553,16 @@
     diyPicks = diyPicks.map(p => ({ ...p, result: null }));
     renderDIYInputs();
     clearResults();
+  }
+
+  // ── About toggle ─────────────────────────────────────────────────
+
+  function toggleAbout() {
+    const btn = document.getElementById('about-btn');
+    const panel = document.getElementById('about-panel');
+    const isOpen = panel.style.display === 'block';
+    panel.style.display = isOpen ? 'none' : 'block';
+    btn.classList.toggle('open', !isOpen);
   }
 
   // ── Init ──────────────────────────────────────────────────────────
