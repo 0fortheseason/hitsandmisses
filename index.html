@@ -559,28 +559,84 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 620px) {
-      .input-row-numbered {
-      grid-template-columns: 28px 1fr 88px 148px 100px 32px !important;
-    }
-    .pick-row-num {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--gray-400);
-      text-align: center;
-      line-height: 36px;
-    }
+    @media (max-width: 640px) {
 
-    .col-header { display: none; }
-      .input-row {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto;
+      /* ── DIY tab: stack into card-style rows ── */
+      .col-header { display: none; }
+
+      .input-row,
+      .input-row-numbered {
+        display: flex !important;
+        flex-direction: column;
+        gap: 6px;
+        background: var(--gray-100);
+        border: 0.5px solid var(--gray-200);
+        border-radius: var(--border-radius-lg);
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        position: relative;
       }
-      .input-row input { grid-column: 1 / -1; }
-      .remove-btn { grid-column: 2; justify-self: end; }
+
+      .input-row .ac-wrap,
+      .input-row-numbered .ac-wrap { width: 100%; }
+
+      .input-row input[type="text"],
+      .input-row-numbered input[type="text"] { width: 100%; font-size: 15px; }
+
+      .input-row select,
+      .input-row-numbered select { width: 100%; font-size: 15px; }
+
+      /* Row of pos + slot side by side */
+      .input-row .mobile-row,
+      .input-row-numbered .mobile-row {
+        display: flex;
+        gap: 6px;
+      }
+      .input-row .mobile-row select,
+      .input-row-numbered .mobile-row select { flex: 1; }
+
+      .pick-row-num {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--gray-400);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        line-height: 1;
+        margin-bottom: 2px;
+      }
+
+      .remove-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+      }
+
+      /* Autocomplete dropdown full width on mobile */
+      .ac-dropdown {
+        font-size: 15px;
+        max-height: 180px;
+      }
+      .ac-item { padding: 10px 12px; }
+
+      /* Mock table on mobile */
       .mock-table th.hide-sm,
       .mock-table td.hide-sm { display: none; }
+
+      /* Selector bars stack on mobile */
+      .mock-selector-bar,
+      .class-selector-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .mock-selector-bar select,
+      .class-selector-bar select { min-width: unset; width: 100%; }
+      .mock-selector-bar .btn,
+      .class-selector-bar .btn { width: 100%; text-align: center; }
+
+      /* Cards: 1 column */
+      .cards-grid { grid-template-columns: 1fr; }
     }
 
     /* ── Autocomplete ── */
@@ -1373,10 +1429,14 @@
       removeBtn.textContent = '×';
       removeBtn.onclick = () => removeDIYPick(p.id);
 
+      const mobileRow = document.createElement('div');
+      mobileRow.className = 'mobile-row';
+      mobileRow.appendChild(posSelect);
+      mobileRow.appendChild(slotSelect);
+      mobileRow.appendChild(teamSelect);
+
       row.appendChild(wrap);
-      row.appendChild(posSelect);
-      row.appendChild(slotSelect);
-      row.appendChild(teamSelect);
+      row.appendChild(mobileRow);
       row.appendChild(removeBtn);
       container.appendChild(row);
     });
