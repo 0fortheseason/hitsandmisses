@@ -244,6 +244,10 @@
     .input-row-numbered {
       grid-template-columns: 28px 1fr 88px 148px 100px 32px !important;
     }
+    /* On desktop, mobile-row wrapper is invisible to grid — children flow naturally */
+    .mobile-row {
+      display: contents;
+    }
     .pick-row-num {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 15px;
