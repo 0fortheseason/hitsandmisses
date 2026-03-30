@@ -801,7 +801,7 @@
         <tbody id="mock-tbody"></tbody>
       </table>
       <div class="actions-row" style="margin-top:1.25rem">
-        <button class="btn btn-primary" onclick="simulateMock()">Run simulation ↻</button>
+        <button class="btn btn-primary" id="btn-mock" onclick="simulateMock()">Run simulation</button>
         <button class="btn" onclick="resetMock()">Reset</button>
       </div>
     </div>
@@ -827,7 +827,7 @@
       </div>
       <div id="diy-picks-list"></div>
       <div class="actions-row" style="margin-top:1rem">
-        <button class="btn btn-primary" onclick="simulateDIY()">Run simulation ↻</button>
+        <button class="btn btn-primary" id="btn-diy" onclick="simulateDIY()">Run simulation</button>
         <button class="btn" onclick="addDIYPick()">+ Add pick</button>
         <button class="btn" onclick="resetDIY()">Reset</button>
       </div>
@@ -841,7 +841,7 @@
       <select id="fantasy-mock-select">
         <option value="">— Select a multi-round mock —</option>
       </select>
-      <button class="btn btn-primary" onclick="simulateFantasy()">Run simulation ↻</button>
+      <button class="btn btn-primary" id="btn-fantasy" onclick="simulateFantasy()">Run simulation</button>
       <button class="btn" onclick="resetFantasy()">Reset</button>
     </div>
     <div id="fantasy-empty" style="padding:2rem 0; font-size:14px; color:var(--gray-400)">
@@ -1431,6 +1431,11 @@
     });
   }
 
+  function markRun(id) {
+    const btn = document.getElementById(id);
+    if (btn) btn.textContent = 'Run simulation ↻';
+  }
+
   function getUsedNames() {
     const activeTab = document.getElementById('tab-mock').classList.contains('active') ? 'mock' : 'diy';
     const picks = activeTab === 'mock' ? mockPicks : diyPicks;
@@ -1465,6 +1470,7 @@
     const mockDupes = getDuplicates(mockPicks);
     showDupeWarning('mock-dupe-warning', mockDupes);
     if (mockDupes.length > 0) return;
+    markRun('btn-mock');
     mockPicks = mockPicks.map(p => ({
       ...p,
       result: Math.random() < getHitRate(p.pos, pickToSlotKey(p.pick))
@@ -1482,6 +1488,8 @@
   }
 
   function resetMock() {
+    const btn = document.getElementById('btn-mock');
+    if (btn) btn.textContent = 'Run simulation';
     showDupeWarning('mock-dupe-warning', []);
     mockPicks = ROUND1_ORDER.map(r => ({
       pick: r.pick,
@@ -1593,6 +1601,7 @@
     const diyDupes = getDuplicates(diyPicks);
     showDupeWarning('diy-dupe-warning', diyDupes);
     if (diyDupes.length > 0) return;
+    markRun('btn-diy');
     diyPicks = diyPicks.map(p => ({
       ...p,
       result: Math.random() < getHitRate(p.pos, p.slot)
@@ -1660,6 +1669,7 @@
     document.getElementById('fantasy-results-divider').style.display = '';
     document.getElementById('fantasy-results-label').style.display = '';
 
+    markRun('btn-fantasy');
     const grid = document.getElementById('fantasy-cards-grid');
     grid.innerHTML = results.map(p => {
       const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
@@ -1690,6 +1700,8 @@
   }
 
   function resetFantasy() {
+    const btn = document.getElementById('btn-fantasy');
+    if (btn) btn.textContent = 'Run simulation';
     document.getElementById('fantasy-mock-select').value = '';
     clearFantasyResults();
   }
