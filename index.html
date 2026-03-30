@@ -762,6 +762,7 @@
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('mock')">2026 First Round Mock</button>
     <button class="tab-btn" onclick="switchTab('diy')">Simulate Specific Players</button>
+    <button class="tab-btn" onclick="switchTab('fantasy')">Fantasy Draft</button>
   </div>
 
   <!-- ── TAB 1: First Round Mock ── -->
@@ -831,6 +832,24 @@
         <button class="btn" onclick="resetDIY()">Reset</button>
       </div>
     </div>
+  </div>
+
+  <!-- ── TAB 3: Fantasy ── -->
+  <div id="tab-fantasy" class="tab-panel">
+    <div class="mock-selector-bar">
+      <label>Load mock</label>
+      <select id="fantasy-mock-select">
+        <option value="">— Select a multi-round mock —</option>
+      </select>
+      <button class="btn btn-primary" onclick="simulateFantasy()">Run simulation ↻</button>
+      <button class="btn" onclick="resetFantasy()">Reset</button>
+    </div>
+    <div id="fantasy-empty" style="padding:2rem 0; font-size:14px; color:var(--gray-400)">
+      No multi-round mocks loaded yet. Add a mock with more than 32 picks to <code>mocks.json</code> to use this tab.
+    </div>
+    <div id="fantasy-results-divider" class="divider" style="display:none"></div>
+    <div id="fantasy-results-label" class="section-label" style="display:none; margin-bottom:14px">Fantasy-relevant picks</div>
+    <div class="cards-grid" id="fantasy-cards-grid"></div>
   </div>
 
   <!-- ── Shared results area ── -->
@@ -920,6 +939,19 @@
         opt.textContent = m.label;
         sel.appendChild(opt);
       });
+      // Populate fantasy tab dropdown — only mocks with >32 picks
+      const fantasySel = document.getElementById('fantasy-mock-select');
+      const multiRound = MOCKS.filter(m => m.picks.length > 32);
+      if (multiRound.length > 0) {
+        document.getElementById('fantasy-empty').style.display = 'none';
+        multiRound.forEach(m => {
+          const origIdx = MOCKS.indexOf(m);
+          const opt = document.createElement('option');
+          opt.value = origIdx;
+          opt.textContent = `${m.label} (${m.picks.length} picks)`;
+          fantasySel.appendChild(opt);
+        });
+      }
     } catch(e) {
       console.warn('Could not load mocks.json');
     }
@@ -1238,11 +1270,17 @@
 
   function switchTab(tab) {
     document.querySelectorAll('.tab-btn').forEach((b,i) => {
-      b.classList.toggle('active', (i===0 && tab==='mock') || (i===1 && tab==='diy'));
+      b.classList.toggle('active',
+        (i===0 && tab==='mock') ||
+        (i===1 && tab==='diy') ||
+        (i===2 && tab==='fantasy')
+      );
     });
     document.getElementById('tab-mock').classList.toggle('active', tab==='mock');
     document.getElementById('tab-diy').classList.toggle('active', tab==='diy');
+    document.getElementById('tab-fantasy').classList.toggle('active', tab==='fantasy');
     clearResults();
+    if (tab !== 'fantasy') clearFantasyResults();
   }
 
   // ── Shared results ────────────────────────────────────────────────
@@ -1563,6 +1601,78 @@
     const isOpen = panel.style.display === 'block';
     panel.style.display = isOpen ? 'none' : 'block';
     btn.classList.toggle('open', !isOpen);
+  }
+
+  // ── Fantasy ──────────────────────────────────────────────────────
+
+  const FANTASY_POSITIONS = new Set(['QB','RB','WR','TE']);
+
+  function simulateFantasy() {
+    const sel = document.getElementById('fantasy-mock-select');
+    if (!sel.value) return;
+    const mock = MOCKS[parseInt(sel.value)];
+    if (!mock) return;
+
+    const results = mock.picks
+      .filter(p => FANTASY_POSITIONS.has(p.pos) && p.name && p.name.trim() !== '')
+      .map(p => {
+        const round = p.pick <= 32 ? 1 : p.pick <= 64 ? 2 : p.pick <= 96 ? 3 :
+                      p.pick <= 128 ? 4 : p.pick <= 160 ? 5 : p.pick <= 192 ? 6 : 7;
+        const slotKey = p.pick <= 2 ? 'r1_top2' : p.pick <= 10 ? 'r1_top10' :
+                        p.pick <= 32 ? 'r1_rest' : `r${round}`;
+        const prospect = PROSPECTS.find(pr => pr.name.toLowerCase() === p.name.toLowerCase());
+        return {
+          name: p.name,
+          team: p.team,
+          pos: p.pos,
+          college: prospect ? prospect.college : (p.college || ''),
+          slotKey,
+          pickNum: p.pick,
+          result: Math.random() < getHitRate(p.pos, slotKey),
+        };
+      });
+
+    clearFantasyResults();
+    if (!results.length) return;
+
+    document.getElementById('fantasy-results-divider').style.display = '';
+    document.getElementById('fantasy-results-label').style.display = '';
+
+    const grid = document.getElementById('fantasy-cards-grid');
+    grid.innerHTML = results.map(p => {
+      const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
+      const cls = p.result ? 'hit' : 'miss';
+      const logoUrl = p.team && TEAM_LOGOS[p.team] ? TEAM_LOGOS[p.team] : null;
+      const logoHTML = logoUrl
+        ? `<img src="${logoUrl}" alt="${p.team}" class="card-logo" onerror="this.parentElement.innerHTML='<div class=\"card-logo-fallback\">${p.team}</div>'" />`
+        : (p.team ? `<div class="card-logo-fallback">${p.team}</div>` : '');
+      return `
+        <div class="pick-card ${cls}">
+          <div class="card-inner"><div class="card-header-row">
+            ${logoHTML}
+            <div class="card-header-text">
+              <div class="card-name">${p.name}</div>
+            </div>
+          </div>
+          <div class="card-meta">${p.pos}${p.college ? ` · ${p.college}` : ''}</div>
+          <div class="card-slot">${p.team ? `${p.team} · ` : ''}Pick ${p.pickNum}</div>
+          <div class="card-footer">
+            <span class="badge badge-${cls}">${cls === 'hit' ? 'Hit' : 'Miss'}</span>
+            <span class="hit-rate">${hr}% historical rate</span>
+          </div></div>
+        </div>`;
+    }).join('');
+  }
+
+  function clearFantasyResults() {
+    document.getElementById('fantasy-results-divider').style.display = 'none';
+    document.getElementById('fantasy-results-label').style.display = 'none';
+    document.getElementById('fantasy-cards-grid').innerHTML = '';
+  }
+
+  function resetFantasy() {
+    document.getElementById('fantasy-mock-select').value = '';
+    clearFantasyResults();
   }
 
   // ── Init ──────────────────────────────────────────────────────────
