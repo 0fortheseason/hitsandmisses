@@ -1291,6 +1291,28 @@
     document.getElementById('results-label').style.display = 'none';
   }
 
+  function buildLogoHTML(team) {
+    if (!team || !TEAM_LOGOS[team]) {
+      return team ? `<div class="card-logo-fallback">${team}</div>` : '';
+    }
+    const url = TEAM_LOGOS[team];
+    const fallback = `<div class="card-logo-fallback">${team}</div>`;
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = team;
+    img.className = 'card-logo';
+    img.onerror = function() {
+      this.parentNode.replaceChild(
+        Object.assign(document.createElement('div'), {
+          className: 'card-logo-fallback',
+          textContent: team
+        }),
+        this
+      );
+    };
+    return img.outerHTML;
+  }
+
   function renderCards(results) {
     const grid = document.getElementById('cards-grid');
     const divider = document.getElementById('results-divider');
@@ -1642,10 +1664,7 @@
     grid.innerHTML = results.map(p => {
       const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
       const cls = p.result ? 'hit' : 'miss';
-      const logoUrl = p.team && TEAM_LOGOS[p.team] ? TEAM_LOGOS[p.team] : null;
-      const logoHTML = logoUrl
-        ? `<img src="${logoUrl}" alt="${p.team}" class="card-logo" onerror="this.parentElement.innerHTML='<div class=\"card-logo-fallback\">${p.team}</div>'" />`
-        : (p.team ? `<div class="card-logo-fallback">${p.team}</div>` : '');
+      const logoHTML = buildLogoHTML(p.team);
       return `
         <div class="pick-card ${cls}">
           <div class="card-inner"><div class="card-header-row">
