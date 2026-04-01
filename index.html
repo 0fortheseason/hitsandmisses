@@ -749,7 +749,7 @@
     </button>
     <div class="about-panel" id="about-panel">
       <p>Mock drafts are an exercise in optimism. Every analyst slots each player into their ideal situation and imagines the best-case outcome — a perfect fit for every hole on every roster. <strong>Reality is more sobering.</strong> Most prospects, even highly-touted ones, turn into a whole bunch of nothing.</p>
-      <p>This simulator is a cold-water antidote to mock draft mania. Rather than assuming every pick works out, it runs a weighted probability simulation for each player based on <strong>historical NFL draft hit rates by position and draft slot</strong> — derived from draft classes between 2000 and 2020, giving each player enough career time to fairly assess. A "hit" means the player became at least a reliable NFL starter.</p>
+      <p>This simulator is a cold-water antidote to mock draft mania. Rather than assuming every pick works out, it runs a weighted probability simulation for each player based on <strong>historical NFL draft hit rates by position and draft slot</strong> — derived from draft classes between 2000 and 2023, giving each player enough career time to fairly assess. A "hit" means the player became at least a reliable NFL starter.</p>
       <p>The simulator doesn't decide outcomes — the historical rates do. The point isn't to predict the future; it's to reframe the conversation. Instead of asking "where does this player fit best?", ask: "given what we know about how often players at this position and slot actually pan out, what's a realistic set of outcomes for this class?"</p>
       <p>The concept originated in a <a href="https://0fortheseason.wordpress.com/2025/03/08/mock-draft-hits-and-misses/" target="_blank">March 2025 post on 0 for the Season</a>, where coin flips were used to assign hits and misses to a community mock draft — then each outcome was examined through the lens of coaching, opportunity, and player traits. This tool automates and scales that process.</p>
       <p style="font-size:12px;color:rgba(255,255,255,0.3)">This is speculative fiction about a projection of the NFL Draft. Don't get too worked up about it.</p>
@@ -857,7 +857,7 @@
   <div id="results-label" class="section-label" style="display:none; margin-bottom:14px">Results</div>
   <div class="cards-grid" id="cards-grid"></div>
 
-  <p class="footnote">Hit rates derived from historical NFL draft data (2000–2020). A "hit" is defined as a player who became at least a quality starter. Round 1 is split into three tiers (picks 1–2, 3–10, 11–32) to reflect meaningful variation within the first round. CB and SAF share the same historical hit rate. Team context is shown for storytelling purposes only and does not affect simulation weighting. 2026 first round order is based on the confirmed pre-draft slot order.</p>
+  <p class="footnote">Hit rates derived from historical NFL draft data (2000–2023). A "hit" is defined as a player who became at least a quality starter. Round 1 is split into three tiers (picks 1–2, 3–10, 11–32) to reflect meaningful variation within the first round. CB and SAF share the same historical hit rate. Team context is shown for storytelling purposes only and does not affect simulation weighting. 2026 first round order is based on the confirmed pre-draft slot order.</p>
 
 </div>
 
@@ -1233,17 +1233,17 @@
   ];
 
   const HIT_RATES = {
-    QB:  {r1_top2:0.72,r1_top10:0.55,r1_rest:0.38,r2:0.30,r3:0.18,r4:0.10,r5:0.06,r6:0.04,r7:0.03},
-    RB:  {r1_top2:0.72,r1_top10:0.62,r1_rest:0.50,r2:0.40,r3:0.28,r4:0.18,r5:0.10,r6:0.06,r7:0.04},
-    WR:  {r1_top2:0.68,r1_top10:0.58,r1_rest:0.44,r2:0.35,r3:0.24,r4:0.16,r5:0.09,r6:0.05,r7:0.03},
-    TE:  {r1_top2:0.62,r1_top10:0.50,r1_rest:0.38,r2:0.28,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
-    OT:  {r1_top2:0.78,r1_top10:0.68,r1_rest:0.54,r2:0.44,r3:0.32,r4:0.21,r5:0.13,r6:0.07,r7:0.05},
-    iOL: {r1_top2:0.70,r1_top10:0.60,r1_rest:0.46,r2:0.38,r3:0.26,r4:0.17,r5:0.10,r6:0.06,r7:0.04},
-    EDGE:{r1_top2:0.70,r1_top10:0.58,r1_rest:0.44,r2:0.34,r3:0.22,r4:0.14,r5:0.08,r6:0.05,r7:0.03},
-    DL:  {r1_top2:0.65,r1_top10:0.52,r1_rest:0.38,r2:0.28,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
-    LB:  {r1_top2:0.65,r1_top10:0.54,r1_rest:0.40,r2:0.30,r3:0.20,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
-    CB:  {r1_top2:0.66,r1_top10:0.55,r1_rest:0.42,r2:0.32,r3:0.21,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
-    SAF: {r1_top2:0.66,r1_top10:0.55,r1_rest:0.42,r2:0.32,r3:0.21,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
+    QB:  {r1_top2:0.68,r1_top10:0.52,r1_rest:0.36,r2:0.29,r3:0.17,r4:0.10,r5:0.06,r6:0.04,r7:0.03},
+    RB:  {r1_top2:0.70,r1_top10:0.60,r1_rest:0.48,r2:0.38,r3:0.27,r4:0.17,r5:0.10,r6:0.06,r7:0.04},
+    WR:  {r1_top2:0.65,r1_top10:0.55,r1_rest:0.42,r2:0.34,r3:0.23,r4:0.15,r5:0.09,r6:0.05,r7:0.03},
+    TE:  {r1_top2:0.60,r1_top10:0.48,r1_rest:0.36,r2:0.27,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
+    OT:  {r1_top2:0.75,r1_top10:0.65,r1_rest:0.52,r2:0.43,r3:0.31,r4:0.20,r5:0.13,r6:0.07,r7:0.05},
+    iOL: {r1_top2:0.68,r1_top10:0.58,r1_rest:0.44,r2:0.37,r3:0.25,r4:0.17,r5:0.10,r6:0.06,r7:0.04},
+    EDGE:{r1_top2:0.67,r1_top10:0.55,r1_rest:0.42,r2:0.33,r3:0.21,r4:0.14,r5:0.08,r6:0.05,r7:0.03},
+    DL:  {r1_top2:0.63,r1_top10:0.50,r1_rest:0.36,r2:0.27,r3:0.18,r4:0.11,r5:0.07,r6:0.04,r7:0.03},
+    LB:  {r1_top2:0.63,r1_top10:0.52,r1_rest:0.38,r2:0.29,r3:0.19,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
+    CB:  {r1_top2:0.64,r1_top10:0.53,r1_rest:0.40,r2:0.31,r3:0.20,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
+    SAF: {r1_top2:0.64,r1_top10:0.53,r1_rest:0.40,r2:0.31,r3:0.20,r4:0.13,r5:0.08,r6:0.05,r7:0.03},
   };
 
   const POSITIONS = ['QB','RB','WR','TE','OT','iOL','EDGE','DL','LB','CB','SAF'];
