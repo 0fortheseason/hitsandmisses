@@ -932,16 +932,49 @@
     try {
       const res = await fetch('mocks.json');
       MOCKS = await res.json();
+
+      // Filter: within last 3 weeks, latest per analyst
+      const now = new Date();
+      const cutoff = new Date(now.getTime() - 21 * 24 * 60 * 60 * 1000);
+
+      // Sort all mocks newest-first so first-seen per analyst is the latest
+      const sorted = [...MOCKS].sort((a, b) => {
+        const da = a.publishedISO ? new Date(a.publishedISO) : new Date(0);
+        const db = b.publishedISO ? new Date(b.publishedISO) : new Date(0);
+        return db - da;
+      });
+
+      const seenAnalysts = new Set();
+      const activeMocks = sorted.filter(m => {
+        // Pinned entries always appear regardless of age or analyst dedup
+        if (m.pinned) return true;
+        const date = m.publishedISO ? new Date(m.publishedISO) : null;
+        if (!date || date < cutoff) return false;
+        if (seenAnalysts.has(m.analyst)) return false;
+        seenAnalysts.add(m.analyst);
+        return true;
+      });
+
+      // Build index map so dropdown values still reference MOCKS array correctly
       const sel = document.getElementById('mock-select');
-      MOCKS.forEach((m, i) => {
+      activeMocks.forEach(m => {
+        const origIdx = MOCKS.indexOf(m);
         const opt = document.createElement('option');
-        opt.value = i;
+        opt.value = origIdx;
         opt.textContent = m.label;
         sel.appendChild(opt);
       });
-      // Populate fantasy tab dropdown — only mocks with >32 picks
+
+      if (activeMocks.length === 0) {
+        const opt = document.createElement('option');
+        opt.disabled = true;
+        opt.textContent = 'No mocks within last 3 weeks';
+        sel.appendChild(opt);
+      }
+
+      // Populate fantasy tab — same filter, but only mocks with >32 picks
       const fantasySel = document.getElementById('fantasy-mock-select');
-      const multiRound = MOCKS.filter(m => m.picks.length > 32);
+      const multiRound = activeMocks.filter(m => m.picks.length > 32);
       if (multiRound.length > 0) {
         document.getElementById('fantasy-empty').style.display = 'none';
         multiRound.forEach(m => {
