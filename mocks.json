@@ -1,4 +1,206 @@
 [
+ {
+    "analyst": "NFL",
+    "source": "NFL Draft",
+    "published": "2026-04-23",
+    "label": "NFL Draft First Round",
+    "pinned": true,
+    "picks": [
+      {
+        "pick": 1,
+        "team": "LV",
+        "name": "Fernando Mendoza",
+        "pos": "QB"
+      },
+      {
+        "pick": 2,
+        "team": "NYJ",
+        "name": "David Bailey",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 3,
+        "team": "ARI",
+        "name": "Jeremiyah Love",
+        "pos": "RB"
+      },
+      {
+        "pick": 4,
+        "team": "TEN",
+        "name": "Carnell Tate",
+        "pos": "WR"
+      },
+      {
+        "pick": 5,
+        "team": "NYG",
+        "name": "Arvell Reese",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 6,
+        "team": "KC",
+        "name": "Mansoor Delane",
+        "pos": "CB"
+      },
+      {
+        "pick": 7,
+        "team": "WSH",
+        "name": "Sonny Styles",
+        "pos": "LB"
+      },
+      {
+        "pick": 8,
+        "team": "NO",
+        "name": "Jordyn Tyson",
+        "pos": "WR"
+      },
+      {
+        "pick": 9,
+        "team": "CLE",
+        "name": "Spencer Fano",
+        "pos": "OT"
+      },
+      {
+        "pick": 10,
+        "team": "NYG",
+        "name": "Francis Mauigoa",
+        "pos": "OT"
+      },
+      {
+        "pick": 11,
+        "team": "DAL",
+        "name": "Caleb Downs",
+        "pos": "SAF"
+      },
+      {
+        "pick": 12,
+        "team": "MIA",
+        "name": "Kadyn Proctor",
+        "pos": "OT"
+      },
+      {
+        "pick": 13,
+        "team": "LAR",
+        "name": "Ty Simpson",
+        "pos": "QB"
+      },
+      {
+        "pick": 14,
+        "team": "BAL",
+        "name": "Olaivavega Ioane",
+        "pos": "iOL"
+      },
+      {
+        "pick": 15,
+        "team": "TB",
+        "name": "Rueben Bain",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 16,
+        "team": "NYJ",
+        "name": "Kenyon Sadiq",
+        "pos": "TE"
+      },
+      {
+        "pick": 17,
+        "team": "DET",
+        "name": "Blake Miller",
+        "pos": "OT"
+      },
+      {
+        "pick": 18,
+        "team": "MIN",
+        "name": "Caleb Banks",
+        "pos": "DL"
+      },
+      {
+        "pick": 19,
+        "team": "CAR",
+        "name": "Monroe Freeling",
+        "pos": "OT"
+      },
+      {
+        "pick": 20,
+        "team": "PHI",
+        "name": "Makai Lemon",
+        "pos": "WR"
+      },
+      {
+        "pick": 21,
+        "team": "PIT",
+        "name": "Max Iheanachor",
+        "pos": "OT"
+      },
+      {
+        "pick": 22,
+        "team": "LAC",
+        "name": "Akheem Mesidor",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 23,
+        "team": "DAL",
+        "name": "Malachi Lawrence",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 24,
+        "team": "CLE",
+        "name": "KC Concepcion",
+        "pos": "WR"
+      },
+      {
+        "pick": 25,
+        "team": "CHI",
+        "name": "Dillon Thieneman",
+        "pos": "SAF"
+      },
+      {
+        "pick": 26,
+        "team": "HOU",
+        "name": "Keylan Rutledge",
+        "pos": "iOL"
+      },
+      {
+        "pick": 27,
+        "team": "MIA",
+        "name": "Chris Johnson",
+        "pos": "CB"
+      },
+      {
+        "pick": 28,
+        "team": "NE",
+        "name": "Caleb Lomu",
+        "pos": "OT"
+      },
+      {
+        "pick": 29,
+        "team": "KC",
+        "name": "Peter Woods",
+        "pos": "DL"
+      },
+      {
+        "pick": 30,
+        "team": "NYJ",
+        "name": "Omar Cooper Jr",
+        "pos": "WR"
+      },
+      {
+        "pick": 31,
+        "team": "TEN",
+        "name": "Keldric Faulk",
+        "pos": "EDGE"
+      },
+      {
+        "pick": 32,
+        "team": "SEA",
+        "name": "Jadarian Price",
+        "pos": "RB"
+      }
+    ],
+    "publishedISO": "2026-04-23T00:00:00Z"
+  },
   {
     "analyst": "Lance Zierlein",
     "source": "NFL.com",
