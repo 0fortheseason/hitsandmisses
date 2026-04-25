@@ -1302,6 +1302,252 @@
         "team": "GB",
         "name": "Trey Smack",
         "pos": "K"
+      },
+     {
+        "pick": 217,
+        "team": "ARI",
+        "name": "Jayden Williams",
+        "pos": "OT"
+      },
+     {
+        "pick": 218,
+        "team": "DAL",
+        "name": "Anthony Smith",
+        "pos": "WR"
+      },
+     {
+        "pick": 219,
+        "team": "NO",
+        "name": "TJ Hall",
+        "pos": "CB"
+      },
+     {
+        "pick": 220,
+        "team": "BUF",
+        "name": "Toriano Pride",
+        "pos": "CB"
+      },
+     {
+        "pick": 221,
+        "team": "CIN",
+        "name": "Jack Endries",
+        "pos": "TE"
+      },
+     {
+        "pick": 222,
+        "team": "DET",
+        "name": "Tyre West",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 223,
+        "team": "WSH",
+        "name": "Athan Kaliakmanis",
+        "pos": "QB"
+      },
+     {
+        "pick": 224,
+        "team": "PIT",
+        "name": "Robert Spears-Jennings",
+        "pos": "SAF"
+      },
+     {
+        "pick": 225,
+        "team": "TEN",
+        "name": "Jaren Kanak",
+        "pos": "TE"
+      },
+     {
+        "pick": 226,
+        "team": "CIN",
+        "name": "Landon Robinson",
+        "pos": "DL"
+      },
+     {
+        "pick": 227,
+        "team": "CAR",
+        "name": "Jackson Kuwatch",
+        "pos": "LB"
+      },
+     {
+        "pick": 228,
+        "team": "NYJ",
+        "name": "VJ Payne",
+        "pos": "SAF"
+      },
+     {
+        "pick": 229,
+        "team": "LV",
+        "name": "Brandon Cleveland",
+        "pos": "DL"
+      },
+     {
+        "pick": 230,
+        "team": "PIT",
+        "name": "Eli Heidenreich",
+        "pos": "RB"
+      },
+     {
+        "pick": 231,
+        "team": "ATL",
+        "name": "Ethan Onianwa",
+        "pos": "OT"
+      },
+     {
+        "pick": 232,
+        "team": "LAR",
+        "name": "Tim Keenan",
+        "pos": "DL"
+      },
+     {
+        "pick": 233,
+        "team": "JAX",
+        "name": "Zach Durfee",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 234,
+        "team": "NE",
+        "name": "Behren Morton",
+        "pos": "QB"
+      },
+     {
+        "pick": 235,
+        "team": "MIN",
+        "name": "Gavin Gerhardt",
+        "pos": "iOL"
+      },
+     {
+        "pick": 236,
+        "team": "SEA",
+        "name": "Andre Fuller",
+        "pos": "CB"
+      },
+     {
+        "pick": 237,
+        "team": "IND",
+        "name": "Seth McGowan",
+        "pos": "RB"
+      },
+     {
+        "pick": 238,
+        "team": "MIA",
+        "name": "Max LLewellyn",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 239,
+        "team": "BUF",
+        "name": "Tommy Doman",
+        "pos": "P"
+      },
+     {
+        "pick": 240,
+        "team": "JAX",
+        "name": "Parker Hughes",
+        "pos": "LB"
+      },
+     {
+        "pick": 241,
+        "team": "BUF",
+        "name": "Ar'maj Reed-Adams",
+        "pos": "iOL"
+      },
+     {
+        "pick": 242,
+        "team": "SEA",
+        "name": "Deven Eastern",
+        "pos": "DL"
+      },
+     {
+        "pick": 243,
+        "team": "HOU",
+        "name": "Aiden Fisher",
+        "pos": "LB"
+      },
+     {
+        "pick": 244,
+        "team": "PHI",
+        "name": "Cole Wisniewski",
+        "pos": "SAF"
+      },
+     {
+        "pick": 245,
+        "team": "NE",
+        "name": "Jam Miller",
+        "pos": "RB"
+      },
+     {
+        "pick": 246,
+        "team": "DEN",
+        "name": "Miles Scott",
+        "pos": "SAF"
+      },
+     {
+        "pick": 247,
+        "team": "NE",
+        "name": "Quintayvious Hutchins",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 248,
+        "team": "CLE",
+        "name": "Carsen Ryan",
+        "pos": "TE"
+      },
+     {
+        "pick": 249,
+        "team": "KC",
+        "name": "Garrett Nussmeier",
+        "pos": "QB"
+      },
+     {
+        "pick": 250,
+        "team": "BAL",
+        "name": "Rayshaun Benny",
+        "pos": "DL"
+      },
+     {
+        "pick": 251,
+        "team": "PHI",
+        "name": "Uar Bernard",
+        "pos": "DL"
+      },
+     {
+        "pick": 252,
+        "team": "PHI",
+        "name": "Keyshawn James-Newby",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 253,
+        "team": "BAL",
+        "name": "Evan Beerntsen",
+        "pos": "iOL"
+      },
+     {
+        "pick": 254,
+        "team": "IND",
+        "name": "Deion Burks",
+        "pos": "WR"
+      },
+     {
+        "pick": 255,
+        "team": "SEA",
+        "name": "Michael Dansby",
+        "pos": "CB"
+      },
+     {
+        "pick": 256,
+        "team": "DEN",
+        "name": "Dallen Bentley",
+        "pos": "TE"
+      },
+     {
+        "pick": 257,
+        "team": "DEN",
+        "name": "Red Murdock",
+        "pos": "LB"
       }
            ],
     "publishedISO": "2026-04-23T00:00:00Z"
