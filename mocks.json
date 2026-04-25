@@ -197,6 +197,198 @@
         "team": "SEA",
         "name": "Jadarian Price",
         "pos": "RB"
+      },
+     {
+        "pick": 33,
+        "team": "SF",
+        "name": "DeZhaun Stribling",
+        "pos": "WR"
+      },
+     {
+        "pick": 34,
+        "team": "ARI",
+        "name": "Chase Bisontis",
+        "pos": "iOL"
+      },
+     {
+        "pick": 35,
+        "team": "BUF",
+        "name": "TJ Parker",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 36,
+        "team": "HOU",
+        "name": "Kayden McDonald",
+        "pos": "DL"
+      },
+     {
+        "pick": 37,
+        "team": "NYG",
+        "name": "Colton Hood",
+        "pos": "CB"
+      },
+     {
+        "pick": 38,
+        "team": "LV",
+        "name": "Treydan Stukes",
+        "pos": "SAF"
+      },
+     {
+        "pick": 39,
+        "team": "CLE",
+        "name": "Denzel Boston",
+        "pos": "WR"
+      },
+     {
+        "pick": 40,
+        "team": "KC",
+        "name": "R Mason Thomas",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 41,
+        "team": "CIN",
+        "name": "Cashius Howell",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 42,
+        "team": "NO",
+        "name": "Christen Miller",
+        "pos": "DL"
+      },
+     {
+        "pick": 43,
+        "team": "MIA",
+        "name": "Jacob Rodriguez",
+        "pos": "LB"
+      },
+     {
+        "pick": 44,
+        "team": "DET",
+        "name": "Derrick Moore",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 45,
+        "team": "BAL",
+        "name": "Zion Young",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 46,
+        "team": "TB",
+        "name": "Josiah Trotter",
+        "pos": "LB"
+      },
+     {
+        "pick": 47,
+        "team": "PIT",
+        "name": "Germie Bernard",
+        "pos": "WR"
+      },
+     {
+        "pick": 48,
+        "team": "ATL",
+        "name": "Avieon Terrell",
+        "pos": "CB"
+      },
+     {
+        "pick": 49,
+        "team": "CAR",
+        "name": "Lee Hunter",
+        "pos": "DL"
+      },
+     {
+        "pick": 50,
+        "team": "NYJ",
+        "name": "D'Angelo Ponds",
+        "pos": "CB"
+      },
+     {
+        "pick": 51,
+        "team": "MIN",
+        "name": "Jake Golday",
+        "pos": "LB"
+      },
+     {
+        "pick": 52,
+        "team": "GB",
+        "name": "Brandon Cisse",
+        "pos": "CB"
+      },
+     {
+        "pick": 53,
+        "team": "IND",
+        "name": "CJ Allen",
+        "pos": "LB"
+      },
+     {
+        "pick": 54,
+        "team": "PHI",
+        "name": "Eli Stowers",
+        "pos": "TE"
+      },
+     {
+        "pick": 55,
+        "team": "NE",
+        "name": "Gabe Jacas",
+        "pos": "EDGE"
+      },
+        {
+        "pick": 56,
+        "team": "JAX",
+        "name": "Nate Boerkircher",
+        "pos": "TE"
+      },
+        {
+        "pick": 57,
+        "team": "CHI",
+        "name": "Logan Jones",
+        "pos": "iOL"
+      },
+        {
+        "pick": 58,
+        "team": "CLE",
+        "name": "Emmanuel McNeil-Warren",
+        "pos": "SAF"
+      },
+        {
+        "pick": 59,
+        "team": "HOU",
+        "name": "Marlin Klein",
+        "pos": "TE"
+      },
+        {
+        "pick": 60,
+        "team": "TEN",
+        "name": "Anthony Hill",
+        "pos": "LB"
+      },
+         {
+        "pick": 61,
+        "team": "LAR",
+        "name": "Max Klare",
+        "pos": "TE"
+      },
+         {
+        "pick": 62,
+        "team": "BUF",
+        "name": "Davison Igbinosun",
+        "pos": "CB"
+      },
+         {
+        "pick": 63,
+        "team": "LAC",
+        "name": "Jake Slaughter",
+        "pos": "iOL"
+      },
+         {
+        "pick": 64,
+        "team": "SEA",
+        "name": "Bud Clark",
+        "pos": "SAF"
       }
     ],
     "publishedISO": "2026-04-23T00:00:00Z"
