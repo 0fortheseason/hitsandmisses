@@ -389,8 +389,224 @@
         "team": "SEA",
         "name": "Bud Clark",
         "pos": "SAF"
-      }
-    ],
+      },
+      {
+        "pick": 65,
+        "team": "ARI",
+        "name": "Carson Beck",
+        "pos": "QB"
+      },
+      {
+        "pick": 66,
+        "team": "DEN",
+        "name": "Tyler Onyedim",
+        "pos": "DL"
+      },
+      {
+        "pick": 67,
+        "team": "LV",
+        "name": "Keyron Crawford",
+        "pos": "EDGE
+      },
+      {
+        "pick": 68,
+        "team": "PHI",
+        "name": "Markel Bell",
+        "pos": "OT"
+      },
+      {
+        "pick": 68,
+        "team": "CHI",
+        "name": "Sam Roush",
+        "pos": "TE"
+      },
+        {
+        "pick": 70,
+        "team": "SF",
+        "name": "Romello Height",
+        "pos": "EDGE"
+      },
+            {
+        "pick": 71,
+        "team": "WAS",
+        "name": "Antonio Williams",
+        "pos": "WR"
+      },
+            {
+        "pick": 72,
+        "team": "CIN",
+        "name": "Tacario Davis",
+        "pos": "CB"
+      },
+            {
+        "pick": 73,
+        "team": "NO",
+        "name": "Oscar Delp",
+        "pos": "TE"
+      },
+            {
+        "pick": 74,
+        "team": "NYG",
+        "name": "Malachi Fields",
+        "pos": "WR"
+      },
+            {
+        "pick": 75,
+        "team": "MIA",
+        "name": "Caleb Douglas",
+        "pos": "WR"
+      },
+            {
+        "pick": 76,
+        "team": "PIT",
+        "name": "Drew Allar",
+        "pos": "QB"
+      },
+            {
+        "pick": 77,
+        "team": "GB",
+        "name": "Chris McClellan",
+        "pos": "DL"
+      },
+            {
+        "pick": 78,
+        "team": "IND",
+        "name": "AJ Haulcy",
+        "pos": "SAF"
+      },
+            {
+        "pick": 79,
+        "team": "ATL",
+        "name": "Zachariah Branch",
+        "pos": "WR"
+      },
+            {
+        "pick": 80,
+        "team": "BAL",
+        "name": "Ja'Kobi Lane",
+        "pos": "WR"
+      },
+            {
+        "pick": 81,
+        "team": "JAX",
+        "name": "Albert Regis",
+        "pos": "DT"
+      },
+     {
+        "pick": 82,
+        "team": "MIN",
+        "name": "Domonique Orange",
+        "pos": "DL"
+      },
+     {
+        "pick": 83,
+        "team": "CAR",
+        "name": "Chris Brazzell",
+        "pos": "WR"
+      },
+     {
+        "pick": 84,
+        "team": "TB",
+        "name": "Ted Hurst",
+        "pos": "WR"
+      },
+     {
+        "pick": 85,
+        "team": "PIT",
+        "name": "Daylen Everette",
+        "pos": "CB"
+      },
+     {
+        "pick": 86,
+        "team": "CLE",
+        "name": "Austin Barber",
+        "pos": "OT"
+      },
+     {
+        "pick": 87,
+        "team": "MIA",
+        "name": "Will Kacmarek",
+        "pos": "TE"
+      },
+     {
+        "pick": 88,
+        "team": "JAX",
+        "name": "Emmanuel Pregnon",
+        "pos": "iOL"
+      },
+     {
+        "pick": 89,
+        "team": "CHI",
+        "name": "Zavion Thomas",
+        "pos": "WR"
+      },
+       {
+        "pick": 90,
+        "team": "SF",
+        "name": "Kaelon Black",
+        "pos": "RB"
+      },
+    {
+        "pick": 91,
+        "team": "LV",
+        "name": "Trey Zuhn",
+        "pos": "iOL"
+      },
+    {
+        "pick": 92,
+        "team": "DAL",
+        "name": "Jaishawn Barham",
+        "pos": "EDGE"
+      },
+    {
+        "pick": 93,
+        "team": "LAR",
+        "name": "Keagen Trost",
+        "pos": "OT"
+      },
+     {
+        "pick": 94,
+        "team": "MIA",
+        "name": "Chris Bell",
+        "pos": "WR"
+      },
+     {
+        "pick": 95,
+        "team": "NE",
+        "name": "Eli Raridon",
+        "pos": "TE"
+      },
+     {
+        "pick": 96,
+        "team": "PIT",
+        "name": "Gennings Dunker",
+        "pos": "OT"
+      },
+     {
+        "pick": 97,
+        "team": "MIN",
+        "name": "Caleb Tiernan",
+        "pos": "OT"
+      },
+     {
+        "pick": 98,
+        "team": "MIN",
+        "name": "Jakobe Thomas",
+        "pos": "SAF"
+      },
+     {
+        "pick": 99,
+        "team": "SEA",
+        "name": "Julian Neal",
+        "pos": "CB"
+      },
+     {
+        "pick": 100,
+        "team": "JAX",
+        "name": "Jalen Huskey",
+        "pos": "CB"
+      },
+      ],
     "publishedISO": "2026-04-23T00:00:00Z"
   },
   {
