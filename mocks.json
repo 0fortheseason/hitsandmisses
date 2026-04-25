@@ -1206,6 +1206,102 @@
         "team": "MIA",
         "name": "DJ Campbell",
         "pos": "iOL"
+      },
+     {
+        "pick": 201,
+        "team": "GB",
+        "name": "Domani Jackson",
+        "pos": "CB"
+      },
+     {
+        "pick": 202,
+        "team": "LAC",
+        "name": "Logan Taylor",
+        "pos": "iOL"
+      },
+     {
+        "pick": 203,
+        "team": "JAX",
+        "name": "CJ Williams",
+        "pos": "WR"
+      },
+     {
+        "pick": 204,
+        "team": "HOU",
+        "name": "Lewis Bond",
+        "pos": "WR"
+      },
+     {
+        "pick": 205,
+        "team": "DET",
+        "name": "Skyler Gill-Howard",
+        "pos": "DL"
+      },
+     {
+        "pick": 206,
+        "team": "LAC",
+        "name": "Alex Harkey",
+        "pos": "iOL"
+      },
+     {
+        "pick": 207,
+        "team": "PHI",
+        "name": "Micah Morris",
+        "pos": "iOL"
+      },
+     {
+        "pick": 208,
+        "team": "ATL",
+        "name": "Anterio Thompson",
+        "pos": "DL"
+      },
+     {
+        "pick": 209,
+        "team": "WSH",
+        "name": "Matt Gulbin",
+        "pos": "iOL"
+      },
+     {
+        "pick": 210,
+        "team": "PIT",
+        "name": "Gabriel Rubio",
+        "pos": "DL"
+      },
+     {
+        "pick": 211,
+        "team": "BAL",
+        "name": "Ryan Eckley",
+        "pos": "P"
+      },
+     {
+        "pick": 212,
+        "team": "NE",
+        "name": "Namdi Obiazor",
+        "pos": "LB"
+      },
+     {
+        "pick": 213,
+        "team": "CHI",
+        "name": "Jordan Van Den Berg",
+        "pos": "DL"
+      },
+     {
+        "pick": 214,
+        "team": "IND",
+        "name": "Caden Curry",
+        "pos": "EDGE"
+      },
+     {
+        "pick": 215,
+        "team": "ATL",
+        "name": "Harold Perkins",
+        "pos": "LB"
+      },
+     {
+        "pick": 216,
+        "team": "GB",
+        "name": "Trey Smack",
+        "pos": "K"
       }
            ],
     "publishedISO": "2026-04-23T00:00:00Z"
