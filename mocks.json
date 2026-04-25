@@ -605,6 +605,246 @@
         "team": "JAX",
         "name": "Jalen Huskey",
         "pos": "CB"
+      },
+          {
+        "pick": 101,
+        "team": "LV",
+        "name": "Jermod McCoy",
+        "pos": "CB"
+      },
+          {
+        "pick": 102,
+        "team": "BUF",
+        "name": "Jude Bowry",
+        "pos": "OT"
+      },
+          {
+        "pick": 103,
+        "team": "NYJ",
+        "name": "Darrell Jackson",
+        "pos": "DL"
+      },
+          {
+        "pick": 104,
+        "team": "ARI",
+        "name": "Kaleb Proctor",
+        "pos": "DL"
+      },
+          {
+        "pick": 105,
+        "team": "LAC",
+        "name": "Brenen Thompson",
+        "pos": "WR"
+      },
+          {
+        "pick": 106,
+        "team": "HOU",
+        "name": "Febechi Nwaiwu",
+        "pos": "iOL"
+      },
+             {
+        "pick": 107,
+        "team": "SF",
+        "name": "Gracen Halton",
+        "pos": "DL"
+      },
+             {
+        "pick": 108,
+        "team": "DEN",
+        "name": "Jonah Coleman",
+        "pos": "RB"
+      },
+             {
+        "pick": 109,
+        "team": "KC",
+        "name": "Jadon Canady",
+        "pos": "SAF"
+      },
+             {
+        "pick": 110,
+        "team": "NYJ",
+        "name": "Cade Klubnik",
+        "pos": "QB"
+      },
+             {
+        "pick": 111,
+        "team": "DEN",
+        "name": "Kage Casey",
+        "pos": "OT"
+      },
+             {
+        "pick": 112,
+        "team": "DAL",
+        "name": "Drew Shelton",
+        "pos": "OT"
+      },
+             {
+        "pick": 113,
+        "team": "IND",
+        "name": "Jalen Farmer",
+        "pos": "iOL"
+      },
+             {
+        "pick": 114,
+        "team": "DAL",
+        "name": "Devin Moore",
+        "pos": "CB"
+      },
+             {
+        "pick": 115,
+        "team": "BAL",
+        "name": "Elijah Sarratt",
+        "pos": "WR"
+      },
+             {
+        "pick": 116,
+        "team": "TB",
+        "name": "Keionte Scott",
+        "pos": "CB"
+      },
+             {
+        "pick": 117,
+        "team": "LAC",
+        "name": "Travis Burke",
+        "pos": "OT"
+      },
+             {
+        "pick": 118,
+        "team": "DET",
+        "name": "Jimmy Rolder",
+        "pos": "LB"
+      },
+             {
+        "pick": 119,
+        "team": "JAX",
+        "name": "Wesley Williams",
+        "pos": "EDGE"
+      },
+             {
+        "pick": 120,
+        "team": "GB",
+        "name": "Dani Dennis-Sutton",
+        "pos": "EDGE"
+      },
+              {
+        "pick": 121,
+        "team": "PIT",
+        "name": "Kaden Wetjen",
+        "pos": "CB"
+      },
+              {
+        "pick": 122,
+        "team": "LV",
+        "name": "Mike Washington",
+        "pos": "RB"
+      },
+              {
+        "pick": 123,
+        "team": "HOU",
+        "name": "Wade Woodaz",
+        "pos": "LB"
+      },
+              {
+        "pick": 124,
+        "team": "CHI",
+        "name": "Malik Muhammad",
+        "pos": "CB"
+      },
+              {
+        "pick": 125,
+        "team": "BUF",
+        "name": "Skyler Bell",
+        "pos": "WR"
+      },
+              {
+        "pick": 126,
+        "team": "BUF",
+        "name": "Kaleb Elarms-Orr",
+        "pos": "LB"
+      },
+              {
+        "pick": 127,
+        "team": "SF",
+        "name": "Carver Willis",
+        "pos": "OT"
+      },
+              {
+        "pick": 128,
+        "team": "CIN",
+        "name": "Connor Lew",
+        "pos": "iOL"
+      },
+              {
+        "pick": 129,
+        "team": "CAR",
+        "name": "Will Lee",
+        "pos": "CB"
+      },
+              {
+        "pick": 130,
+        "team": "MIA",
+        "name": "Trey Moore",
+        "pos": "EDGE"
+      },
+     
+        "pick": 131,
+        "team": "LAC",
+        "name": "Genesis Smith",
+        "pos": "SAF"
+      },
+ 
+        "pick": 132,
+        "team": "NO",
+        "name": "Jeremiah Wright",
+        "pos": "iOL"
+      },
+ 
+        "pick": 133,
+        "team": "BAL",
+        "name": "Matthew Hibner",
+        "pos": "TE"
+      },
+ 
+        "pick": 134,
+        "team": "ATL",
+        "name": "Kendal Daniels",
+        "pos": "LB"
+      },
+ 
+        "pick": 135,
+        "team": "IND",
+        "name": "Bryce Boettcher",
+        "pos": "CB"
+      },
+ 
+        "pick": 136,
+        "team": "NO",
+        "name": "Bryce Lance",
+        "pos": "WR"
+      },
+ 
+        "pick": 137,
+        "team": "DAL",
+        "name": "LT Overton",
+        "pos": "EDGE"
+      },
+ 
+        "pick": 138,
+        "team": "MIA",
+        "name": "Kyle Louis",
+        "pos": "LB"
+      },
+ 
+        "pick": 139,
+        "team": "SF",
+        "name": "Ephesians Prysock",
+        "pos": "CB"
+      },
+ 
+        "pick": 140,
+        "team": "CIN",
+        "name": "Colbie Young",
+        "pos": "WR"
       }
       ],
     "publishedISO": "2026-04-23T00:00:00Z"
