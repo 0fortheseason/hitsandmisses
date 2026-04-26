@@ -512,6 +512,26 @@
     .about-panel a:hover { text-decoration: underline; }
     .about-panel strong { color: rgba(255,255,255,0.8); font-weight: 400; }
 
+    /* ── Fantasy position filter pills ── */
+    .pos-filter-pill {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--gray-200);
+      background: #fff;
+      color: var(--gray-600);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .pos-filter-pill:hover { border-color: var(--gray-400); color: var(--gray-900); }
+    .pos-filter-pill.active {
+      background: var(--gray-900);
+      color: #fff;
+      border-color: var(--gray-900);
+    }
+
     /* ── Duplicate warning ── */
     .dupe-warning {
       background: #FAEEDA;
@@ -849,6 +869,10 @@
       <p id="fantasy-parse-status" style="font-size:12px;color:var(--gray-400);margin-top:8px"></p>
     </div>
     <div class="input-panel" id="fantasy-input-panel" style="display:none">
+      <div id="fantasy-filter-bar" style="position:sticky;top:0;z-index:10;background:#fff;padding:10px 0 10px;margin-bottom:4px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.08em;font-weight:500;white-space:nowrap">Filter</span>
+        <div id="fantasy-pos-filters" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      </div>
       <div class="col-header" style="grid-template-columns: 44px 1fr 88px 36px">
         <div class="col-head">Pick</div>
         <div class="col-head">Player name</div>
@@ -1331,9 +1355,15 @@
                  "NYJ","PHI","PIT","SEA","SF","TB","TEN","WSH"];
 
   function pickToSlotKey(pickNum) {
-    if (pickNum <= 2)  return 'r1_top2';
-    if (pickNum <= 10) return 'r1_top10';
-    return 'r1_rest';
+    if (pickNum <= 2)   return 'r1_top2';
+    if (pickNum <= 10)  return 'r1_top10';
+    if (pickNum <= 32)  return 'r1_rest';
+    if (pickNum <= 64)  return 'r2';
+    if (pickNum <= 100) return 'r3';
+    if (pickNum <= 140) return 'r4';
+    if (pickNum <= 181) return 'r5';
+    if (pickNum <= 216) return 'r6';
+    return 'r7';
   }
 
   function getHitRate(pos, slotKey) {
@@ -1738,6 +1768,7 @@
   }
   let fantasyPicks = [];
   let fantasyNextId = 1;
+  let fantasyPosFilter = '';
 
   function initFantasyGrid() {
     const teams = parseInt(document.getElementById('fantasy-team-count').value) || 12;
@@ -1750,17 +1781,46 @@
       const slotKey = round === 1 ? (pickNum <= 2 ? 'r1_top2' : pickNum <= 10 ? 'r1_top10' : 'r1_rest') : 'r' + Math.min(round, 7);
       fantasyPicks.push({ id: fantasyNextId++, pick: pickNum, round, slotKey, teams, name: '', pos: 'WR', result: null });
     }
+    fantasyPosFilter = '';
     document.getElementById('fantasy-input-panel').style.display = 'block';
+    renderFantasyPosFilters();
     renderFantasyInputs();
     clearFantasyResults();
   }
 
+  function renderFantasyPosFilters() {
+    const container = document.getElementById('fantasy-pos-filters');
+    if (!container) return;
+    const positions = ['All', 'QB', 'RB', 'WR', 'TE'];
+    container.innerHTML = '';
+    positions.forEach(pos => {
+      const btn = document.createElement('button');
+      btn.className = 'pos-filter-pill' + ((pos === 'All' && !fantasyPosFilter) || pos === fantasyPosFilter ? ' active' : '');
+      btn.textContent = pos;
+      btn.onclick = () => {
+        fantasyPosFilter = pos === 'All' ? '' : pos;
+        renderFantasyPosFilters();
+        renderFantasyInputs();
+      };
+      container.appendChild(btn);
+    });
+  }
+
   function buildFantasyPlayerOptions(selectedName) {
     // Build options from NFL draft fantasy-relevant picks in draft order
+    // Exclude players already selected in other rows
     const nflPicks = getNFLDraftPicks();
-    const fantasyNFLPicks = nflPicks.filter(p => FANTASY_POSITIONS.has(p.pos));
+    const fantasyNFLPicks = nflPicks.filter(p =>
+      FANTASY_POSITIONS.has(p.pos) && (!fantasyPosFilter || p.pos === fantasyPosFilter)
+    );
+    const usedNames = new Set(
+      fantasyPicks
+        .filter(p => p.name && p.name !== selectedName)
+        .map(p => p.name.toLowerCase())
+    );
     let opts = '<option value="">— Select player —</option>';
     fantasyNFLPicks.forEach(p => {
+      if (usedNames.has(p.name.toLowerCase())) return;
       const round = pickToRoundNum(p.pick);
       const label = p.name + ' (' + p.pos + ', ' + p.team + ', R' + round + ')';
       opts += '<option value="' + p.name + '" data-pos="' + p.pos + '"' +
@@ -1790,8 +1850,8 @@
         fantasyPicks[i].name = playerSel.value;
         if (opt && opt.dataset.pos) {
           fantasyPicks[i].pos = opt.dataset.pos;
-          posSelect.value = opt.dataset.pos;
         }
+        renderFantasyInputs();
       };
 
       const posSelect = document.createElement('select');
@@ -1903,6 +1963,7 @@
     if (btn) btn.textContent = 'Run simulation';
     fantasyPicks = [];
     fantasyNextId = 1;
+    fantasyPosFilter = '';
     document.getElementById('fantasy-input-panel').style.display = 'none';
     clearFantasyResults();
   }
