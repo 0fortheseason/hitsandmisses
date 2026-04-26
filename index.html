@@ -739,9 +739,9 @@
 <header>
   <div class="header-inner">
     <img src="https://github.com/0fortheseason/hitsandmisses/blob/main/0FTS-round.png?raw=true" alt="0 for the Season" class="header-logo" />
-    <div class="header-eyebrow">NFL Draft Tool</div>
+    <div class="header-eyebrow">2026 NFL Draft</div>
     <h1>Hit or Miss<br>Simulator</h1>
-    <p>Enter picks from your mock draft. The simulator flips a weighted coin for each player based on historical NFL draft hit rates by position and draft slot.</p>
+    <p>The 2026 NFL Draft is in the books. Run the simulation to see which picks project as hits or misses based on historical draft success rates by position and draft slot.</p>
   </div>
   <div class="about-toggle">
     <button class="about-btn" id="about-btn" onclick="toggleAbout()">
@@ -750,7 +750,7 @@
     <div class="about-panel" id="about-panel">
       <p>Mock drafts are an exercise in optimism. Every analyst slots each player into their ideal situation and imagines the best-case outcome — a perfect fit for every hole on every roster. <strong>Reality is more sobering.</strong> Most prospects, even highly-touted ones, turn into a whole bunch of nothing.</p>
       <p>This simulator is a cold-water antidote to mock draft mania. Rather than assuming every pick works out, it runs a weighted probability simulation for each player based on <strong>historical NFL draft hit rates by position and draft slot</strong> — derived from draft classes between 2000 and 2023, giving each player enough career time to fairly assess. A "hit" means the player became at least a reliable NFL starter.</p>
-      <p>The simulator doesn't decide outcomes — the historical rates do. The point isn't to predict the future; it's to reframe the conversation. Instead of asking "where does this player fit best?", ask: "given what we know about how often players at this position and slot actually pan out, what's a realistic set of outcomes for this class?"</p>
+      <p>The simulator doesn't decide outcomes — the historical rates do. The point isn't to predict the future; it's to reframe the conversation. Instead of asking "where does this player fit best?", ask: "given what we know about how often players at this position and slot actually pan out, what's a realistic set of outcomes for this class?" Now that the 2026 draft is complete, you can run the simulation against the actual results.</p>
       <p>The concept originated in a <a href="https://0fortheseason.wordpress.com/2025/03/08/mock-draft-hits-and-misses/" target="_blank">March 2025 post on 0 for the Season</a>, where coin flips were used to assign hits and misses to a community mock draft — then each outcome was examined through the lens of coaching, opportunity, and player traits. This tool automates and scales that process.</p>
       <p style="font-size:12px;color:rgba(255,255,255,0.3)">This is speculative fiction about a projection of the NFL Draft. Don't get too worked up about it.</p>
     </div>
@@ -760,9 +760,9 @@
 <div class="container">
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('mock')">2026 First Round Mock</button>
+    <button class="tab-btn active" onclick="switchTab('mock')">2026 First Round</button>
     <button class="tab-btn" onclick="switchTab('diy')">Simulate Specific Players</button>
-    <button class="tab-btn" onclick="switchTab('fantasy')">Fantasy Draft</button>
+    <button class="tab-btn" onclick="switchTab('fantasy')">Fantasy Outlook</button>
   </div>
 
   <!-- ── TAB 1: First Round Mock ── -->
@@ -770,7 +770,7 @@
     <div class="mock-selector-bar">
       <label>Load mock</label>
       <select id="mock-select">
-        <option value="">— Select an analyst mock —</option>
+        <option value="">— Select a draft / mock —</option>
       </select>
       <button class="btn" onclick="loadSelectedMock()">Load ↓</button>
       <button class="btn" onclick="toggleImportPanel()">Paste mock…</button>
@@ -845,7 +845,7 @@
       <button class="btn" onclick="resetFantasy()">Reset</button>
     </div>
     <div id="fantasy-empty" style="padding:2rem 0; font-size:14px; color:var(--gray-400)">
-      No multi-round mocks loaded yet. Add a mock with more than 32 picks to <code>mocks.json</code> to use this tab.
+      No multi-round drafts available. The 2026 NFL Draft results include all 7 rounds and will appear here automatically.
     </div>
     <div id="fantasy-results-divider" class="divider" style="display:none"></div>
     <div id="fantasy-results-label" class="section-label" style="display:none; margin-bottom:14px">Fantasy-relevant picks</div>
@@ -857,7 +857,7 @@
   <div id="results-label" class="section-label" style="display:none; margin-bottom:14px">Results</div>
   <div class="cards-grid" id="cards-grid"></div>
 
-  <p class="footnote">Hit rates derived from historical NFL draft data (2000–2023). A "hit" is defined as a player who became at least a quality starter. Round 1 is split into three tiers (picks 1–2, 3–10, 11–32) to reflect meaningful variation within the first round. CB and SAF share the same historical hit rate. Team context is shown for storytelling purposes only and does not affect simulation weighting. 2026 first round order is based on the confirmed pre-draft slot order.</p>
+  <p class="footnote">Hit rates derived from historical NFL draft data (2000–2023). Kickers, punters, and long snappers are excluded from simulation. A "hit" is defined as a player who became at least a quality starter. Round 1 is split into three tiers (picks 1–2, 3–10, 11–32) to reflect meaningful variation within the first round. CB and SAF share the same historical hit rate. Team context is shown for storytelling purposes only and does not affect simulation weighting. 2026 first round order is based on the confirmed pre-draft slot order.</p>
 
 </div>
 
@@ -955,15 +955,33 @@
         return true;
       });
 
-      // Build index map so dropdown values still reference MOCKS array correctly
       const sel = document.getElementById('mock-select');
-      activeMocks.forEach(m => {
-        const origIdx = MOCKS.indexOf(m);
-        const opt = document.createElement('option');
-        opt.value = origIdx;
-        opt.textContent = m.label;
-        sel.appendChild(opt);
-      });
+      const pinnedMocks = activeMocks.filter(m => m.pinned);
+      const recentMocks = activeMocks.filter(m => !m.pinned);
+      if (pinnedMocks.length && recentMocks.length) {
+        const grpPinned = document.createElement('optgroup');
+        grpPinned.label = 'Official Results';
+        pinnedMocks.forEach(m => {
+          const o = document.createElement('option');
+          o.value = MOCKS.indexOf(m); o.textContent = m.label;
+          grpPinned.appendChild(o);
+        });
+        sel.appendChild(grpPinned);
+        const grpMocks = document.createElement('optgroup');
+        grpMocks.label = 'Mock Drafts';
+        recentMocks.forEach(m => {
+          const o = document.createElement('option');
+          o.value = MOCKS.indexOf(m); o.textContent = m.label;
+          grpMocks.appendChild(o);
+        });
+        sel.appendChild(grpMocks);
+      } else {
+        activeMocks.forEach(m => {
+          const o = document.createElement('option');
+          o.value = MOCKS.indexOf(m); o.textContent = m.label;
+          sel.appendChild(o);
+        });
+      }
 
       if (activeMocks.length === 0) {
         const opt = document.createElement('option');
@@ -1292,7 +1310,8 @@
   }
 
   function getHitRate(pos, slotKey) {
-    return (HIT_RATES[pos] || HIT_RATES['WR'])[slotKey] || 0.10;
+    if (!HIT_RATES[pos]) return 0;
+    return HIT_RATES[pos][slotKey] || 0.10;
   }
 
   function slotLabel(key) {
@@ -1509,7 +1528,7 @@
       result: Math.random() < getHitRate(p.pos, pickToSlotKey(p.pick))
     }));
     renderMockTable();
-    renderCards(mockPicks.map(p => ({
+    renderCards(mockPicks.filter(p => HIT_RATES[p.pos]).map(p => ({
       name: p.name,
       team: p.team,
       pos: p.pos,
@@ -1741,6 +1760,12 @@
 
   // ── Init ──────────────────────────────────────────────────────────
   Promise.all([loadMocks(), loadClasses(), loadProspects()]).then(() => {
+    const nflIdx = MOCKS.findIndex(m => m.pinned);
+    if (nflIdx !== -1) {
+      applyMockToPicks(MOCKS[nflIdx].picks);
+      const sel = document.getElementById('mock-select');
+      if (sel) sel.value = nflIdx;
+    }
     renderMockTable();
     renderDIYInputs();
   });
