@@ -914,7 +914,7 @@
       CLASSES.forEach((c, i) => {
         const opt = document.createElement('option');
         opt.value = i;
-        opt.textContent = `${c.label} (${c.picks.length} picks)`;
+        opt.textContent = c.label;
         sel.appendChild(opt);
       });
       sel.onchange = () => {
@@ -1811,7 +1811,8 @@
     // Exclude players already selected in other rows
     const nflPicks = getNFLDraftPicks();
     const fantasyNFLPicks = nflPicks.filter(p =>
-      FANTASY_POSITIONS.has(p.pos) && (!fantasyPosFilter || p.pos === fantasyPosFilter)
+      FANTASY_POSITIONS.has(p.pos) &&
+      (!fantasyPosFilter || p.pos === fantasyPosFilter || p.name === selectedName)
     );
     const usedNames = new Set(
       fantasyPicks
