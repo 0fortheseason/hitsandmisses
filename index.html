@@ -856,7 +856,17 @@
         <option value="3">3 rounds</option>
       </select>
       <button class="btn" onclick="initFantasyGrid()">Set up draft</button>
+      <button class="btn" onclick="toggleSleeperImport()">Sleeper link…</button>
       <button class="btn" onclick="toggleFantasyImport()">Paste draft…</button>
+    </div>
+    <div id="sleeper-import-panel" class="mock-import-panel" style="display:none">
+      <p class="import-hint">Paste a Sleeper mock draft share link and the picks will load automatically.</p>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input type="text" id="sleeper-url-input" placeholder="https://sleeper.com/draft/nfl/..." style="flex:1;min-width:280px;font-size:13px" />
+        <button class="btn btn-primary" onclick="loadSleeperDraft()">Load draft ↓</button>
+        <button class="btn" onclick="toggleSleeperImport()">Cancel</button>
+      </div>
+      <p id="sleeper-status" style="font-size:12px;color:var(--gray-400);margin-top:8px"></p>
     </div>
     <div id="fantasy-import-panel" class="mock-import-panel" style="display:none">
       <p class="import-hint">Paste any fantasy draft results below — player names and positions will be extracted automatically.</p>
@@ -1875,9 +1885,98 @@
     });
   }
 
+  function toggleSleeperImport() {
+    const panel = document.getElementById('sleeper-import-panel');
+    const isOpen = panel.style.display !== 'none';
+    panel.style.display = isOpen ? 'none' : 'block';
+    // Close paste panel if open
+    if (!isOpen) document.getElementById('fantasy-import-panel').style.display = 'none';
+    if (!isOpen) setTimeout(() => document.getElementById('sleeper-url-input').focus(), 50);
+  }
+
+  async function loadSleeperDraft() {
+    const urlInput = document.getElementById('sleeper-url-input').value.trim();
+    const statusEl = document.getElementById('sleeper-status');
+
+    // Extract draft ID from URL or treat as raw ID
+    const match = urlInput.match(/\/draft\/nfl\/(\d+)/);
+    const draftId = match ? match[1] : urlInput.replace(/\D/g, '');
+    if (!draftId) { statusEl.textContent = 'Could not find a draft ID in that URL.'; return; }
+
+    statusEl.textContent = 'Fetching draft…';
+
+    try {
+      // Fetch draft metadata for team/round counts
+      const metaResp = await fetch('https://api.sleeper.app/v1/draft/' + draftId);
+      if (!metaResp.ok) throw new Error('Draft not found');
+      const meta = await metaResp.json();
+      const teams = meta.settings ? (meta.settings.teams || 12) : 12;
+      const rounds = meta.settings ? (meta.settings.rounds || 2) : 2;
+
+      // Update selectors to match
+      const teamSel = document.getElementById('fantasy-team-count');
+      const roundSel = document.getElementById('fantasy-round-count');
+      // Set closest available option
+      [10,12,14].forEach(v => { if (teams === v) teamSel.value = v; });
+      [1,2,3].forEach(v => { if (rounds >= v) roundSel.value = v; });
+
+      // Fetch all picks
+      statusEl.textContent = 'Loading picks…';
+      const picksResp = await fetch('https://api.sleeper.app/v1/draft/' + draftId + '/picks');
+      if (!picksResp.ok) throw new Error('Could not load picks');
+      const picks = await picksResp.json();
+
+      // Filter to fantasy positions and map to our format
+      const FANTASY_POS_SET = new Set(['QB','RB','WR','TE']);
+      fantasyPicks = [];
+      fantasyNextId = 1;
+
+      picks.forEach(p => {
+        const pos = p.metadata ? p.metadata.position : null;
+        if (!pos || !FANTASY_POS_SET.has(pos)) return;
+        const firstName = p.metadata.first_name || '';
+        const lastName = p.metadata.last_name || '';
+        const name = (firstName + ' ' + lastName).trim();
+        const pickNum = p.pick_no;
+        const round = p.round;
+        const slotKey = round === 1
+          ? (pickNum <= 2 ? 'r1_top2' : pickNum <= 10 ? 'r1_top10' : 'r1_rest')
+          : 'r' + Math.min(round, 7);
+
+        fantasyPicks.push({
+          id: fantasyNextId++,
+          pick: pickNum,
+          round,
+          slotKey,
+          teams,
+          name,
+          pos,
+          result: null,
+        });
+      });
+
+      // Sort by pick number
+      fantasyPicks.sort((a, b) => a.pick - b.pick);
+
+      fantasyPosFilter = '';
+      document.getElementById('fantasy-input-panel').style.display = 'block';
+      renderFantasyPosFilters();
+      renderFantasyInputs();
+      clearFantasyResults();
+
+      statusEl.textContent = 'Loaded ' + fantasyPicks.length + ' fantasy-relevant picks from ' + rounds + '-round draft.';
+      document.getElementById('sleeper-import-panel').style.display = 'none';
+
+    } catch(e) {
+      statusEl.textContent = 'Failed to load draft: ' + e.message;
+    }
+  }
+
   function toggleFantasyImport() {
     const panel = document.getElementById('fantasy-import-panel');
-    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    const isOpen = panel.style.display !== 'none';
+    panel.style.display = isOpen ? 'none' : 'block';
+    if (!isOpen) document.getElementById('sleeper-import-panel').style.display = 'none';
   }
 
   async function parseFantasyPaste() {
