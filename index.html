@@ -760,31 +760,14 @@
 <div class="container">
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('mock')">2026 First Round</button>
-    <button class="tab-btn" onclick="switchTab('diy')">Simulate Specific Players</button>
+    <button class="tab-btn active" onclick="switchTab('mock')">2026 NFL Draft</button>
+    <button class="tab-btn" onclick="switchTab('diy')">Team Draft Class</button>
     <button class="tab-btn" onclick="switchTab('fantasy')">Fantasy Outlook</button>
   </div>
 
   <!-- ── TAB 1: First Round Mock ── -->
   <div id="tab-mock" class="tab-panel active">
-    <div class="mock-selector-bar">
-      <label>Load mock</label>
-      <select id="mock-select">
-        <option value="">— Select a draft / mock —</option>
-      </select>
-      <button class="btn" onclick="loadSelectedMock()">Load ↓</button>
-      <button class="btn" onclick="toggleImportPanel()">Paste mock…</button>
-    </div>
-    <div id="mock-import-panel" class="mock-import-panel" style="display:none">
-      <p class="import-hint">Paste any mock draft text below — one pick per line or unstructured prose. Claude will parse it into picks automatically.</p>
-      <textarea id="mock-paste-input" placeholder="Paste mock draft text here…"></textarea>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        <input type="text" id="mock-analyst-name" placeholder="Analyst name (e.g. Daniel Jeremiah)" style="flex:1;min-width:180px;font-size:13px" />
-        <button class="btn btn-primary" onclick="parsePastedMock()">Parse & load ↓</button>
-        <button class="btn" onclick="toggleImportPanel()">Cancel</button>
-      </div>
-      <p id="parse-status" style="font-size:12px;color:var(--gray-400);margin-top:8px"></p>
-    </div>
+
     <div class="input-panel">
       <div id="mock-dupe-warning" class="dupe-warning"></div>
       <table class="mock-table">
@@ -807,17 +790,19 @@
     </div>
   </div>
 
-  <!-- ── TAB 2: DIY ── -->
+  <!-- ── TAB 2: Team Draft Class ── -->
   <div id="tab-diy" class="tab-panel">
     <div class="class-selector-bar">
-      <label>Load team</label>
+      <label>Select team</label>
       <select id="class-select">
-        <option value="">— All picks (no team filter) —</option>
+        <option value="">— Choose a team —</option>
       </select>
       <button class="btn" onclick="clearTeamClass()">Clear</button>
     </div>
-    <div class="input-panel">
-      <div id="diy-dupe-warning" class="dupe-warning"></div>
+    <div id="team-empty-state" style="padding:2rem 0; font-size:14px; color:var(--gray-400)">
+      Select a team above to load their full draft class across all 7 rounds.
+    </div>
+    <div class="input-panel" id="team-input-panel" style="display:none">
       <div class="col-header">
         <div class="col-head">Player name</div>
         <div class="col-head">Position</div>
@@ -832,27 +817,56 @@
         <button class="btn" onclick="resetDIY()">Reset</button>
       </div>
     </div>
+    <div id="diy-dupe-warning" class="dupe-warning"></div>
   </div>
 
-  <!-- ── TAB 3: Fantasy ── -->
+    <!-- ── TAB 3: Fantasy ── -->
   <div id="tab-fantasy" class="tab-panel">
     <div class="mock-selector-bar">
-      <label>Load mock</label>
-      <select id="fantasy-mock-select">
-        <option value="">— Select a multi-round mock —</option>
+      <label>Teams</label>
+      <select id="fantasy-team-count">
+        <option value="10">10 teams</option>
+        <option value="12" selected>12 teams</option>
+        <option value="14">14 teams</option>
       </select>
-      <button class="btn btn-primary" id="btn-fantasy" onclick="simulateFantasy()">Run simulation</button>
-      <button class="btn" onclick="resetFantasy()">Reset</button>
+      <label style="margin-left:4px">Rounds</label>
+      <select id="fantasy-round-count">
+        <option value="1">1 round</option>
+        <option value="2" selected>2 rounds</option>
+        <option value="3">3 rounds</option>
+      </select>
+      <button class="btn" onclick="initFantasyGrid()">Set up draft</button>
+      <button class="btn" onclick="toggleFantasyImport()">Paste draft…</button>
     </div>
-    <div id="fantasy-empty" style="padding:2rem 0; font-size:14px; color:var(--gray-400)">
-      No multi-round drafts available. The 2026 NFL Draft results include all 7 rounds and will appear here automatically.
+    <div id="fantasy-import-panel" class="mock-import-panel" style="display:none">
+      <p class="import-hint">Paste any fantasy draft results below — player names and positions will be extracted automatically.</p>
+      <textarea id="fantasy-paste-input" placeholder="Paste fantasy draft text here…"></textarea>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input type="text" id="fantasy-teams-input" placeholder="Number of teams (e.g. 12)" style="flex:1;min-width:140px;font-size:13px;max-width:200px" />
+        <button class="btn btn-primary" onclick="parseFantasyPaste()">Parse & load ↓</button>
+        <button class="btn" onclick="toggleFantasyImport()">Cancel</button>
+      </div>
+      <p id="fantasy-parse-status" style="font-size:12px;color:var(--gray-400);margin-top:8px"></p>
+    </div>
+    <div class="input-panel" id="fantasy-input-panel" style="display:none">
+      <div class="col-header" style="grid-template-columns: 44px 1fr 88px 36px">
+        <div class="col-head">Pick</div>
+        <div class="col-head">Player name</div>
+        <div class="col-head">Position</div>
+        <div></div>
+      </div>
+      <div id="fantasy-picks-list"></div>
+      <div class="actions-row" style="margin-top:1rem">
+        <button class="btn btn-primary" id="btn-fantasy" onclick="simulateFantasy()">Run simulation</button>
+        <button class="btn" onclick="resetFantasy()">Reset</button>
+      </div>
     </div>
     <div id="fantasy-results-divider" class="divider" style="display:none"></div>
     <div id="fantasy-results-label" class="section-label" style="display:none; margin-bottom:14px">Fantasy-relevant picks</div>
     <div class="cards-grid" id="fantasy-cards-grid"></div>
   </div>
 
-  <!-- ── Shared results area ── -->
+    <!-- ── Shared results area ── -->
   <div id="results-divider" class="divider" style="display:none"></div>
   <div id="results-label" class="section-label" style="display:none; margin-bottom:14px">Results</div>
   <div class="cards-grid" id="cards-grid"></div>
@@ -906,6 +920,8 @@
     }));
     nextDIYId = diyPicks.length + 1;
     showDupeWarning('diy-dupe-warning', []);
+    document.getElementById('team-empty-state').style.display = 'none';
+    document.getElementById('team-input-panel').style.display = 'block';
     renderDIYInputs();
     clearResults();
   }
@@ -913,14 +929,11 @@
   function clearTeamClass() {
     selectedTeam = '';
     document.getElementById('class-select').value = '';
-    diyPicks = [
-      {id:1,name:'',pos:'QB',slot:'r1_top2',team:'LV',college:'',result:null},
-      {id:2,name:'',pos:'WR',slot:'r1_top2',team:'NYJ',college:'',result:null},
-      {id:3,name:'',pos:'EDGE',slot:'r1_top10',team:'ARI',college:'',result:null},
-    ];
-    nextDIYId = 4;
+    diyPicks = [];
+    nextDIYId = 1;
     showDupeWarning('diy-dupe-warning', []);
-    renderDIYInputs();
+    document.getElementById('team-input-panel').style.display = 'none';
+    document.getElementById('team-empty-state').style.display = 'block';
     clearResults();
   }
 
@@ -990,19 +1003,7 @@
         sel.appendChild(opt);
       }
 
-      // Populate fantasy tab — same filter, but only mocks with >32 picks
-      const fantasySel = document.getElementById('fantasy-mock-select');
-      const multiRound = activeMocks.filter(m => m.picks.length > 32);
-      if (multiRound.length > 0) {
-        document.getElementById('fantasy-empty').style.display = 'none';
-        multiRound.forEach(m => {
-          const origIdx = MOCKS.indexOf(m);
-          const opt = document.createElement('option');
-          opt.value = origIdx;
-          opt.textContent = `${m.label} (${m.picks.length} picks)`;
-          fantasySel.appendChild(opt);
-        });
-      }
+
     } catch(e) {
       console.warn('Could not load mocks.json');
     }
@@ -1690,58 +1691,144 @@
 
   const FANTASY_POSITIONS = new Set(['QB','RB','WR','TE']);
 
-  function simulateFantasy() {
-    const sel = document.getElementById('fantasy-mock-select');
-    if (!sel.value) return;
-    const mock = MOCKS[parseInt(sel.value)];
-    if (!mock) return;
+  function fantasyPickLabel(pickNum, teams) {
+    const round = Math.ceil(pickNum / teams);
+    const pickInRound = pickNum - (round - 1) * teams;
+    return round + '.' + String(pickInRound).padStart(2, '0');
+  }
+  let fantasyPicks = [];
+  let fantasyNextId = 1;
 
-    const results = mock.picks
-      .filter(p => FANTASY_POSITIONS.has(p.pos) && p.name && p.name.trim() !== '')
-      .map(p => {
-        const round = p.pick <= 32 ? 1 : p.pick <= 64 ? 2 : p.pick <= 96 ? 3 :
-                      p.pick <= 128 ? 4 : p.pick <= 160 ? 5 : p.pick <= 192 ? 6 : 7;
-        const slotKey = p.pick <= 2 ? 'r1_top2' : p.pick <= 10 ? 'r1_top10' :
-                        p.pick <= 32 ? 'r1_rest' : `r${round}`;
-        const prospect = PROSPECTS.find(pr => pr.name.toLowerCase() === p.name.toLowerCase());
-        return {
-          name: p.name,
-          team: p.team,
-          pos: p.pos,
-          college: prospect ? prospect.college : (p.college || ''),
-          slotKey,
-          pickNum: p.pick,
-          result: Math.random() < getHitRate(p.pos, slotKey),
-        };
-      });
-
+  function initFantasyGrid() {
+    const teams = parseInt(document.getElementById('fantasy-team-count').value) || 12;
+    const rounds = parseInt(document.getElementById('fantasy-round-count').value) || 2;
+    const total = teams * rounds;
+    fantasyPicks = [];
+    for (let i = 0; i < total; i++) {
+      const pickNum = i + 1;
+      const round = Math.ceil(pickNum / teams);
+      const slotKey = round === 1 ? (pickNum <= 2 ? 'r1_top2' : pickNum <= 10 ? 'r1_top10' : 'r1_rest') : 'r' + Math.min(round, 7);
+      fantasyPicks.push({ id: fantasyNextId++, pick: pickNum, round, slotKey, teams, name: '', pos: 'WR', result: null });
+    }
+    document.getElementById('fantasy-input-panel').style.display = 'block';
+    renderFantasyInputs();
     clearFantasyResults();
-    if (!results.length) return;
+  }
 
+  function renderFantasyInputs() {
+    const container = document.getElementById('fantasy-picks-list');
+    container.innerHTML = '';
+    fantasyPicks.forEach((p, i) => {
+      const row = document.createElement('div');
+      row.className = 'input-row';
+      row.style.gridTemplateColumns = '44px 1fr 88px 36px';
+
+      const teams = p.teams || parseInt(document.getElementById('fantasy-team-count').value) || 12;
+      const numDiv = document.createElement('div');
+      numDiv.className = 'pick-row-num';
+      numDiv.title = 'Overall pick ' + p.pick;
+      numDiv.textContent = fantasyPickLabel(p.pick, teams);
+
+      const { wrap } = makeInput(p.name,
+        val => { fantasyPicks[i].name = val; },
+        pos => { fantasyPicks[i].pos = pos; }
+      );
+
+      const posSelect = document.createElement('select');
+      posSelect.innerHTML = ['QB','RB','WR','TE'].map(pos =>
+        '<option value="' + pos + '"' + (pos === p.pos ? ' selected' : '') + '>' + pos + '</option>'
+      ).join('');
+      posSelect.onchange = () => { fantasyPicks[i].pos = posSelect.value; };
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove-btn';
+      removeBtn.title = 'Remove';
+      removeBtn.textContent = '×';
+      removeBtn.onclick = () => { fantasyPicks.splice(i, 1); renderFantasyInputs(); };
+
+      row.appendChild(numDiv);
+      row.appendChild(wrap);
+      row.appendChild(posSelect);
+      row.appendChild(removeBtn);
+      container.appendChild(row);
+    });
+  }
+
+  function toggleFantasyImport() {
+    const panel = document.getElementById('fantasy-import-panel');
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  }
+
+  async function parseFantasyPaste() {
+    const text = document.getElementById('fantasy-paste-input').value.trim();
+    const teamsInput = document.getElementById('fantasy-teams-input').value.trim();
+    const statusEl = document.getElementById('fantasy-parse-status');
+    if (!text) { statusEl.textContent = 'Please paste some draft text first.'; return; }
+    statusEl.textContent = 'Parsing…';
+    const systemPrompt = 'You are a parser that extracts fantasy football draft picks from text. Return ONLY a valid JSON array with no markdown, no code fences, no explanation. Each object must have: pick (integer, overall pick number), name (player full name), pos (one of: QB RB WR TE). Only include fantasy-relevant skill positions. Return only the JSON array.';
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 2000,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: text }]
+        })
+      });
+      const data = await resp.json();
+      const raw = data.content.map(c => c.text || '').join('');
+      const picks = JSON.parse(raw.replace(/```json|```/g, '').trim());
+      if (!Array.isArray(picks) || !picks.length) throw new Error('No picks parsed');
+      const teams = parseInt(teamsInput) || 12;
+      fantasyPicks = picks.map((p, i) => {
+        const pickNum = p.pick || i + 1;
+        const round = Math.ceil(pickNum / teams);
+        const slotKey = round === 1 ? (pickNum <= 2 ? 'r1_top2' : pickNum <= 10 ? 'r1_top10' : 'r1_rest') : 'r' + Math.min(round, 7);
+        return { id: i + 1, pick: pickNum, round, slotKey, teams, name: p.name, pos: p.pos, result: null };
+      });
+      document.getElementById('fantasy-input-panel').style.display = 'block';
+      renderFantasyInputs();
+      clearFantasyResults();
+      statusEl.textContent = 'Parsed ' + picks.length + ' picks.';
+      document.getElementById('fantasy-import-panel').style.display = 'none';
+    } catch(e) {
+      statusEl.textContent = 'Parse failed — check the pasted text. ' + e.message;
+    }
+  }
+
+  function simulateFantasy() {
+    const eligible = fantasyPicks.filter(p => FANTASY_POSITIONS.has(p.pos) && p.name.trim() !== '');
+    if (!eligible.length) return;
+    markRun('btn-fantasy');
+    const teams = parseInt(document.getElementById('fantasy-team-count').value) || 12;
+    const results = eligible.map(p => {
+      const prospect = PROSPECTS.find(pr => pr.name.toLowerCase() === p.name.toLowerCase());
+      return {
+        name: p.name,
+        pos: p.pos,
+        college: prospect ? prospect.college : '',
+        slotKey: p.slotKey,
+        pickNum: p.pick,
+        teams: p.teams || teams,
+        result: Math.random() < getHitRate(p.pos, p.slotKey),
+      };
+    });
+    clearFantasyResults();
     document.getElementById('fantasy-results-divider').style.display = '';
     document.getElementById('fantasy-results-label').style.display = '';
-
-    markRun('btn-fantasy');
     const grid = document.getElementById('fantasy-cards-grid');
     grid.innerHTML = results.map(p => {
       const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
       const cls = p.result ? 'hit' : 'miss';
-      const logoHTML = buildLogoHTML(p.team);
-      return `
-        <div class="pick-card ${cls}">
-          <div class="card-inner"><div class="card-header-row">
-            ${logoHTML}
-            <div class="card-header-text">
-              <div class="card-name">${p.name}</div>
-            </div>
-          </div>
-          <div class="card-meta">${p.pos}${p.college ? ` · ${p.college}` : ''}</div>
-          <div class="card-slot">${p.team ? `${p.team} · ` : ''}Pick ${p.pickNum}</div>
-          <div class="card-footer">
-            <span class="badge badge-${cls}">${cls === 'hit' ? 'Hit' : 'Miss'}</span>
-            <span class="hit-rate">${hr}% historical rate</span>
-          </div></div>
-        </div>`;
+      return '<div class="pick-card ' + cls + '"><div class="card-inner">' +
+        '<div class="card-name">' + p.name + '</div>' +
+        '<div class="card-meta">' + p.pos + (p.college ? ' · ' + p.college : '') + '</div>' +
+        '<div class="card-slot">' + fantasyPickLabel(p.pickNum, p.teams || 12) + ' <span style="color:var(--gray-400);font-size:11px">(pick ' + p.pickNum + ')</span></div>' +
+        '<div class="card-footer"><span class="badge badge-' + cls + '">' + (cls === 'hit' ? 'Hit' : 'Miss') + '</span>' +
+        '<span class="hit-rate">' + hr + '% historical rate</span></div>' +
+        '</div></div>';
     }).join('');
   }
 
@@ -1754,7 +1841,9 @@
   function resetFantasy() {
     const btn = document.getElementById('btn-fantasy');
     if (btn) btn.textContent = 'Run simulation';
-    document.getElementById('fantasy-mock-select').value = '';
+    fantasyPicks = [];
+    fantasyNextId = 1;
+    document.getElementById('fantasy-input-panel').style.display = 'none';
     clearFantasyResults();
   }
 
