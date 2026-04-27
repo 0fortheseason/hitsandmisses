@@ -867,7 +867,8 @@
       </div>
       <p id="sleeper-status" style="font-size:12px;color:var(--gray-400);margin-top:8px"></p>
     </div>
-    <div id="fantasy-filter-bar" style="position:sticky;top:0;z-index:10;background:#fff;padding:10px 0 10px;margin-bottom:4px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <div class="input-panel" id="fantasy-input-panel" style="display:none">
+      <div id="fantasy-filter-bar" style="position:sticky;top:0;z-index:10;background:#fff;padding:10px 0 10px;margin-bottom:4px;border-bottom:1px solid var(--gray-200);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <span style="font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.08em;font-weight:500;white-space:nowrap">Filter</span>
         <div id="fantasy-pos-filters" style="display:flex;gap:6px;flex-wrap:wrap"></div>
       </div>
@@ -1016,33 +1017,7 @@
         return true;
       });
 
-      const sel = document.getElementById('mock-select');
-      const pinnedMocks = activeMocks.filter(m => m.pinned);
-      const recentMocks = activeMocks.filter(m => !m.pinned);
-      if (pinnedMocks.length && recentMocks.length) {
-        const grpPinned = document.createElement('optgroup');
-        grpPinned.label = 'Official Results';
-        pinnedMocks.forEach(m => {
-          const o = document.createElement('option');
-          o.value = MOCKS.indexOf(m); o.textContent = m.label;
-          grpPinned.appendChild(o);
-        });
-        sel.appendChild(grpPinned);
-        const grpMocks = document.createElement('optgroup');
-        grpMocks.label = 'Mock Drafts';
-        recentMocks.forEach(m => {
-          const o = document.createElement('option');
-          o.value = MOCKS.indexOf(m); o.textContent = m.label;
-          grpMocks.appendChild(o);
-        });
-        sel.appendChild(grpMocks);
-      } else {
-        activeMocks.forEach(m => {
-          const o = document.createElement('option');
-          o.value = MOCKS.indexOf(m); o.textContent = m.label;
-          sel.appendChild(o);
-        });
-      }
+
 
       if (activeMocks.length === 0) {
         const opt = document.createElement('option');
@@ -1055,17 +1030,6 @@
     } catch(e) {
       console.warn('Could not load mocks.json');
     }
-  }
-
-  function loadSelectedMock() {
-    const sel = document.getElementById('mock-select');
-    const idx = sel.value;
-    if (idx === '') return;
-    const mock = MOCKS[parseInt(idx)];
-    if (!mock) return;
-    applyMockToPicks(mock.picks);
-    renderMockTable();
-    clearResults();
   }
 
   function applyMockToPicks(picks) {
@@ -1082,62 +1046,6 @@
         result: null,
       };
     });
-  }
-
-  function toggleImportPanel() {
-    const panel = document.getElementById('mock-import-panel');
-    const visible = panel.style.display !== 'none';
-    panel.style.display = visible ? 'none' : 'block';
-    if (!visible) document.getElementById('mock-paste-input').focus();
-  }
-
-  async function parsePastedMock() {
-    const text = document.getElementById('mock-paste-input').value.trim();
-    const analystName = document.getElementById('mock-analyst-name').value.trim() || 'Custom mock';
-    const statusEl = document.getElementById('parse-status');
-    if (!text) { statusEl.textContent = 'Please paste some mock draft text first.'; return; }
-
-    statusEl.textContent = 'Parsing…';
-
-    const systemPrompt = `You are a parser that extracts NFL mock draft picks from text. Return ONLY a valid JSON array with no markdown, no explanation, no code fences. Each object must have: pick (integer 1-32), team (NFL abbreviation, use: ARI ATL BAL BUF CAR CHI CIN CLE DAL DEN DET GB HOU IND JAX KC LAC LAR LV MIA MIN NE NO NYG NYJ PHI PIT SEA SF TB TEN WSH), name (player full name string), pos (one of: QB RB WR TE OT iOL EDGE DL LB CB SAF). If pick order or team is unclear infer from context. Always return all 32 picks if possible. Return only the JSON array.`;
-
-    try {
-      const resp = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 2000,
-          system: systemPrompt,
-          messages: [{ role: 'user', content: text }]
-        })
-      });
-      const data = await resp.json();
-      const raw = data.content.map(c => c.text || '').join('');
-      const clean = raw.replace(/```json|```/g, '').trim();
-      const picks = JSON.parse(clean);
-
-      if (!Array.isArray(picks) || picks.length === 0) throw new Error('No picks parsed');
-
-      applyMockToPicks(picks);
-      renderMockTable();
-      clearResults();
-
-      const today = new Date().toISOString().slice(0,10);
-      const newMock = { analyst: analystName, source: 'imported', published: today, label: `${analystName} — Imported`, picks };
-      MOCKS.push(newMock);
-      const sel = document.getElementById('mock-select');
-      const opt = document.createElement('option');
-      opt.value = MOCKS.length - 1;
-      opt.textContent = newMock.label;
-      sel.appendChild(opt);
-      sel.value = MOCKS.length - 1;
-
-      statusEl.textContent = `Parsed ${picks.length} picks successfully.`;
-      document.getElementById('mock-import-panel').style.display = 'none';
-    } catch(e) {
-      statusEl.textContent = 'Parse failed — try again or check the pasted text. ' + e.message;
-    }
   }
 
   // ── Prospects ─────────────────────────────────────────────────────
@@ -1399,28 +1307,6 @@
     document.getElementById('results-label').style.display = 'none';
   }
 
-  function buildLogoHTML(team) {
-    if (!team || !TEAM_LOGOS[team]) {
-      return team ? `<div class="card-logo-fallback">${team}</div>` : '';
-    }
-    const url = TEAM_LOGOS[team];
-    const fallback = `<div class="card-logo-fallback">${team}</div>`;
-    const img = document.createElement('img');
-    img.src = url;
-    img.alt = team;
-    img.className = 'card-logo';
-    img.onerror = function() {
-      this.parentNode.replaceChild(
-        Object.assign(document.createElement('div'), {
-          className: 'card-logo-fallback',
-          textContent: team
-        }),
-        this
-      );
-    };
-    return img.outerHTML;
-  }
-
   function renderCards(results) {
     const grid = document.getElementById('cards-grid');
     const divider = document.getElementById('results-divider');
@@ -1473,11 +1359,6 @@
   function updateMockPos(pickNum, val) {
     const p = mockPicks.find(p => p.pick === pickNum);
     if (p) { p.pos = val; renderMockTable(); }
-  }
-
-  function updateMockName(pickNum, val) {
-    const p = mockPicks.find(p => p.pick === pickNum);
-    if (p) p.name = val;
   }
 
   function renderMockTable() {
@@ -1607,7 +1488,6 @@
       college: '',
       result: null,
     }));
-    document.getElementById('mock-select').value = '';
     renderMockTable();
     clearResults();
   }
@@ -1965,7 +1845,6 @@
       fantasyPicks.sort((a, b) => a.pick - b.pick);
 
       fantasyPosFilter = '';
-      document.getElementById('fantasy-input-panel').style.display = 'block';
       renderFantasyPosFilters();
       renderFantasyInputs();
       clearFantasyResults();
@@ -2012,7 +1891,7 @@
         '<div class="card-meta">' + p.pos + (p.college ? ' · ' + p.college : '') + '</div>' +
         (p.pickNum === 999 ? '<div class="card-slot">FA</div>' : '<div class="card-slot">' + fantasyPickLabel(p.pickNum, p.teams || 12) + ' <span style="color:var(--gray-400);font-size:11px">(pick ' + p.pickNum + ')</span></div>') +
         '<div class="card-footer"><span class="badge badge-' + cls + '">' + (cls === 'hit' ? 'Hit' : 'Miss') + '</span>' +
-        '<span class="hit-rate">' + hr + '% · ' + (p.nflPick === 999 ? 'FA' : p.nflPick ? 'NFL Pick ' + p.nflPick : 'est.') + '</span></div>' +
+        '<span class="hit-rate">' + hr + '%' + (p.nflPick && p.nflPick !== 999 ? ' · Pick ' + p.nflPick : '') + '</span></div>' +
         '</div></div>';
     }).join('');
   }
@@ -2038,8 +1917,6 @@
     const nflIdx = MOCKS.findIndex(m => m.pinned);
     if (nflIdx !== -1) {
       applyMockToPicks(MOCKS[nflIdx].picks);
-      const sel = document.getElementById('mock-select');
-      if (sel) sel.value = nflIdx;
     }
     renderMockTable();
     renderDIYInputs();
