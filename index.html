@@ -1353,7 +1353,7 @@
                  "NYJ","PHI","PIT","SEA","SF","TB","TEN","WSH"];
 
   function pickToSlotKey(pickNum) {
-    if (pickNum === 999) return 'r7'; // UDFA — treated as 7th round odds
+    if (pickNum === 999) return 'r7'; // FA — treated as 7th round odds
     if (pickNum <= 2)   return 'r1_top2';
     if (pickNum <= 10)  return 'r1_top10';
     if (pickNum <= 32)  return 'r1_rest';
@@ -1431,7 +1431,7 @@
     grid.innerHTML = results.map(p => {
       const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
       const cls = p.result ? 'hit' : 'miss';
-      const slotStr = p.pickNum === 999 ? 'UDFA' : p.pickNum ? `Pick ${p.pickNum}` : slotLabel(p.slotKey);
+      const slotStr = p.pickNum === 999 ? 'FA' : p.pickNum ? `Pick ${p.pickNum}` : slotLabel(p.slotKey);
       const logoUrl = p.team && TEAM_LOGOS[p.team] ? TEAM_LOGOS[p.team] : null;
       const logoHTML = logoUrl
         ? `<img src="${logoUrl}" alt="${p.team}" class="card-logo" onerror="this.style.display='none'" />`
@@ -1445,7 +1445,7 @@
             </div>
           </div>
           <div class="card-meta">${p.pos}${p.college ? ` · ${p.college}` : ''}</div>
-          <div class="card-slot">${p.pickNum === 999 ? 'UDFA' : (p.team ? `${p.team} · ` : '') + slotStr}</div>
+          <div class="card-slot">${p.pickNum === 999 ? 'FA' : (p.team ? `${p.team} · ` : '') + slotStr}</div>
           <div class="card-footer">
             <span class="badge badge-${cls}">${cls==='hit'?'Hit':'Miss'}</span>
             <span class="hit-rate">${hr}% historical rate</span>
@@ -1645,7 +1645,7 @@
       if (p._pickNum) {
         const numLabel = document.createElement('div');
         numLabel.className = 'pick-row-num';
-        numLabel.textContent = p._pickNum === 999 ? 'UDFA' : p._pickNum;
+        numLabel.textContent = p._pickNum === 999 ? 'FA' : p._pickNum;
         row.appendChild(numLabel);
       }
 
@@ -1761,7 +1761,7 @@
   }
 
   function fantasyPickLabel(pickNum, teams) {
-    if (pickNum === 999) return 'UDFA';
+    if (pickNum === 999) return 'FA';
     const round = Math.ceil(pickNum / teams);
     const pickInRound = pickNum - (round - 1) * teams;
     return round + '.' + String(pickInRound).padStart(2, '0');
@@ -1825,16 +1825,16 @@
     drafted.forEach(p => {
       if (usedNames.has(p.name.toLowerCase())) return;
       const round = pickToRoundNum(p.pick);
-      const roundLabel = p.pick === 999 ? 'UDFA' : 'R' + round;
+      const roundLabel = p.pick === 999 ? 'FA' : 'R' + round;
       const label = p.name + ' (' + p.pos + (p.team ? ', ' + p.team : '') + ', ' + roundLabel + ')';
       opts += '<option value="' + p.name + '" data-pos="' + p.pos + '"' +
         (p.name === selectedName ? ' selected' : '') + '>' + label + '</option>';
     });
     if (udfas.length) {
-      opts += '<option disabled>── UDFAs ──</option>';
+      opts += '<option disabled>── Free Agents ──</option>';
       udfas.forEach(p => {
         if (usedNames.has(p.name.toLowerCase())) return;
-        const label = p.name + ' (' + p.pos + ', UDFA)';
+        const label = p.name + ' (' + p.pos + ', FA)';
         opts += '<option value="' + p.name + '" data-pos="' + p.pos + '"' +
           (p.name === selectedName ? ' selected' : '') + '>' + label + '</option>';
       });
@@ -1985,10 +1985,12 @@
     const teams = parseInt(document.getElementById('fantasy-team-count').value) || 12;
     const results = eligible.map(p => {
       const prospect = PROSPECTS.find(pr => pr.name.toLowerCase() === p.name.toLowerCase());
+      const nflPick = getNFLDraftPicks().find(np => np.name.toLowerCase() === p.name.toLowerCase());
       return {
         name: p.name,
         pos: p.pos,
         college: prospect ? prospect.college : '',
+        nflTeam: nflPick ? nflPick.team : '',
         slotKey: p.slotKey,
         pickNum: p.pick,
         teams: p.teams || teams,
@@ -2005,7 +2007,7 @@
       return '<div class="pick-card ' + cls + '"><div class="card-inner">' +
         '<div class="card-name">' + p.name + '</div>' +
         '<div class="card-meta">' + p.pos + (p.college ? ' · ' + p.college : '') + '</div>' +
-        (p.pickNum === 999 ? '<div class="card-slot">UDFA</div>' : '<div class="card-slot">' + fantasyPickLabel(p.pickNum, p.teams || 12) + ' <span style="color:var(--gray-400);font-size:11px">(pick ' + p.pickNum + ')</span></div>') +
+        (p.pickNum === 999 ? '<div class="card-slot">FA</div>' : '<div class="card-slot">' + fantasyPickLabel(p.pickNum, p.teams || 12) + ' <span style="color:var(--gray-400);font-size:11px">(pick ' + p.pickNum + ')</span></div>') +
         '<div class="card-footer"><span class="badge badge-' + cls + '">' + (cls === 'hit' ? 'Hit' : 'Miss') + '</span>' +
         '<span class="hit-rate">' + hr + '% historical rate</span></div>' +
         '</div></div>';
