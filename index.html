@@ -1946,15 +1946,18 @@
       fantasyNextId = 1;
 
       picks.forEach(p => {
-        // Skip undrafted players — they have no pick_no or no picked_by
-        if (!p.pick_no || !p.picked_by) return;
+        // Skip truly undrafted pool entries — they have no player_id
+        if (!p.player_id && !p.metadata) return;
         const pos = p.metadata ? p.metadata.position : null;
         if (!pos || !FANTASY_POS_SET.has(pos)) return;
         const firstName = p.metadata.first_name || '';
         const lastName = p.metadata.last_name || '';
         const name = (firstName + ' ' + lastName).trim();
-        const pickNum = p.pick_no;
-        const round = p.round;
+        const round = p.round || 1;
+        // pick_no is overall pick number; fall back to calculating from round + draft_slot
+        const pickNum = p.pick_no
+          ? p.pick_no
+          : ((round - 1) * teams) + (p.draft_slot || 1);
         const slotKey = round === 1
           ? (pickNum <= 2 ? 'r1_top2' : pickNum <= 10 ? 'r1_top10' : 'r1_rest')
           : 'r' + Math.min(round, 7);
