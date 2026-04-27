@@ -1986,15 +1986,18 @@
     const results = eligible.map(p => {
       const prospect = PROSPECTS.find(pr => pr.name.toLowerCase() === p.name.toLowerCase());
       const nflPick = getNFLDraftPicks().find(np => np.name.toLowerCase() === p.name.toLowerCase());
+      // Use actual NFL draft slot for hit rate — fantasy ADP is irrelevant to career outcome
+      const nflSlotKey = nflPick ? pickToSlotKey(nflPick.pick) : p.slotKey;
       return {
         name: p.name,
         pos: p.pos,
         college: prospect ? prospect.college : '',
         nflTeam: nflPick ? nflPick.team : '',
-        slotKey: p.slotKey,
+        slotKey: nflSlotKey,
+        nflPick: nflPick ? nflPick.pick : null,
         pickNum: p.pick,
         teams: p.teams || teams,
-        result: Math.random() < getHitRate(p.pos, p.slotKey),
+        result: Math.random() < getHitRate(p.pos, nflSlotKey),
       };
     });
     clearFantasyResults();
@@ -2009,7 +2012,7 @@
         '<div class="card-meta">' + p.pos + (p.college ? ' · ' + p.college : '') + '</div>' +
         (p.pickNum === 999 ? '<div class="card-slot">FA</div>' : '<div class="card-slot">' + fantasyPickLabel(p.pickNum, p.teams || 12) + ' <span style="color:var(--gray-400);font-size:11px">(pick ' + p.pickNum + ')</span></div>') +
         '<div class="card-footer"><span class="badge badge-' + cls + '">' + (cls === 'hit' ? 'Hit' : 'Miss') + '</span>' +
-        '<span class="hit-rate">' + hr + '% historical rate</span></div>' +
+        '<span class="hit-rate">' + hr + '% · ' + (p.nflPick === 999 ? 'FA' : p.nflPick ? 'NFL Pick ' + p.nflPick : 'est.') + '</span></div>' +
         '</div></div>';
     }).join('');
   }
