@@ -533,20 +533,20 @@
     }
 
     /* ── Fantasy round headers ── */
+    .fantasy-round-section { margin-bottom: 2rem; }
+    .fantasy-round-section:last-child { margin-bottom: 0; }
     .fantasy-round-header {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin: 1.5rem 0 0.75rem;
+      margin-bottom: 0.875rem;
     }
-    .fantasy-round-header:first-child { margin-top: 0; }
     .fantasy-round-header span {
       font-family: 'Tenor Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--gray-600);
+      font-size: 12px;
+      color: var(--gray-400);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       white-space: nowrap;
     }
     .fantasy-round-header::after {
@@ -554,6 +554,11 @@
       flex: 1;
       height: 1px;
       background: var(--gray-200);
+    }
+    .fantasy-round-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
     }
 
     /* ── Duplicate warning ── */
@@ -905,6 +910,7 @@
       <div id="fantasy-picks-list"></div>
       <div class="actions-row" style="margin-top:1rem">
         <button class="btn btn-primary" id="btn-fantasy" onclick="simulateFantasy()">Run simulation</button>
+        <button class="btn" onclick="autoFillFantasy()">Auto-fill ↓</button>
         <button class="btn" onclick="resetFantasy()">Reset</button>
       </div>
     </div>
@@ -1917,25 +1923,54 @@
     });
 
     const roundLabels = {1:'Round 1',2:'Round 2',3:'Round 3',4:'Round 4',5:'Round 5',6:'Round 6',7:'Round 7'};
-    let html = '';
+    let sections = '';
     Object.keys(byRound).sort((a,b) => a-b).forEach(r => {
-      html += '<div class="fantasy-round-header"><span>' + (roundLabels[r] || 'Round ' + r) + '</span></div>' +
-              '<div class="cards-grid" style="margin-bottom:1.5rem">';
-      byRound[r].forEach(p => {
+      const cards = byRound[r].map(p => {
         const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
         const cls = p.result ? 'hit' : 'miss';
-        html += '<div class="pick-card ' + cls + '"><div class="card-inner">' +
+        return '<div class="pick-card ' + cls + '"><div class="card-inner">' +
           '<div class="card-name">' + p.name + '</div>' +
           '<div class="card-meta">' + p.pos + (p.nflTeam ? ' · ' + p.nflTeam : '') + (p.college ? ' · ' + p.college : '') + '</div>' +
           '<div class="card-slot">' + (p.pickNum === 999 ? 'FA' : fantasyPickLabel(p.pickNum, teams) + ' <span style="color:var(--gray-400);font-size:11px">(pick ' + p.pickNum + ')</span>') + '</div>' +
           '<div class="card-footer"><span class="badge badge-' + cls + '">' + (cls === 'hit' ? 'Hit' : 'Miss') + '</span>' +
           '<span class="hit-rate">' + hr + '%' + (p.nflPick === 999 ? ' · NFL Draft FA' : p.nflPick ? ' · NFL Draft Pick ' + p.nflPick : '') + '</span></div>' +
           '</div></div>';
-      });
-      html += '</div>';
+      }).join('');
+      sections += '<div class="fantasy-round-section">' +
+        '<div class="fantasy-round-header"><span>' + (roundLabels[r] || 'Round ' + r) + '</span></div>' +
+        '<div class="fantasy-round-grid">' + cards + '</div>' +
+        '</div>';
     });
-    grid.innerHTML = html;
+    grid.innerHTML = sections;
   }
+  function autoFillFantasy() {
+    // Fill empty rows with NFL draft picks in draft-capital order
+    // Skip players already selected, skip non-fantasy positions
+    const nflPicks = getNFLDraftPicks()
+      .filter(p => FANTASY_POSITIONS.has(p.pos))
+      .sort((a, b) => a.pick - b.pick);
+
+    const usedNames = new Set(
+      fantasyPicks.filter(p => p.name).map(p => p.name.toLowerCase())
+    );
+
+    let nflIdx = 0;
+    fantasyPicks.forEach((fp, i) => {
+      if (fp.name) return; // already filled
+      // Find next unused NFL pick matching no filter or matching current pos filter
+      while (nflIdx < nflPicks.length) {
+        const np = nflPicks[nflIdx++];
+        if (usedNames.has(np.name.toLowerCase())) continue;
+        if (fantasyPosFilter && np.pos !== fantasyPosFilter) continue;
+        fantasyPicks[i].name = np.name;
+        fantasyPicks[i].pos = np.pos;
+        usedNames.add(np.name.toLowerCase());
+        break;
+      }
+    });
+    renderFantasyInputs();
+  }
+
   function clearFantasyResults() {
     document.getElementById('fantasy-results-divider').style.display = 'none';
     document.getElementById('fantasy-results-label').style.display = 'none';
