@@ -532,6 +532,30 @@
       border-color: var(--gray-900);
     }
 
+    /* ── Fantasy round headers ── */
+    .fantasy-round-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 1.5rem 0 0.75rem;
+    }
+    .fantasy-round-header:first-child { margin-top: 0; }
+    .fantasy-round-header span {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+    .fantasy-round-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
     /* ── Duplicate warning ── */
     .dupe-warning {
       background: #FAEEDA;
@@ -1883,19 +1907,36 @@
     document.getElementById('fantasy-results-divider').style.display = '';
     document.getElementById('fantasy-results-label').style.display = '';
     const grid = document.getElementById('fantasy-cards-grid');
-    grid.innerHTML = results.map(p => {
-      const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
-      const cls = p.result ? 'hit' : 'miss';
-      return '<div class="pick-card ' + cls + '"><div class="card-inner">' +
-        '<div class="card-name">' + p.name + '</div>' +
-        '<div class="card-meta">' + p.pos + (p.college ? ' · ' + p.college : '') + '</div>' +
-        (p.pickNum === 999 ? '<div class="card-slot">FA</div>' : '<div class="card-slot">' + fantasyPickLabel(p.pickNum, p.teams || 12) + ' <span style="color:var(--gray-400);font-size:11px">(pick ' + p.pickNum + ')</span></div>') +
-        '<div class="card-footer"><span class="badge badge-' + cls + '">' + (cls === 'hit' ? 'Hit' : 'Miss') + '</span>' +
-        '<span class="hit-rate">' + hr + '%' + (p.nflPick && p.nflPick !== 999 ? ' · Pick ' + p.nflPick : '') + '</span></div>' +
-        '</div></div>';
-    }).join('');
-  }
+    const teams = parseInt(document.getElementById('fantasy-team-count').value) || 12;
 
+    // Group results by fantasy round
+    const byRound = {};
+    results.forEach(p => {
+      const r = Math.ceil(p.pickNum / teams);
+      if (!byRound[r]) byRound[r] = [];
+      byRound[r].push(p);
+    });
+
+    const roundLabels = {1:'Round 1',2:'Round 2',3:'Round 3',4:'Round 4',5:'Round 5',6:'Round 6',7:'Round 7'};
+    let html = '';
+    Object.keys(byRound).sort((a,b) => a-b).forEach(r => {
+      html += '<div class="fantasy-round-header"><span>' + (roundLabels[r] || 'Round ' + r) + '</span></div>' +
+              '<div class="cards-grid" style="margin-bottom:1.5rem">';
+      byRound[r].forEach(p => {
+        const hr = (getHitRate(p.pos, p.slotKey) * 100).toFixed(0);
+        const cls = p.result ? 'hit' : 'miss';
+        html += '<div class="pick-card ' + cls + '"><div class="card-inner">' +
+          '<div class="card-name">' + p.name + '</div>' +
+          '<div class="card-meta">' + p.pos + (p.nflTeam ? ' · ' + p.nflTeam : '') + (p.college ? ' · ' + p.college : '') + '</div>' +
+          '<div class="card-slot">' + (p.pickNum === 999 ? 'FA' : fantasyPickLabel(p.pickNum, teams) + ' <span style="color:var(--gray-400);font-size:11px">(pick ' + p.pickNum + ')</span>') + '</div>' +
+          '<div class="card-footer"><span class="badge badge-' + cls + '">' + (cls === 'hit' ? 'Hit' : 'Miss') + '</span>' +
+          '<span class="hit-rate">' + hr + '%' + (p.nflPick === 999 ? ' · NFL Draft FA' : p.nflPick ? ' · NFL Draft Pick ' + p.nflPick : '') + '</span></div>' +
+          '</div></div>';
+      });
+      html += '</div>';
+    });
+    grid.innerHTML = html;
+  }
   function clearFantasyResults() {
     document.getElementById('fantasy-results-divider').style.display = 'none';
     document.getElementById('fantasy-results-label').style.display = 'none';
