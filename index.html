@@ -851,21 +851,6 @@
     <div id="team-empty-state" style="padding:2rem 0; font-size:14px; color:var(--gray-400)">
       Select a team above to load their full draft class across all 7 rounds.
     </div>
-    <div class="input-panel" id="team-input-panel" style="display:none">
-      <div class="col-header">
-        <div class="col-head">Player name</div>
-        <div class="col-head">Position</div>
-        <div class="col-head">Draft slot</div>
-        <div class="col-head">Team</div>
-        <div></div>
-      </div>
-      <div id="diy-picks-list"></div>
-      <div class="actions-row" style="margin-top:1rem">
-        <button class="btn btn-primary" id="btn-diy" onclick="simulateDIY()">Run simulation</button>
-        <button class="btn" onclick="addDIYPick()">+ Add pick</button>
-        <button class="btn" onclick="resetDIY()">Reset</button>
-      </div>
-    </div>
     <div id="diy-dupe-warning" class="dupe-warning"></div>
   </div>
 
@@ -950,6 +935,7 @@
         const idx = sel.value;
         if (idx === '') { clearTeamClass(); return; }
         loadTeamClass(parseInt(idx));
+        simulateDIY();
       };
     } catch(e) {
       console.warn('Could not load classes.json');
@@ -1000,8 +986,6 @@
     nextDIYId = diyPicks.length + 1;
     showDupeWarning('diy-dupe-warning', []);
     document.getElementById('team-empty-state').style.display = 'none';
-    document.getElementById('team-input-panel').style.display = 'block';
-    renderDIYInputs();
     clearResults();
   }
 
@@ -1011,7 +995,6 @@
     diyPicks = [];
     nextDIYId = 1;
     showDupeWarning('diy-dupe-warning', []);
-    document.getElementById('team-input-panel').style.display = 'none';
     document.getElementById('team-empty-state').style.display = 'block';
     clearResults();
   }
@@ -1547,53 +1530,7 @@
   }
 
   function renderDIYInputs() {
-    const container = document.getElementById('diy-picks-list');
-    container.innerHTML = '';
-    diyPicks.forEach((p, i) => {
-      const row = document.createElement('div');
-      row.className = p._pickNum ? 'input-row input-row-numbered' : 'input-row';
-      if (p._pickNum) {
-        const numLabel = document.createElement('div');
-        numLabel.className = 'pick-row-num';
-        numLabel.textContent = p._pickNum === 999 ? 'FA' : p._pickNum;
-        row.appendChild(numLabel);
-      }
-
-      const { wrap } = makeInput(p.name,
-        val => diyPicks[i].name = val,
-        pos => { diyPicks[i].pos = pos; renderDIYInputs(); },
-        (name, pos, college) => { diyPicks[i].college = college; }
-      );
-
-      const posSelect = document.createElement('select');
-      posSelect.innerHTML = POSITIONS.map(pos => `<option value="${pos}"${pos===p.pos?' selected':''}>${pos}</option>`).join('');
-      posSelect.onchange = () => diyPicks[i].pos = posSelect.value;
-
-      const slotSelect = document.createElement('select');
-      slotSelect.innerHTML = slotSelectHTML(p.slot);
-      slotSelect.onchange = () => diyPicks[i].slot = slotSelect.value;
-
-      const teamSelect = document.createElement('select');
-      teamSelect.innerHTML = teamSelectHTML(p.team);
-      teamSelect.onchange = () => diyPicks[i].team = teamSelect.value;
-
-      const removeBtn = document.createElement('button');
-      removeBtn.className = 'remove-btn';
-      removeBtn.title = 'Remove';
-      removeBtn.textContent = '×';
-      removeBtn.onclick = () => removeDIYPick(p.id);
-
-      const mobileRow = document.createElement('div');
-      mobileRow.className = 'mobile-row';
-      mobileRow.appendChild(posSelect);
-      mobileRow.appendChild(slotSelect);
-      mobileRow.appendChild(teamSelect);
-
-      row.appendChild(wrap);
-      row.appendChild(mobileRow);
-      row.appendChild(removeBtn);
-      container.appendChild(row);
-    });
+    // No-op: team tab auto-simulates, no manual input UI
   }
 
   function addDIYPick() {
